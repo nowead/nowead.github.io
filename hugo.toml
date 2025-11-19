@@ -1,4 +1,16 @@
-languageCode = 'en-us'
-title = 'My New Hugo Site'
-theme = "PaperMod"
 baseURL = "https://nowead.github.io/"
+languageCode = "ko-kr"
+title = "Nowead's Blog"
+theme = "PaperMod"
+
+[params]
+  defaultTheme = "auto"
+  # PaperMod 필수 설정들
+  [params.homeInfoParams]
+    Title = "안녕하세요 👋"
+    Content = "개발 블로그에 오신 것을 환영합니다."
+
+  # 소셜 링크
+  [[params.socialIcons]]
+    name = "github"
+    url = "https://github.com/nowead"
