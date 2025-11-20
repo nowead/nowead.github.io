@@ -2,7 +2,9 @@ baseURL = "https://nowead.github.io/"
 languageCode = "ko-kr"
 title = "Damin's Blog"
 theme = "PaperMod"
-paginate = 10
+
+[pagination]
+  pagerSize = 10
 
 # 검색 기능을 위한 출력 포맷
 [outputs]
