@@ -2,6 +2,9 @@
 date = '2025-09-05T11:54:48+09:00'
 draft = false
 title = '[Vulkan] Ep01. Vulkan이란 무엇인가?'
+series = ["Vulkan 학습"]
+tags = ["Vulkan", "Graphics", "API"]
+categories = ["그래픽스 프로그래밍"]
 +++
 
 ## 1. Vulkan이란?
