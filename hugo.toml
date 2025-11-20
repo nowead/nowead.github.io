@@ -1,16 +1,78 @@
 baseURL = "https://nowead.github.io/"
 languageCode = "ko-kr"
-title = "Nowead's Blog"
+title = "Damin's Blog"
 theme = "PaperMod"
+paginate = 10
+
+# 검색 기능을 위한 출력 포맷
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
 
 [params]
   defaultTheme = "auto"
-  # PaperMod 필수 설정들
+  ShowReadingTime = true         # 읽는 시간 표시
+  ShowShareButtons = true         # 공유 버튼 표시
+  ShowPostNavLinks = true         # 이전/다음 글 링크
+  ShowBreadCrumbs = true          # 빵 부스러기 내비게이션
+  ShowCodeCopyButtons = true      # 코드 복사 버튼
+  ShowWordCount = true            # 단어 수 표시
+  ShowRssButtonInSectionTermList = true
+  UseHugoToc = true               # Hugo 목차 사용
+  disableSpecial1stPost = false
+  disableScrollToTop = false
+  comments = false
+  hidemeta = false
+  hideSummary = false
+  showtoc = true                  # 목차 자동 표시
+  tocopen = false                 # 목차 기본 접힌 상태
+
+  # 홈페이지 프로필
   [params.homeInfoParams]
     Title = "안녕하세요 👋"
-    Content = "개발 블로그에 오신 것을 환영합니다."
+    Content = """
+개발 블로그에 오신 것을 환영합니다.
+
+그래픽스, 게임 개발, 그리고 다양한 기술에 대해 학습하고 공유합니다.
+    """
 
   # 소셜 링크
   [[params.socialIcons]]
     name = "github"
     url = "https://github.com/nowead"
+
+  # 추가 소셜 링크 예시 (필요시 주석 해제)
+  # [[params.socialIcons]]
+  #   name = "email"
+  #   url = "mailto:your-email@example.com"
+  # [[params.socialIcons]]
+  #   name = "linkedin"
+  #   url = "https://linkedin.com/in/yourprofile"
+
+# 상단 메뉴
+[[menu.main]]
+  name = "Archive"
+  url = "/archives/"
+  weight = 10
+
+[[menu.main]]
+  name = "Tags"
+  url = "/tags/"
+  weight = 20
+
+[[menu.main]]
+  name = "Search"
+  url = "/search/"
+  weight = 30
+
+# 마크다운 설정
+[markup]
+  [markup.highlight]
+    anchorLineNos = false
+    codeFences = true
+    guessSyntax = false
+    lineNos = true
+    noClasses = false
+    style = "monokai"  # 코드 하이라이팅 테마
+
+  [markup.goldmark.renderer]
+    unsafe = true  # HTML in markdown 허용
