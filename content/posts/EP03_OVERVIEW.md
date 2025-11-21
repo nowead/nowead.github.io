@@ -1,7 +1,7 @@
 +++
 date = '2025-09-07T10:00:00+09:00'
 draft = false
-title = '[Vulkan] Ep03. Vulkan의 큰 그림 (Overview)'
+title = '[Vulkan] Ep03. Vulkan의 큰 그림'
 series = ["Vulkan 학습"]
 tags = ["Vulkan", "Overview", "Architecture"]
 categories = ["그래픽스 프로그래밍"]
