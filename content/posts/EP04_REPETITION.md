@@ -1,7 +1,7 @@
 +++
 date = '2025-09-08T09:00:00+09:00'
 draft = false
-title = '[Vulkan] Ep04. Vulkan 용어 총망라: 반복으로 뚫어보기'
+title = '[Vulkan] Ep04. Vulkan 흐름과 용어'
 series = ["Vulkan 학습"]
 tags = ["Vulkan", "Terminology", "Architecture"]
 categories = ["그래픽스 프로그래밍"]
