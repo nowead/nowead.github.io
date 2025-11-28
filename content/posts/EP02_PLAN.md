@@ -41,7 +41,7 @@ Vulkan을 배우겠다는 설레는 마음으로 [Vulkan Tutorial](https://docs.
 
 ## 1차 학습 목표: "Loading models"까지
 
-**"Loading models" 챕터까지 완료하면 Vulkan의 핵심 그래픽스 파이프라인을 처음부터 끝까지 완성하는 것**이 1차 목표다.
+"**Loading models 챕터까지 완료하면 Vulkan의 핵심 그래픽스 파이프라인을 처음부터 끝까지 완성하는 것**"이 1차 목표다.
 
 ### 1단계: 기본 설정 (Introduction ~ Development environment)
 
@@ -89,6 +89,7 @@ Vulkan에서 가장 중요하고 복잡한 부분 중 하나다. 유니폼 버�
 단순한 삼각형이 아닌, **실제 3D 모델 파일(.obj 등)을 읽어와 화면에 렌더링**한다.
 
 이 과정에서 앞서 배운 모든 개념을 종합적으로 사용하게 된다:
+
 - 정점 버퍼
 - 인덱스 버퍼
 - 텍스처
