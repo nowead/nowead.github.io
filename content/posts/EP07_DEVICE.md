@@ -1,5 +1,5 @@
 ---
-title: "Vulkan 기초 - EP07. Logical Device와 Queue"
+title: "[Vulkan] EP07. Logical Device와 Queue"
 date: 2025-12-01
 series: ["Vulkan 기초"]
 tags: ["Vulkan", "Graphics", "Device", "Queue"]
