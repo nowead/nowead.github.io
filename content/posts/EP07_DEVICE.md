@@ -5,7 +5,12 @@ series: ["Vulkan 학습"]
 tags: ["Vulkan", "Graphics", "Device", "Queue"]
 ---
 
-# EP07. Logical Device와 Queue
+## 시작하며
+
+[EP06]에서 Instance를 생성하고 Physical Device를 선택했다. 하지만 Physical Device는 읽기 전용이다. GPU와 실제로 통신하려면 **Logical Device**가 필요하다.
+
+이 글에서는 Logical Device 생성과 Queue 획득 과정을 정리한다.
+---
 
 ## 1. Logical Device란?
 
