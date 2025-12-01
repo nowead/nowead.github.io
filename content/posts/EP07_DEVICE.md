@@ -1,7 +1,7 @@
 ---
 title: "[Vulkan] EP07. Logical Device와 Queue"
 date: 2025-12-01
-series: ["Vulkan 기초"]
+series: ["Vulkan 학습"]
 tags: ["Vulkan", "Graphics", "Device", "Queue"]
 ---
 
@@ -15,17 +15,17 @@ Physical Device는 GPU 하드웨어 자체를 나타내는 읽기 전용 객체�
 
 ### Physical Device vs Logical Device
 
-```
-Physical Device (VkPhysicalDevice)
+**Physical Device (VkPhysicalDevice)**
 - GPU 하드웨어 정보 조회
 - 읽기 전용, 상태 없음
 - Instance가 관리
-    ↓
-Logical Device (VkDevice)
+
+↓
+
+**Logical Device (VkDevice)**
 - GPU와 실제 상호작용
 - 인터페이스 및 컨텍스트 역할
 - 애플리케이션이 생성/파괴
-```
 
 ### Logical Device의 역할: 인터페이스 및 컨텍스트
 
