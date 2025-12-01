@@ -24,31 +24,33 @@ categories = ["그래픽스 프로그래밍"]
 
 ### 개발 환경 설정
 
-- [Ep05. 개발 환경 구축 - 시행착오의 연속](../ep05_setup)
-- Ep06. 첫 번째 Vulkan 프로젝트 (작성 예정)
+- [Ep05. 개발 환경 구축](../ep05_setup)
+
+### Vulkan 초기화
+
+- [Ep06. Instance와 Physical Device](../ep06_instance)
+- [Ep07. Logical Device와 Queue](../ep07_device)
+- Ep08. Window Surface와 Swapchain (작성 예정)
 
 ### Drawing a Triangle
 
-- Ep07. Instance와 Physical Device (작성 예정)
-- Ep08. Logical Device와 Queue (작성 예정)
-- Ep09. Window Surface와 Swapchain (작성 예정)
-- Ep10. Render Pass (작성 예정)
-- Ep11. Graphics Pipeline (작성 예정)
-- Ep12. Command Buffer와 동기화 (작성 예정)
-- Ep13. 첫 번째 삼각형 그리기 (작성 예정)
+- Ep09. Render Pass (작성 예정)
+- Ep10. Graphics Pipeline (작성 예정)
+- Ep11. Command Buffer와 동기화 (작성 예정)
+- Ep12. 첫 번째 삼각형 그리기 (작성 예정)
 
 ### 데이터 다루기
 
-- Ep14. Vertex Buffer (작성 예정)
-- Ep15. Index Buffer (작성 예정)
-- Ep16. Uniform Buffer (작성 예정)
-- Ep17. Descriptor Sets (작성 예정)
+- Ep13. Vertex Buffer (작성 예정)
+- Ep14. Index Buffer (작성 예정)
+- Ep15. Uniform Buffer (작성 예정)
+- Ep16. Descriptor Sets (작성 예정)
 
 ### 텍스처와 3D
 
-- Ep18. 텍스처 로딩 (작성 예정)
-- Ep19. Depth Buffering (작성 예정)
-- Ep20. 3D 모델 로딩 (작성 예정)
+- Ep17. 텍스처 로딩 (작성 예정)
+- Ep18. Depth Buffering (작성 예정)
+- Ep19. 3D 모델 로딩 (작성 예정)
 
 ---
 
