@@ -1,9 +1,11 @@
----
-title: "[Vulkan] EP07. Logical Device와 Queue"
-date: 2025-12-01
-series: ["Vulkan 학습"]
-tags: ["Vulkan", "Graphics", "Device", "Queue"]
----
++++
+date = '2025-09-17T15:32:10+09:00'
+draft = false
+title = '[Vulkan] EP07. Logical Device와 Queue'
+series = ["Vulkan 학습"]
+tags = ["Vulkan", "Instance", "Physical Device", "Extension", "Validation Layer"]
+categories = ["그래픽스 프로그래밍"]
++++
 
 ## 시작하며
 

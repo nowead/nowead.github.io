@@ -1,9 +1,11 @@
----
-title: "[Vulkan] EP08. Surface와 Swapchain"
-date: 2025-12-01
-series: ["Vulkan 학습"]
-tags: ["Vulkan", "Surface", "Swapchain", "WSI"]
----
++++
+date = '2025-09-18T19:22:11+09:00'
+draft = false
+title = '[Vulkan] EP08. Surface와 Swapchain'
+series = ["Vulkan 학습"]
+tags = ["Vulkan", "Instance", "Physical Device", "Extension", "Validation Layer"]
+categories = ["그래픽스 프로그래밍"]
++++
 
 ## 시작하며
 
