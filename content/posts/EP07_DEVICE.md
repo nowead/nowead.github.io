@@ -242,11 +242,86 @@ VkPhysicalDeviceVulkan13Features
 nullptr
 ```
 
-## 5. Queue 획득
+## 5. Queue의 역할과 작동 방식
+
+### 5.1. Queue란?
+
+**Queue는 GPU에 명령을 제출하는 대기열**이다. Vulkan의 모든 작업(그리기, 계산, 메모리 전송)은 Queue를 통해 GPU에 전달된다.
+
+GPU는 애플리케이션이 Queue에 제출한 명령을 **비동기적으로** 실행한다. 즉, CPU는 명령을 Queue에 넣고 즉시 다음 작업을 할 수 있다.
+
+### 5.2. Queue의 작동 흐름
+
+```
+애플리케이션 (CPU)
+    ↓
+Command Buffer에 명령 기록
+    ↓
+Command Buffer를 Queue에 제출
+    ↓
+GPU가 Queue에서 명령을 가져와 비동기 실행
+```
+
+**핵심 포인트**:
+1. 명령을 바로 Queue에 기록하지 않는다
+2. 먼저 **Command Buffer**에 명령들을 기록한다
+3. 완성된 Command Buffer를 Queue에 제출한다
+4. GPU는 Queue에 등록된 작업을 비동기적으로 처리한다
+
+### 5.3. Queue와 Queue Family의 관계
+
+Physical Device (GPU)
+- Queue Family 0 (Graphics)
+  - Queue 0
+  - Queue 1
+- Queue Family 1 (Compute)
+  - Queue 0
+- Queue Family 2 (Transfer)
+  - Queue 0
+
+**Logical Device 생성 시**:
+- Queue Family를 지정하고 몇 개의 Queue를 할당받을지 결정
+- 생성 후 `vkGetDeviceQueue`로 Queue Handle을 받아옴
+- 이 Queue Handle을 통해 명령을 제출
+
+### 5.4. 동기화의 필요성
+
+Queue의 작업은 비동기적이므로 동기화가 필요하다:
+
+- **Fence**: CPU와 GPU 간 동기화
+  - GPU 작업 완료를 CPU에 알리는 플래그
+  - 예: 렌더링 완료 후 다음 프레임 시작
+- **Semaphore**: GPU 작업 간 동기화
+  - Queue 내부 또는 Queue 간 작업 순서 제어
+  - 예: 이미지 획득 → 렌더링 → 화면 표시
+
+### 5.5. Queue의 실제 사용 예시
+
+```cpp
+// Command Buffer에 그리기 명령 기록
+vkBeginCommandBuffer(commandBuffer, &beginInfo);
+vkCmdBeginRenderPass(commandBuffer, &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
+vkCmdDraw(commandBuffer, 3, 1, 0, 0);
+vkCmdEndRenderPass(commandBuffer);
+vkEndCommandBuffer(commandBuffer);
+
+// Command Buffer를 Graphics Queue에 제출
+VkSubmitInfo submitInfo{};
+submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+submitInfo.commandBufferCount = 1;
+submitInfo.pCommandBuffers = &commandBuffer;
+
+vkQueueSubmit(graphicsQueue, 1, &submitInfo, fence);  // 비동기 실행
+
+// Fence로 GPU 작업 완료 대기
+vkWaitForFences(device, 1, &fence, VK_TRUE, UINT64_MAX);
+```
+
+## 6. Queue 획득
 
 Logical Device를 생성한 후 Queue Handle을 가져와야 한다.
 
-### 5.1. vkGetDeviceQueue
+### 6.1. vkGetDeviceQueue
 
 ```cpp
 VkQueue graphicsQueue;
@@ -259,7 +334,7 @@ vkGetDeviceQueue(device, indices.graphicsFamily.value(), 0, &graphicsQueue);
 - `queueIndex`: Queue Family 내 Queue 인덱스 (0부터 시작)
 - `pQueue`: Queue Handle을 받을 포인터
 
-### 5.2. 여러 Queue 사용
+### 6.2. 여러 Queue 사용
 
 Graphics와 Present Queue가 다를 수 있다:
 
@@ -273,7 +348,7 @@ vkGetDeviceQueue(device, indices.presentFamily.value(), 0, &presentQueue);
 
 같은 Queue Family라면 같은 Queue Handle을 받게 된다.
 
-### 5.3. Queue Family가 다른 경우
+### 6.3. Queue Family가 다른 경우
 
 ```cpp
 std::vector<VkDeviceQueueCreateInfo> queueCreateInfos;
@@ -298,9 +373,9 @@ createInfo.pQueueCreateInfos = queueCreateInfos.data();
 
 중복을 제거하고 각 Queue Family마다 `VkDeviceQueueCreateInfo`를 생성한다.
 
-## 6. 완전한 코드 예시
+## 7. 완전한 코드 예시
 
-### 6.1. Logical Device 생성 전체 코드
+### 7.1. Logical Device 생성 전체 코드
 
 ```cpp
 void createLogicalDevice() {
@@ -357,7 +432,7 @@ void createLogicalDevice() {
 }
 ```
 
-### 6.2. 정리 순서
+### 7.2. 정리 순서
 
 Vulkan 객체는 생성의 역순으로 정리해야 한다.
 
@@ -373,9 +448,9 @@ void cleanup() {
 - Queue는 Device와 함께 자동으로 파괴되므로 별도로 정리하지 않는다
 - Physical Device는 Instance가 관리하므로 직접 파괴하지 않는다
 
-## 7. 자주 발생하는 문제
+## 8. 자주 발생하는 문제
 
-### 7.1. Extension 미지원
+### 8.1. Extension 미지원
 
 **증상**: `vkCreateDevice`가 `VK_ERROR_EXTENSION_NOT_PRESENT` 반환
 
@@ -389,7 +464,7 @@ if (!checkDeviceExtensionSupport(device)) {
 }
 ```
 
-### 7.2. Feature 미지원
+### 8.2. Feature 미지원
 
 **증상**: Device 생성은 성공하지만 특정 기능 사용 시 Validation Layer 경고
 
@@ -407,7 +482,7 @@ if (supportedFeatures.samplerAnisotropy) {
 }
 ```
 
-### 7.3. Queue Priority 미지정
+### 8.3. Queue Priority 미지정
 
 **증상**: `VK_ERROR_VALIDATION_FAILED_EXT` 또는 크래시
 
@@ -419,7 +494,7 @@ float queuePriority = 1.0f;
 queueCreateInfo.pQueuePriorities = &queuePriority;  // 반드시 설정
 ```
 
-### 7.4. Device 생성 전 Physical Device 미선택
+### 8.4. Device 생성 전 Physical Device 미선택
 
 **증상**: `physicalDevice`가 `VK_NULL_HANDLE`
 
@@ -434,33 +509,35 @@ void initVulkan() {
 }
 ```
 
-## 8. 핵심 개념 정리
+## 9. 핵심 개념 정리
 
-### 8.1. Logical Device
+### 9.1. Logical Device
 
 - Physical Device에 대한 소프트웨어 인터페이스
 - 모든 Vulkan 명령은 Logical Device를 통해 실행
 - 여러 개의 Logical Device를 생성할 수 있음 (멀티 GPU)
 
-### 8.2. Device Extension
+### 9.2. Device Extension
 
 - GPU별로 제공되는 확장 기능
 - Instance Extension과 별도로 관리
 - Swapchain 같은 핵심 기능도 Extension으로 제공
 
-### 8.3. Structure Chain
+### 9.3. Structure Chain
 
 - `pNext` 포인터를 통해 구조체를 연결
 - Vulkan 1.1, 1.2, 1.3 기능 활성화 시 사용
 - Extension별 Feature 구조체 연결 가능
 
-### 8.4. Queue 획득
+### 9.4. Queue
 
+- GPU에 명령을 제출하는 대기열
+- Command Buffer에 명령을 기록한 후 Queue에 제출
+- 비동기적으로 실행되며 Fence/Semaphore로 동기화
 - Logical Device 생성 시 Queue Family 지정
 - `vkGetDeviceQueue`로 Queue Handle 획득
-- Queue는 Device와 함께 자동 파괴
 
-## 9. 다음 단계
+## 10. 다음 단계
 
 이제 Vulkan 초기화의 핵심 단계를 완료했다:
 
