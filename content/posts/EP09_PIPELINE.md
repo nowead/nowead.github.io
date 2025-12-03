@@ -495,7 +495,103 @@ void createGraphicsPipeline() {
 
 ---
 
-## 6. 정리 순서
+## 6. Graphics Pipeline 생성
+
+지금까지 설명한 모든 구성 요소(Shader Module, Render Pass, Fixed Function 단계들, Pipeline Layout)를 하나로 모아 `VkPipeline` 객체를 생성한다.
+
+### 6.1. VkGraphicsPipelineCreateInfo 구조체
+
+모든 정보를 `VkGraphicsPipelineCreateInfo` 구조체에 모은다:
+
+```cpp
+VkGraphicsPipelineCreateInfo pipelineInfo{};
+pipelineInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
+
+// 셰이더 단계
+pipelineInfo.stageCount = 2;
+pipelineInfo.pStages = shaderStages;  // Vertex + Fragment
+
+// 고정 함수 단계
+pipelineInfo.pVertexInputState = &vertexInputInfo;
+pipelineInfo.pInputAssemblyState = &inputAssembly;
+pipelineInfo.pViewportState = &viewportState;
+pipelineInfo.pRasterizationState = &rasterizer;
+pipelineInfo.pMultisampleState = &multisampling;
+pipelineInfo.pDepthStencilState = nullptr;  // 현재 미사용
+pipelineInfo.pColorBlendState = &colorBlending;
+pipelineInfo.pDynamicState = &dynamicState;
+
+// Pipeline Layout과 Render Pass
+pipelineInfo.layout = pipelineLayout;
+pipelineInfo.renderPass = renderPass;
+pipelineInfo.subpass = 0;  // 사용할 서브패스 인덱스
+
+// 파이프라인 파생 (선택사항)
+pipelineInfo.basePipelineHandle = VK_NULL_HANDLE;
+pipelineInfo.basePipelineIndex = -1;
+```
+
+**주요 필드:**
+- `pStages`: 프로그래밍 가능한 셰이더 단계 배열
+- `pVertexInputState` ~ `pDynamicState`: 고정 함수 단계 설정
+- `layout`: Uniform 및 Push Constants 레이아웃
+- `renderPass`, `subpass`: 어떤 Render Pass의 어느 서브패스에서 사용될지 지정
+
+### 6.2. vkCreateGraphicsPipelines 호출
+
+```cpp
+VkPipeline graphicsPipeline;
+
+if (vkCreateGraphicsPipelines(device, VK_NULL_HANDLE, 1, &pipelineInfo,
+                               nullptr, &graphicsPipeline) != VK_SUCCESS) {
+    throw std::runtime_error("failed to create graphics pipeline!");
+}
+```
+
+**파라미터:**
+- **`device`**: Logical Device
+- **`pipelineCache`**: 파이프라인 캐시 객체 (`VK_NULL_HANDLE`로 비활성화 가능)
+  - 실제 애플리케이션에서는 `VkPipelineCache`를 사용하여 생성 속도 향상
+  - 캐시를 파일로 저장하여 재실행 시 재사용 가능
+- **`createInfoCount`**: 생성할 파이프라인 개수 (여러 개 동시 생성 가능)
+- **`pCreateInfos`**: `VkGraphicsPipelineCreateInfo` 배열
+- **`pAllocator`**: 커스텀 메모리 할당자
+- **`pPipelines`**: 생성된 파이프라인 핸들 반환
+
+### 6.3. 파이프라인 소멸
+
+```cpp
+void cleanup() {
+    vkDestroyPipeline(device, graphicsPipeline, nullptr);
+    vkDestroyPipelineLayout(device, pipelineLayout, nullptr);
+    // ...
+}
+```
+
+파이프라인은 더 이상 사용되지 않을 때 명시적으로 파괴해야 한다. 예를 들어:
+- 애플리케이션 종료 시
+- 윈도우 리사이즈로 인한 Swapchain 재생성 시 (Render Pass 호환성 때문)
+
+### 6.4. 파이프라인 특성
+
+**불변성 (Immutable):**
+- 파이프라인 생성 후 대부분의 상태 변경 불가
+- 다른 렌더링 상태가 필요하면 새 파이프라인 생성 필요
+- 동적 상태(`VkDynamicState`)로 지정된 항목만 런타임 변경 가능
+
+**성능 최적화:**
+- 생성 비용이 높으므로 초기화 시점에 미리 생성
+- 여러 파이프라인을 한 번에 생성하여 병렬 처리 활용
+- `VkPipelineCache` 사용으로 재생성 시간 단축
+
+**파이프라인 파생 (Pipeline Derivatives):**
+- 기존 파이프라인을 기반으로 새 파이프라인 생성 가능
+- 일부 상태만 다른 유사한 파이프라인의 경우 생성 속도 향상
+- `basePipelineHandle` 또는 `basePipelineIndex` 사용
+
+---
+
+## 7. 정리 순서
 
 ```cpp
 void cleanup() {
@@ -518,27 +614,27 @@ void cleanup() {
 
 ---
 
-## 7. 핵심 개념 정리
+## 8. 핵심 개념 정리
 
-### 7.1. Graphics Pipeline
+### 8.1. Graphics Pipeline
 
 - 정점 데이터를 픽셀로 변환하는 일련의 과정
 - Vulkan은 모든 단계를 명시적으로 구성
 - 생성 후 대부분의 상태 변경 불가 (불변)
 
-### 7.2. Shader Module
+### 8.2. Shader Module
 
 - GPU에서 실행되는 프로그램
 - GLSL로 작성 → SPIR-V로 컴파일
 - Pipeline 생성 후 파괴 가능
 
-### 7.3. Render Pass
+### 8.3. Render Pass
 
 - 프레임버퍼 어태치먼트 구조 정의
 - Load/Store 동작 지정
 - 서브패스 및 의존성 관리
 
-### 7.4. 고정 함수 단계
+### 8.4. 고정 함수 단계
 
 - Vertex Input, Input Assembly, Viewport, Rasterizer 등
 - 프로그래밍 불가, 설정으로 제어
@@ -546,7 +642,7 @@ void cleanup() {
 
 ---
 
-## 8. 다음 단계
+## 9. 다음 단계
 
 Graphics Pipeline을 생성했다. 이제 필요한 것:
 
