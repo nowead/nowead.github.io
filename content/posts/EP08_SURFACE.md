@@ -175,15 +175,10 @@ vkGetDeviceQueue(device, indices.presentFamily.value(), 0, &presentQueue);
 
 렌더링 과정:
 
-```
-1. Swapchain에서 이미지 획득 (vkAcquireNextImageKHR)
-    ↓
+1. Swapchain에서 이미지 획득 (`vkAcquireNextImageKHR`)
 2. 해당 이미지에 렌더링
-    ↓
-3. 완성된 이미지를 Swapchain에 반환 (vkQueuePresentKHR)
-    ↓
+3. 완성된 이미지를 Swapchain에 반환 (`vkQueuePresentKHR`)
 4. Surface를 통해 화면에 표시
-```
 
 **목적**: 사용자가 렌더링 중간 과정을 보지 않고 완성된 프레임만 보도록 한다.
 

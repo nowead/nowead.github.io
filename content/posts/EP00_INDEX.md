@@ -28,9 +28,9 @@ categories = ["그래픽스 프로그래밍"]
 
 ### Vulkan 초기화
 
-- [Ep06. Instance와 Physical Device](../ep06_instance)
+- [Ep06. Instance와 Device](../ep06_instance_device)
 - [Ep07. Logical Device와 Queue](../ep07_device)
-- Ep08. Window Surface와 Swapchain (작성 예정)
+- [Ep08. Surface와 Swapchain](../ep08_surface)
 
 ### Drawing a Triangle
 
