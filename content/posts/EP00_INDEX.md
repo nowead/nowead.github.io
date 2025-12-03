@@ -34,10 +34,9 @@ categories = ["그래픽스 프로그래밍"]
 
 ### Drawing a Triangle
 
-- Ep09. Render Pass (작성 예정)
-- Ep10. Graphics Pipeline (작성 예정)
-- Ep11. Command Buffer와 동기화 (작성 예정)
-- Ep12. 첫 번째 삼각형 그리기 (작성 예정)
+- [Ep09. Graphics Pipeline](../ep09_pipeline)
+- Ep10. Framebuffer와 Command Buffer (작성 예정)
+- Ep11. 동기화와 삼각형 그리기 (작성 예정)
 
 ### 데이터 다루기
 

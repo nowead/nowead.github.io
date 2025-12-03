@@ -428,7 +428,114 @@ void retrieveSwapChainImages() {
 
 **중요**: `VkImage`는 Swapchain이 소유하므로 직접 파괴하지 않는다.
 
-## 3. 전체 초기화 흐름
+---
+
+## 3. Image View - 이미지 사용 정의
+
+### 3.1. Image View가 필요한 이유
+
+Swapchain에서 획득한 `VkImage` 객체는 메모리에 할당된 이미지 데이터를 나타낸다. 하지만 `VkImage` 자체만으로는 셰이더나 파이프라인에서 직접 사용할 수 없다.
+
+이미지를 어떤 방식으로 사용할지(2D 텍스처, 3D 텍스처, 컬러 어태치먼트, 깊이 어태치먼트 등)를 명시하는 **`VkImageView` 객체**가 필요하다.
+
+**Image View의 역할**:
+
+1. **다양한 이미지 사용 방식**
+   - 같은 이미지를 2D 텍스처, 큐브 맵, 렌더링 타겟 등 다양한 방식으로 해석 가능
+   - 특정 MIP 레벨이나 특정 레이어만 선택적으로 사용 가능
+
+2. **포맷 호환성**
+   - `VkImage`는 원본 포맷으로 생성되지만, `VkImageView`를 통해 호환되는 다른 포맷으로 해석 가능
+   - 예: 깊이/스텐실 이미지를 깊이 전용 또는 스텐실 전용으로 사용
+
+3. **컴포넌트 스위즐링**
+   - 색상 컴포넌트(R, G, B, A)를 재배열하거나 상수 값으로 대체 가능
+   - 예: R 채널만 있는 이미지를 흑백으로 표시, 알파 채널을 항상 1.0으로 설정
+
+### 3.2. VkImageViewCreateInfo 구조체
+
+`VkImageView`를 생성할 때 사용하는 구조체의 주요 필드:
+
+- **`image`**: 이 뷰가 가리킬 `VkImage` 객체
+- **`viewType`**: 뷰의 타입
+  - `VK_IMAGE_VIEW_TYPE_1D`, `VK_IMAGE_VIEW_TYPE_2D`, `VK_IMAGE_VIEW_TYPE_3D`
+  - `VK_IMAGE_VIEW_TYPE_CUBE` (큐브 맵)
+- **`format`**: 이미지를 해석할 포맷 (`VkImage`의 포맷과 같거나 호환)
+- **`components`**: 컴포넌트 매핑 (`VkComponentMapping`)
+  - `r`, `g`, `b`, `a`: 각 채널을 어떻게 매핑할지 지정
+  - `VK_COMPONENT_SWIZZLE_IDENTITY`: 원본 그대로
+  - `VK_COMPONENT_SWIZZLE_ZERO`: 0.0
+  - `VK_COMPONENT_SWIZZLE_ONE`: 1.0
+  - 다른 채널로 대체 가능 (예: `VK_COMPONENT_SWIZZLE_R`)
+- **`subresourceRange`**: 이미지의 어느 부분을 사용할지 정의
+  - `aspectMask`: 사용할 애스펙트 (`VK_IMAGE_ASPECT_COLOR_BIT`, `VK_IMAGE_ASPECT_DEPTH_BIT` 등)
+  - `baseMipLevel`, `levelCount`: 사용할 MIP 레벨 범위
+  - `baseArrayLayer`, `layerCount`: 사용할 배열 레이어 범위
+
+### 3.3. Swapchain Image View 생성
+
+Swapchain의 각 이미지마다 Image View를 생성해야 한다.
+
+```cpp
+std::vector<VkImageView> swapChainImageViews;
+
+void createImageViews() {
+    swapChainImageViews.resize(swapChainImages.size());
+
+    for (size_t i = 0; i < swapChainImages.size(); i++) {
+        VkImageViewCreateInfo createInfo{};
+        createInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
+        createInfo.image = swapChainImages[i];
+        createInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
+        createInfo.format = swapChainImageFormat;
+
+        // 컴포넌트 매핑 (기본값 사용)
+        createInfo.components.r = VK_COMPONENT_SWIZZLE_IDENTITY;
+        createInfo.components.g = VK_COMPONENT_SWIZZLE_IDENTITY;
+        createInfo.components.b = VK_COMPONENT_SWIZZLE_IDENTITY;
+        createInfo.components.a = VK_COMPONENT_SWIZZLE_IDENTITY;
+
+        // 서브리소스 범위
+        createInfo.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+        createInfo.subresourceRange.baseMipLevel = 0;
+        createInfo.subresourceRange.levelCount = 1;
+        createInfo.subresourceRange.baseArrayLayer = 0;
+        createInfo.subresourceRange.layerCount = 1;
+
+        if (vkCreateImageView(device, &createInfo, nullptr, &swapChainImageViews[i]) != VK_SUCCESS) {
+            throw std::runtime_error("failed to create image views!");
+        }
+    }
+}
+```
+
+**코드 설명**:
+
+- `viewType`: 2D 이미지로 사용
+- `format`: Swapchain 이미지 포맷과 동일
+- `components`: 모든 채널을 원본 그대로 사용 (`IDENTITY`)
+- `aspectMask`: 컬러 이미지이므로 `COLOR_BIT`
+- `baseMipLevel = 0`, `levelCount = 1`: MIP 매핑 미사용
+- `baseArrayLayer = 0`, `layerCount = 1`: 단일 레이어 이미지
+
+### 3.4. Image View 정리
+
+```cpp
+void cleanup() {
+    for (auto imageView : swapChainImageViews) {
+        vkDestroyImageView(device, imageView, nullptr);
+    }
+
+    vkDestroySwapchainKHR(device, swapChain, nullptr);
+    // ...
+}
+```
+
+**정리 순서**: Image Views → Swapchain → Device
+
+---
+
+## 4. 전체 초기화 흐름
 
 ```cpp
 void initVulkan() {
@@ -437,15 +544,22 @@ void initVulkan() {
     pickPhysicalDevice();    // Surface 지원 확인
     createLogicalDevice();   // Present Queue 포함
     createSwapChain();       // Swapchain 생성
+    createImageViews();      // Image View 생성
 }
 ```
 
-**초기화 순서 중요**: Surface는 Physical Device 선택 전에 생성해야 한다.
+**초기화 순서 중요**:
+- Surface는 Physical Device 선택 전에 생성
+- Image View는 Swapchain 생성 직후 생성
 
-## 4. 정리 순서
+## 5. 정리 순서
 
 ```cpp
 void cleanup() {
+    for (auto imageView : swapChainImageViews) {
+        vkDestroyImageView(device, imageView, nullptr);
+    }
+
     vkDestroySwapchainKHR(device, swapChain, nullptr);
     vkDestroyDevice(device, nullptr);
     vkDestroySurfaceKHR(instance, surface, nullptr);
@@ -454,12 +568,12 @@ void cleanup() {
 ```
 
 **주의**:
-- Swapchain → Device → Surface → Instance 순서
-- Swapchain Images는 직접 파괴하지 않음
+- Image Views → Swapchain → Device → Surface → Instance 순서
+- Swapchain Images는 직접 파괴하지 않음 (Swapchain이 소유)
 
-## 5. 자주 발생하는 문제
+## 6. 자주 발생하는 문제
 
-### 5.1. "No suitable present queue found"
+### 6.1. "No suitable present queue found"
 
 **원인**: Surface를 지원하는 Queue Family가 없음
 
@@ -474,7 +588,7 @@ if (!presentSupport) {
 }
 ```
 
-### 5.2. Swapchain 생성 실패
+### 6.2. Swapchain 생성 실패
 
 **원인**: Surface 속성 확인 누락
 
@@ -491,7 +605,7 @@ if (details.formats.empty() || details.presentModes.empty()) {
 }
 ```
 
-### 5.3. 화면에 아무것도 안 보임
+### 6.3. 화면에 아무것도 안 보임
 
 **원인**: Present Queue에 제출하지 않음
 
@@ -506,7 +620,7 @@ presentInfo.pImageIndices = &imageIndex;
 vkQueuePresentKHR(presentQueue, &presentInfo);  // Present Queue 사용!
 ```
 
-### 5.4. macOS에서 Swapchain 생성 실패
+### 6.4. macOS에서 Swapchain 생성 실패
 
 **원인**: MoltenVK는 `VK_KHR_portability_subset` 필요
 
@@ -520,33 +634,39 @@ const std::vector<const char*> deviceExtensions = {
 #endif
 ```
 
-## 6. 핵심 개념 정리
+## 7. 핵심 개념 정리
 
-### 6.1. Surface
+### 7.1. Surface
 
 - Vulkan과 플랫폼 윈도우 시스템의 연결 다리
 - Instance 생성 직후, Physical Device 선택 전에 생성
 - WSI 확장을 통해 플랫폼별 구현
 
-### 6.2. Present Queue
+### 7.2. Present Queue
 
 - 렌더링 결과를 Surface에 표시하는 Queue
 - Graphics Queue와 같을 수도, 다를 수도 있음
 - `vkGetPhysicalDeviceSurfaceSupportKHR`로 지원 확인
 
-### 6.3. Swapchain
+### 7.3. Swapchain
 
 - 화면에 표시될 이미지들의 큐/배열
 - 렌더링 중간 과정을 숨기고 완성된 프레임만 표시
 - Present Mode로 버퍼링 방식 결정
 
-### 6.4. Present Mode
+### 7.4. Image View
+
+- `VkImage` 객체를 셰이더/파이프라인에서 사용 가능하게 하는 "뷰"
+- 이미지 사용 방식(2D 텍스처, 렌더 타겟 등)을 정의
+- 컴포넌트 스위즐링 및 서브리소스 선택 지원
+
+### 7.5. Present Mode
 
 - **FIFO**: V-Sync, 이중 버퍼링
 - **MAILBOX**: 트리플 버퍼링, 낮은 지연
 - **IMMEDIATE**: 즉시 표시, 테어링 가능
 
-## 7. 다음 단계
+## 8. 다음 단계
 
 화면에 그릴 준비가 완료되었다:
 
@@ -556,5 +676,6 @@ const std::vector<const char*> deviceExtensions = {
 4. Queue 획득
 5. Surface 생성
 6. Swapchain 생성
+7. Image View 생성
 
-다음 편에서는 **Render Pass**를 생성하여 실제 렌더링 파이프라인을 구성한다.
+다음 편에서는 **Render Pass와 Graphics Pipeline**을 생성하여 실제 렌더링 파이프라인을 구성한다.
