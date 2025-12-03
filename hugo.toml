@@ -18,12 +18,12 @@ theme = "PaperMod"
 
 [params]
   defaultTheme = "auto"
-  ShowReadingTime = true         # 읽는 시간 표시
+  ShowReadingTime = false        # 읽는 시간 표시
   ShowShareButtons = true         # 공유 버튼 표시
   ShowPostNavLinks = true         # 이전/다음 글 링크
   ShowBreadCrumbs = true          # 빵 부스러기 내비게이션
   ShowCodeCopyButtons = true      # 코드 복사 버튼
-  ShowWordCount = true            # 단어 수 표시
+  ShowWordCount = false           # 단어 수 표시
   ShowRssButtonInSectionTermList = true
   UseHugoToc = true               # Hugo 목차 사용
   disableSpecial1stPost = false

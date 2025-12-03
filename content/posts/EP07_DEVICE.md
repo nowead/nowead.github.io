@@ -1,5 +1,5 @@
 +++
-date = '2025-09-17T15:32:10+09:00'
+date = '2025-09-16T15:32:10+09:00'
 draft = false
 title = '[Vulkan] EP07. Logical Device와 Queue'
 series = ["Vulkan 학습"]
