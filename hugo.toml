@@ -36,17 +36,84 @@ theme = "PaperMod"
 
   # 홈페이지 프로필
   [params.homeInfoParams]
-    Title = "안녕하세요 👋"
+    Title = "민대원"
     Content = """
-개발 블로그에 오신 것을 환영합니다.
+**Graphics & Game Engine Developer**
 
-그래픽스, 게임 개발, 그리고 다양한 기술에 대해 학습하고 공유합니다.
+그래픽스와 게임 엔진 아키텍처를 전문으로 합니다.
+
+---
+
+### 🎯 주요 프로젝트
+
+**Vulkan 기반 Mini Engine** (완료)
+4-Layered Architecture 기반 렌더링 엔진
+
+**RHI Architecture 도입** (진행 중)
+크로스 플랫폼 그래픽스 추상화 레이어 설계
+
+---
+
+### 💻 기술 스택
+
+![Vulkan](https://img.shields.io/badge/Vulkan-AC162C?style=flat-square&logo=vulkan&logoColor=white)
+![WebGPU](https://img.shields.io/badge/WebGPU-005A9C?style=flat-square&logo=webgpu&logoColor=white)
+![C++](https://img.shields.io/badge/C++-00599C?style=flat-square&logo=cplusplus&logoColor=white)
+![C](https://img.shields.io/badge/C-A8B9CC?style=flat-square&logo=c&logoColor=white)
+![CMake](https://img.shields.io/badge/CMake-064F8C?style=flat-square&logo=cmake&logoColor=white)
+
+---
+
+### 🔧 기술 스킬
+
+**프로그래밍 언어**
+- **C, C++**: 시스템 프로그래밍 및 그래픽스 엔진 개발
+- **Python, Java**: 프로젝트 보조 및 스크립팅
+
+**그래픽스 API & 엔진**
+- **Vulkan**: 렌더링 파이프라인 구축, 동기화, 메모리 관리
+- **WebGPU**: 차세대 그래픽스 API 학습 예정
+- **MinilibX**: Ray Tracing 기반 렌더링 (miniRT 프로젝트)
+
+**빌드 시스템 & 라이브러리**
+- **CMake**: 크로스 플랫폼 빌드 시스템 구성
+- **GLFW**: 윈도우 및 입력 처리
+- **GLM**: 수학 라이브러리
+- **STL**: C++ 표준 템플릿 라이브러리
+
+**개발 도구 & 환경**
+- **Linux**: 시스템 프로그래밍, 쉘 환경 구성
+- **Git**: 버전 관리 및 협업
+- **Docker**: 컨테이너 기반 개발 환경
+- **Vim, Makefile, GDB, Valgrind**: 디버깅 및 최적화
+
+**시스템 프로그래밍**
+- kqueue 기반 네트워크 이벤트 처리
+- Bash 스크립트 및 시스템 자동화
+- MySQL 연동 및 데이터베이스 설정
+
+---
+
+### 🎓 전문 분야
+
+**렌더링 파이프라인 설계**
+Vulkan 기반 렌더링 시스템 구축 및 최적화
+
+**게임 엔진 아키텍처**
+4-Layered Architecture, RHI 패턴 설계
+
+**크로스 플랫폼 그래픽스**
+플랫폼 독립적 그래픽스 추상화 계층 구현
     """
 
   # 소셜 링크
   [[params.socialIcons]]
     name = "github"
     url = "https://github.com/nowead"
+
+  [[params.socialIcons]]
+    name = "Rss"
+    url = "https://velog.io/@dwm9510"
 
   # 추가 소셜 링크 예시 (필요시 주석 해제)
   # [[params.socialIcons]]
@@ -57,25 +124,42 @@ theme = "PaperMod"
   #   url = "https://linkedin.com/in/yourprofile"
 
 # 상단 메뉴
+
 [[menu.main]]
   name = "Archive"
   url = "/archives/"
+  weight = 20
+
+[[menu.main]]
+  name = "Vulkan Study"
+  url = "/vulkan-study-log/"
   weight = 10
 
 [[menu.main]]
   name = "Tags"
   url = "/tags/"
-  weight = 20
+  weight = 30
 
 [[menu.main]]
   name = "Series"
   url = "/series/"
-  weight = 25
+  weight = 40
 
 [[menu.main]]
   name = "Search"
   url = "/search/"
-  weight = 30
+  weight = 50
+
+# 외부 링크
+[[menu.main]]
+  name = "GitHub"
+  url = "https://github.com/nowead"
+  weight = 60
+
+[[menu.main]]
+  name = "Velog"
+  url = "https://velog.io/@dwm9510"
+  weight = 70
 
 # 마크다운 설정
 [markup]
