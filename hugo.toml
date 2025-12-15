@@ -1,5 +1,6 @@
 baseURL = "https://nowead.github.io/"
 languageCode = "ko-kr"
+defaultContentLanguage = "ko"
 title = "Damin's Blog"
 theme = "terminal"
 
@@ -72,6 +73,56 @@ theme = "terminal"
       weight = 5
 
     [[languages.ko.menu.main]]
+      identifier = "velog"
+      name = "Velog"
+      url = "https://velog.io/@dwm9510"
+      weight = 6
+
+  [languages.en]
+    languageName = "English"
+    title = "Daewon Min | Graphics & Game Engine Developer"
+    subtitle = "Vulkan, Game Engine Architecture, Real-time Rendering"
+    keywords = "vulkan, game engine, graphics, rendering"
+    copyright = ""
+    menuMore = "Show more"
+    readMore = "Read more"
+    readOtherPosts = "Read other posts"
+
+    [languages.en.params.logo]
+      logoText = "Damin's Blog"
+      logoHomeLink = "/en/"
+
+    [[languages.en.menu.main]]
+      identifier = "about"
+      name = "About"
+      url = "/en/about"
+      weight = 1
+
+    [[languages.en.menu.main]]
+      identifier = "series"
+      name = "Series"
+      url = "/en/series"
+      weight = 2
+
+    [[languages.en.menu.main]]
+      identifier = "vulkan-study"
+      name = "Vulkan Study"
+      url = "/en/vulkan-study-log"
+      weight = 3
+
+    [[languages.en.menu.main]]
+      identifier = "tags"
+      name = "Tags"
+      url = "/en/tags"
+      weight = 4
+
+    [[languages.en.menu.main]]
+      identifier = "github"
+      name = "GitHub"
+      url = "https://github.com/nowead"
+      weight = 5
+
+    [[languages.en.menu.main]]
       identifier = "velog"
       name = "Velog"
       url = "https://velog.io/@dwm9510"
