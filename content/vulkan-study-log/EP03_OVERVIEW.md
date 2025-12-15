@@ -5,6 +5,7 @@ title = '[Vulkan] Ep03. Vulkan의 큰 그림'
 series = ["Vulkan 학습"]
 tags = ["Vulkan", "Overview", "Architecture"]
 categories = ["그래픽스 프로그래밍"]
+summary = "Vulkan 렌더링 파이프라인의 전체 구조를 개괄합니다. Instance부터 Swapchain, Pipeline, Command Buffer까지의 흐름을 파악합니다."
 +++
 
 ## 시작하며

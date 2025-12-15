@@ -5,6 +5,7 @@ title = '[Vulkan] EP09. Graphics Pipeline'
 series = ["Vulkan 학습"]
 tags = ["Vulkan", "Graphics Pipeline", "Shader", "Render Pass"]
 categories = ["그래픽스 프로그래밍"]
+summary = "Graphics Pipeline을 구성합니다. Shader Module, Render Pass, Fixed Function 단계를 설정하고 Pipeline을 생성합니다."
 +++
 
 ## 시작하며

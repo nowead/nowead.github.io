@@ -5,6 +5,7 @@ title = '[Vulkan] Ep05. 개발 환경 구축'
 series = ["Vulkan 학습"]
 tags = ["Vulkan", "Setup", "CMake", "vcpkg", "Mac", "Linux", "Makefile"]
 categories = ["그래픽스 프로그래밍"]
+summary = "Vulkan 개발 환경을 구축합니다. Vulkan SDK, GLFW, GLM 등 필수 라이브러리 설치와 프로젝트 설정 방법을 다룹니다."
 +++
 
 ## 시작하며

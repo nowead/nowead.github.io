@@ -1,7 +1,7 @@
 baseURL = "https://nowead.github.io/"
 languageCode = "ko-kr"
 title = "Damin's Blog"
-theme = "PaperMod"
+theme = "terminal"
 
 [pagination]
   pagerSize = 10
@@ -12,154 +12,70 @@ theme = "PaperMod"
   category = "categories"
   series = "series"
 
-# 검색 기능을 위한 출력 포맷
-[outputs]
-  home = ["HTML", "RSS", "JSON"]
-
 [params]
-  defaultTheme = "auto"
-  ShowReadingTime = false        # 읽는 시간 표시
-  ShowShareButtons = true         # 공유 버튼 표시
-  ShowPostNavLinks = true         # 이전/다음 글 링크
-  ShowBreadCrumbs = true          # 빵 부스러기 내비게이션
-  ShowCodeCopyButtons = true      # 코드 복사 버튼
-  ShowWordCount = false           # 단어 수 표시
-  ShowRssButtonInSectionTermList = true
-  UseHugoToc = true               # Hugo 목차 사용
-  disableSpecial1stPost = false
-  disableScrollToTop = false
-  comments = false
-  hidemeta = false
-  hideSummary = false
-  showtoc = true                  # 목차 자동 표시
-  tocopen = false                 # 목차 기본 접힌 상태
+  contentTypeName = "posts"
+  showMenuItems = 5
+  fullWidthTheme = false
+  centerTheme = true
+  themeColor = "blue"
 
-  # 홈페이지 프로필
-  [params.homeInfoParams]
-    Title = "민대원"
-    Content = """
-**Graphics & Game Engine Developer**
+[params.twitter]
+  # set Twitter handles for Twitter cards
+  # see https://developer.twitter.com/en/docs/tweets/optimize-with-cards/guides/getting-started#card-and-content-attribution
+  # do not include @
+  creator = ""
+  site = ""
 
-그래픽스와 게임 엔진 아키텍처를 전문으로 합니다.
+[languages]
+  [languages.ko]
+    languageName = "Korean"
+    title = "민대원 | Graphics & Game Engine Developer"
+    subtitle = "Vulkan, Game Engine Architecture, Real-time Rendering"
+    keywords = "vulkan, game engine, graphics, rendering"
+    copyright = ""
+    menuMore = "더보기"
+    readMore = "읽기"
+    readOtherPosts = "다른 글 보기"
 
----
+    [languages.ko.params.logo]
+      logoText = "Damin's Blog"
+      logoHomeLink = "/"
 
-### 🎯 주요 프로젝트
+    [[languages.ko.menu.main]]
+      identifier = "about"
+      name = "About"
+      url = "/about"
+      weight = 1
 
-**Vulkan 기반 Mini Engine** (완료)
-4-Layered Architecture 기반 렌더링 엔진
+    [[languages.ko.menu.main]]
+      identifier = "series"
+      name = "Series"
+      url = "/series"
+      weight = 2
 
-**RHI Architecture 도입** (진행 중)
-크로스 플랫폼 그래픽스 추상화 레이어 설계
+    [[languages.ko.menu.main]]
+      identifier = "vulkan-study"
+      name = "Vulkan Study"
+      url = "/vulkan-study-log"
+      weight = 3
 
----
+    [[languages.ko.menu.main]]
+      identifier = "tags"
+      name = "Tags"
+      url = "/tags"
+      weight = 4
 
-### 💻 기술 스택
+    [[languages.ko.menu.main]]
+      identifier = "github"
+      name = "GitHub"
+      url = "https://github.com/nowead"
+      weight = 5
 
-![Vulkan](https://img.shields.io/badge/Vulkan-AC162C?style=flat-square&logo=vulkan&logoColor=white)
-![WebGPU](https://img.shields.io/badge/WebGPU-005A9C?style=flat-square&logo=webgpu&logoColor=white)
-![C++](https://img.shields.io/badge/C++-00599C?style=flat-square&logo=cplusplus&logoColor=white)
-![C](https://img.shields.io/badge/C-A8B9CC?style=flat-square&logo=c&logoColor=white)
-![CMake](https://img.shields.io/badge/CMake-064F8C?style=flat-square&logo=cmake&logoColor=white)
-
----
-
-### 🔧 기술 스킬
-
-**프로그래밍 언어**
-- **C, C++**: 시스템 프로그래밍 및 그래픽스 엔진 개발
-- **Python, Java**: 프로젝트 보조 및 스크립팅
-
-**그래픽스 API & 엔진**
-- **Vulkan**: 렌더링 파이프라인 구축, 동기화, 메모리 관리
-- **WebGPU**: 차세대 그래픽스 API 학습 예정
-- **MinilibX**: Ray Tracing 기반 렌더링 (miniRT 프로젝트)
-
-**빌드 시스템 & 라이브러리**
-- **CMake**: 크로스 플랫폼 빌드 시스템 구성
-- **GLFW**: 윈도우 및 입력 처리
-- **GLM**: 수학 라이브러리
-- **STL**: C++ 표준 템플릿 라이브러리
-
-**개발 도구 & 환경**
-- **Linux**: 시스템 프로그래밍, 쉘 환경 구성
-- **Git**: 버전 관리 및 협업
-- **Docker**: 컨테이너 기반 개발 환경
-- **Vim, Makefile, GDB, Valgrind**: 디버깅 및 최적화
-
-**시스템 프로그래밍**
-- kqueue 기반 네트워크 이벤트 처리
-- Bash 스크립트 및 시스템 자동화
-- MySQL 연동 및 데이터베이스 설정
-
----
-
-### 🎓 전문 분야
-
-**렌더링 파이프라인 설계**
-Vulkan 기반 렌더링 시스템 구축 및 최적화
-
-**게임 엔진 아키텍처**
-4-Layered Architecture, RHI 패턴 설계
-
-**크로스 플랫폼 그래픽스**
-플랫폼 독립적 그래픽스 추상화 계층 구현
-    """
-
-  # 소셜 링크
-  [[params.socialIcons]]
-    name = "github"
-    url = "https://github.com/nowead"
-
-  [[params.socialIcons]]
-    name = "Rss"
-    url = "https://velog.io/@dwm9510"
-
-  # 추가 소셜 링크 예시 (필요시 주석 해제)
-  # [[params.socialIcons]]
-  #   name = "email"
-  #   url = "mailto:your-email@example.com"
-  # [[params.socialIcons]]
-  #   name = "linkedin"
-  #   url = "https://linkedin.com/in/yourprofile"
-
-# 상단 메뉴
-
-[[menu.main]]
-  name = "Archive"
-  url = "/archives/"
-  weight = 20
-
-[[menu.main]]
-  name = "Vulkan Study"
-  url = "/vulkan-study-log/"
-  weight = 10
-
-[[menu.main]]
-  name = "Tags"
-  url = "/tags/"
-  weight = 30
-
-[[menu.main]]
-  name = "Series"
-  url = "/series/"
-  weight = 40
-
-[[menu.main]]
-  name = "Search"
-  url = "/search/"
-  weight = 50
-
-# 외부 링크
-[[menu.main]]
-  name = "GitHub"
-  url = "https://github.com/nowead"
-  weight = 60
-
-[[menu.main]]
-  name = "Velog"
-  url = "https://velog.io/@dwm9510"
-  weight = 70
+    [[languages.ko.menu.main]]
+      identifier = "velog"
+      name = "Velog"
+      url = "https://velog.io/@dwm9510"
+      weight = 6
 
 # 마크다운 설정
 [markup]
@@ -169,7 +85,9 @@ Vulkan 기반 렌더링 시스템 구축 및 최적화
     guessSyntax = false
     lineNos = true
     noClasses = false
-    style = "monokai"  # 코드 하이라이팅 테마
-
+    style = "monokai"
   [markup.goldmark.renderer]
-    unsafe = true  # HTML in markdown 허용
+    unsafe = true
+
+# 요약 설정
+summaryLength = 70

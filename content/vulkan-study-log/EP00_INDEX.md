@@ -5,6 +5,7 @@ title = '[Vulkan] Ep00. 목차'
 series = ["Vulkan 학습"]
 tags = ["Vulkan", "Index", "목차"]
 categories = ["그래픽스 프로그래밍"]
+summary = "Vulkan 학습 시리즈의 인덱스입니다. Vulkan API의 기초부터 렌더링 파이프라인까지 단계별로 학습합니다."
 +++
 
 ## Vulkan 학습 시리즈

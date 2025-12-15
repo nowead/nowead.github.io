@@ -5,6 +5,7 @@ title = '[Vulkan] Ep02. 학습 계획'
 series = ["Vulkan 학습"]
 tags = ["Vulkan", "학습계획", "Tutorial"]
 categories = ["그래픽스 프로그래밍"]
+summary = "Vulkan 프로젝트를 처음 시작할 때의 계획과 준비 과정을 다룹니다. 학습 목표와 개발 환경 설정 방향을 정리합니다."
 +++
 
 ## 시작하며

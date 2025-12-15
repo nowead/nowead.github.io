@@ -5,6 +5,7 @@ title = '[Vulkan] EP10. Framebuffer와 Command Buffer'
 series = ["Vulkan 학습"]
 tags = ["Vulkan", "Framebuffer", "Command Buffer", "Rendering"]
 categories = ["그래픽스 프로그래밍"]
+summary = "Framebuffer를 생성하고 Command Buffer에 렌더링 명령을 기록합니다. Command Pool, Buffer Allocation, Recording 과정을 다룹니다."
 +++
 
 ## 시작하며

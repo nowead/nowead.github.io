@@ -5,6 +5,7 @@ title = '[Vulkan] EP11. Rendering과 Presentation'
 series = ["Vulkan 학습"]
 tags = ["Vulkan", "Rendering", "Synchronization", "Semaphore", "Fence"]
 categories = ["그래픽스 프로그래밍"]
+summary = "CPU와 GPU의 비동기 실행을 동기화하는 방법을 다룹니다. Semaphore, Fence, Frames in Flight 개념을 통해 안정적인 렌더링 루프를 구성합니다."
 +++
 
 ## 시작하며

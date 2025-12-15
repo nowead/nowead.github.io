@@ -5,6 +5,7 @@ title = '[Vulkan] EP07. Logical Device와 Queue'
 series = ["Vulkan 학습"]
 tags = ["Vulkan", "Instance", "Physical Device", "Extension", "Validation Layer"]
 categories = ["그래픽스 프로그래밍"]
+summary = "Physical Device를 선택하고 Logical Device를 생성합니다. Queue Family, Device Extension, Device Features 설정을 다룹니다."
 +++
 
 ## 시작하며

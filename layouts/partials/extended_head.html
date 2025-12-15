@@ -1,0 +1,4 @@
+{{ $extended := resources.Get "css/extended.css" }}
+{{ if $extended }}
+  <link rel="stylesheet" href="{{ $extended.RelPermalink }}" />
+{{ end }}

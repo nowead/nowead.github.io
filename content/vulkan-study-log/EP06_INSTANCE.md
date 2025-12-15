@@ -5,6 +5,7 @@ title = '[Vulkan] Ep06. Instance와 Physical Device'
 series = ["Vulkan 학습"]
 tags = ["Vulkan", "Instance", "Physical Device", "Extension", "Validation Layer"]
 categories = ["그래픽스 프로그래밍"]
+summary = "Vulkan Instance를 생성하고 설정합니다. Application Info, Extension, Validation Layer 등 Instance의 핵심 요소를 다룹니다."
 +++
 
 ## 시작하며

@@ -1,0 +1,23 @@
+{{ define "main" }}
+  <main class="post">
+    <article>
+      <h1 class="post-title">{{ .Title }}</h1>
+
+      <div class="post-content">
+        <p>블로그의 모든 게시글을 시간순으로 정리했습니다.</p>
+      </div>
+
+      {{ range .Site.RegularPages.GroupByDate "2006" }}
+        <h2>{{ .Key }}</h2>
+        <ul class="archive-list">
+          {{ range .Pages }}
+            <li class="archive-item">
+              <time class="archive-date">{{ .Date.Format "01-02" }}</time>
+              <a href="{{ .Permalink }}" class="archive-link">{{ .Title }}</a>
+            </li>
+          {{ end }}
+        </ul>
+      {{ end }}
+    </article>
+  </main>
+{{ end }}

@@ -5,6 +5,7 @@ title = '[Vulkan] EP08. Surface와 Swapchain'
 series = ["Vulkan 학습"]
 tags = ["Vulkan", "Instance", "Physical Device", "Extension", "Validation Layer"]
 categories = ["그래픽스 프로그래밍"]
+summary = "Surface와 Swapchain을 생성하여 화면 출력을 준비합니다. Present Mode, Surface Format, Image View 설정을 다룹니다."
 +++
 
 ## 시작하며

@@ -1,0 +1,238 @@
+/* Custom Color Theme: White background with dark blue accents */
+
+:root {
+  --background: #ffffff;
+  --foreground: #1f2937;
+  --accent: #1e3a8a;
+  --code-border: #3b82f6;
+
+  /* Override Terminal theme colors */
+  --color: var(--foreground);
+  --background-color: var(--background);
+  --border-color: var(--accent);
+}
+
+/* Override Terminal theme orange accent with blue */
+.logo__cursor {
+  background: var(--accent) !important;
+}
+
+a {
+  color: var(--accent) !important;
+}
+
+a:hover {
+  color: #3b82f6 !important;
+}
+
+.menu__trigger {
+  color: var(--accent) !important;
+}
+
+.menu__trigger:hover {
+  color: #3b82f6 !important;
+}
+
+/* Post List Items */
+.post-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  margin-bottom: 30px;
+}
+
+.post.on-list {
+  border: 2px solid var(--accent);
+  padding: 25px;
+  transition: all 0.2s ease;
+  background-color: var(--background);
+  cursor: pointer;
+}
+
+.post-link:hover .post.on-list {
+  border-color: #3b82f6;
+  box-shadow: 0 4px 12px rgba(30, 58, 138, 0.1);
+  transform: translateY(-2px);
+}
+
+.post.on-list .post-title {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: var(--accent);
+}
+
+.post-link:hover .post.on-list .post-title {
+  color: #3b82f6;
+}
+
+.post.on-list .post-meta {
+  color: #6b7280;
+  font-size: 0.9em;
+  margin-bottom: 15px;
+}
+
+.post.on-list .post-content {
+  color: var(--foreground);
+  line-height: 1.6;
+}
+
+/* Post Navigation */
+.pagination {
+  margin-top: 50px;
+  border-top: 2px solid var(--accent);
+  padding-top: 30px;
+}
+
+.pagination__buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.pagination__buttons .button {
+  flex: 1;
+  min-width: 200px;
+}
+
+.pagination__buttons .button.previous {
+  text-align: left;
+}
+
+.pagination__buttons .button.next {
+  text-align: right;
+}
+
+.pagination__buttons .button a {
+  display: flex;
+  align-items: center;
+  padding: 15px 20px;
+  background-color: transparent;
+  border: 2px solid var(--accent);
+  color: var(--accent);
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.pagination__buttons .button.previous a {
+  justify-content: flex-start;
+}
+
+.pagination__buttons .button.next a {
+  justify-content: flex-end;
+}
+
+.pagination__buttons .button a:hover {
+  background-color: var(--accent);
+  color: var(--background);
+}
+
+.button__icon {
+  font-size: 1.2em;
+  margin: 0 10px;
+}
+
+.button__text {
+  font-weight: normal;
+}
+
+/* Archives */
+.archive-list {
+  list-style: none;
+  margin-left: 0;
+  padding-left: 0;
+  margin-bottom: 40px;
+}
+
+.archive-item {
+  display: flex;
+  align-items: baseline;
+  padding: 10px 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.archive-item:hover {
+  background-color: #f9fafb;
+  padding-left: 10px;
+  margin-left: -10px;
+  padding-right: 10px;
+  margin-right: -10px;
+}
+
+.archive-date {
+  color: #6b7280;
+  font-size: 0.9em;
+  min-width: 80px;
+  margin-right: 20px;
+}
+
+.archive-link {
+  color: var(--accent);
+  text-decoration: none;
+  flex: 1;
+}
+
+.archive-link:hover {
+  color: #3b82f6;
+}
+
+/* About Page Styling */
+.about-header {
+  text-align: center;
+  padding: 40px 20px;
+  margin-bottom: 40px;
+  border-bottom: 3px solid var(--accent);
+}
+
+.about-header h1 {
+  margin-bottom: 15px;
+  color: var(--accent);
+  font-size: 2.5em;
+}
+
+.about-section {
+  border: 2px solid var(--accent);
+  border-left: 5px solid var(--accent);
+  padding: 30px;
+  margin-bottom: 30px;
+  background-color: #f8fafc;
+  transition: all 0.2s ease;
+}
+
+.about-section:hover {
+  box-shadow: 0 4px 12px rgba(30, 58, 138, 0.15);
+  border-left-width: 8px;
+}
+
+.about-section h2 {
+  color: var(--accent);
+  margin-top: 0;
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #e2e8f0;
+  font-size: 1.8em;
+}
+
+.about-section h3 {
+  color: #1e40af;
+  margin-top: 25px;
+  margin-bottom: 15px;
+  font-size: 1.3em;
+}
+
+.about-section ul {
+  line-height: 1.8;
+  margin-left: 20px;
+}
+
+.about-section li {
+  margin-bottom: 10px;
+}
+
+.about-section strong {
+  color: var(--accent);
+}
+
+.about-section a {
+  text-decoration: underline;
+}

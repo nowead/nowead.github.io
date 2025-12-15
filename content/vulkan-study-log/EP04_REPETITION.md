@@ -5,6 +5,7 @@ title = '[Vulkan] Ep04. Vulkan 흐름과 용어'
 series = ["Vulkan 학습"]
 tags = ["Vulkan", "Terminology", "Architecture"]
 categories = ["그래픽스 프로그래밍"]
+summary = "Vulkan 개발에서 반복되는 패턴과 보일러플레이트 코드를 정리합니다. 효율적인 코드 작성 방법을 다룹니다."
 +++
 
 ## 시작하며

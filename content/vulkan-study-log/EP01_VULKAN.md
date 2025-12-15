@@ -5,6 +5,7 @@ title = '[Vulkan] Ep01. Vulkan이란 무엇인가?'
 series = ["Vulkan 학습"]
 tags = ["Vulkan", "Graphics", "API"]
 categories = ["그래픽스 프로그래밍"]
+summary = "Vulkan은 크로노스 그룹이 개발한 차세대 그래픽스 API입니다. OpenGL과 달리 명시적 제어를 통해 하드웨어 성능을 극대화할 수 있습니다."
 +++
 
 ## 1. Vulkan이란?
