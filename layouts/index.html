@@ -1,0 +1,14 @@
+{{ define "main" }}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="refresh" content="0; url={{ .Site.BaseURL }}about" />
+    <script type="text/javascript">
+        window.location.href = "{{ .Site.BaseURL }}about"
+    </script>
+</head>
+<body>
+    <p>Redirecting to <a href="{{ .Site.BaseURL }}about">About</a> page...</p>
+</body>
+</html>
+{{ end }}
