@@ -29,7 +29,7 @@ summary = "Vulkan 학습 시리즈의 인덱스입니다. Vulkan API의 기초�
 
 ### Vulkan 초기화
 
-- [Ep06. Instance와 Device](../ep06_instance_device)
+- [Ep06. Instance와 Device](../ep06_instance)
 - [Ep07. Logical Device와 Queue](../ep07_device)
 - [Ep08. Surface와 Swapchain](../ep08_surface)
 
@@ -37,7 +37,7 @@ summary = "Vulkan 학습 시리즈의 인덱스입니다. Vulkan API의 기초�
 
 - [Ep09. Graphics Pipeline](../ep09_pipeline)
 - [Ep10. Framebuffer와 Command Buffer](../ep10_framebuffer_command)
-- Ep11. 동기화와 삼각형 그리기 (작성 예정)
+- [Ep11. Rendering Presentation](../ep11_rendering_presentation)
 
 ### 데이터 다루기
 
