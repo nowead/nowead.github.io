@@ -531,9 +531,10 @@ while (width == 0 || height == 0) {
 스왑체인 재생성을 이해했다면, 다음 단계로:
 
 1. **Vertex Buffer:** 정점 데이터를 GPU 메모리로 전송
-2. **Index Buffer:** 정점 재사용을 통한 효율적인 렌더링
-3. **Uniform Buffer:** 셰이더에 동적 데이터 전달
+2. **Staging Buffer:** GPU가 직접 접근할 수 있는 최적화된 메모리로 데이터를 안전하게 복사하기 위한 중간 공유 메모리
+3. **Index Buffer:** 정점 재사용을 통한 효율적인 렌더링
+4. **Uniform Buffer:** 셰이더에 동적 데이터 전달
 
 ---
 
-**다음 편:** [Vulkan] EP14. Vertex Buffer
+**다음 편:** [Vulkan] EP15. Vertex Buffer
