@@ -12,7 +12,7 @@ summary = "CPU와 GPU의 비동기 실행을 동기화하는 방법을 다룹니
 
 [EP10]에서 Framebuffer와 Command Buffer를 생성했다. 이제 실제로 매 프레임 렌더링을 수행하고 화면에 결과를 표시할 차례다.
 
-Vulkan의 렌더링 루프는 CPU와 GPU의 비동기 작업을 명시적으로 동기화해야 한다. **세마포어(Semaphore)**와 **펜스(Fence)**를 사용하여 프레임 간 의존성을 관리하고, 자원 충돌을 방지한다.
+Vulkan의 렌더링 루프는 CPU와 GPU의 비동기 작업을 명시적으로 동기화해야 한다. **세마포어**(Semaphore)와 **펜스**(Fence)를 사용하여 프레임 간 의존성을 관리하고, 자원 충돌을 방지한다.
 
 이 글에서는 렌더링 및 프레젠테이션의 전체 흐름, 동기화 메커니즘, 그리고 스왑체인 재생성을 다룬다.
 
@@ -24,12 +24,12 @@ Vulkan의 렌더링 루프는 CPU와 GPU의 비동기 작업을 명시적으로 
 
 Vulkan에서 CPU와 GPU는 **독립적으로 비동기 실행**된다:
 
-**CPU**:
+**CPU:**
 - 커맨드 버퍼에 명령 기록
 - 큐에 커맨드 버퍼 제출
 - 다음 프레임 준비
 
-**GPU**:
+**GPU:**
 - 제출된 커맨드 버퍼 실행
 - 렌더링 수행
 - 결과 이미지 생성
@@ -38,15 +38,15 @@ Vulkan에서 CPU와 GPU는 **독립적으로 비동기 실행**된다:
 
 동기화 없이는 다음과 같은 문제가 발생한다:
 
-**1. 이미지 가용성 문제**:
+**1. 이미지 가용성 문제:**
 - CPU가 아직 GPU에서 사용 중인 스왑체인 이미지를 재사용하려 시도
 - 렌더링이 완료되지 않은 이미지를 화면에 표시
 
-**2. 프레임 과부하**:
+**2. 프레임 과부하:**
 - CPU가 GPU보다 훨씬 빠르게 커맨드 버퍼를 제출
 - GPU 큐가 과도하게 쌓여 메모리 부족 발생
 
-**3. 자원 충돌**:
+**3. 자원 충돌:**
 - GPU가 커맨드 버퍼를 실행 중인데 CPU가 해당 버퍼를 수정
 - 예측 불가능한 동작 발생
 
@@ -55,9 +55,9 @@ Vulkan에서 CPU와 GPU는 **독립적으로 비동기 실행**된다:
 Vulkan은 명시적 동기화를 위한 두 가지 주요 객체를 제공한다:
 
 | 객체 | 동기화 대상 | 용도 |
-|------|------------|------|
-| **Semaphore** | GPU ↔ GPU | 큐 작업 간 동기화 |
-| **Fence** | CPU ↔ GPU | CPU가 GPU 작업 완료 대기 |
+|------|-------------|------|
+| **Semaphore** | GPU - GPU | 큐 작업 간 동기화 |
+| **Fence** | CPU - GPU | CPU가 GPU 작업 완료 대기 |
 
 ---
 
@@ -67,23 +67,25 @@ Vulkan은 명시적 동기화를 위한 두 가지 주요 객체를 제공한다
 
 세마포어는 **GPU 내부의 큐 작업 간 동기화**를 수행한다.
 
-**특징**:
+**특징:**
 - CPU는 세마포어 상태를 직접 확인할 수 없음
 - GPU 큐 간 신호(signal) 및 대기(wait) 전용
 - 이진 세마포어: Unsignaled / Signaled 두 상태만 존재
 
 ### 2.2. 세마포어 동작 방식
 
-**Wait Semaphore**:
+**Wait Semaphore:**
+
 ```
 vkQueueSubmit(..., waitSemaphores, ...)
-→ 지정된 세마포어가 Signaled 될 때까지 큐 실행 대기
+// 지정된 세마포어가 Signaled 될 때까지 큐 실행 대기
 ```
 
-**Signal Semaphore**:
+**Signal Semaphore:**
+
 ```
 vkQueueSubmit(..., signalSemaphores, ...)
-→ 큐 작업 완료 시 세마포어를 Signaled 상태로 변경
+// 큐 작업 완료 시 세마포어를 Signaled 상태로 변경
 ```
 
 ### 2.3. 세마포어 생성
@@ -103,11 +105,11 @@ if (vkCreateSemaphore(device, &semaphoreInfo, nullptr, &imageAvailableSemaphore)
 
 ### 2.4. 렌더링에 사용되는 세마포어
 
-**`imageAvailableSemaphore`**:
+**`imageAvailableSemaphore`:**
 - 스왑체인에서 이미지를 획득했을 때 Signaled
 - GPU가 해당 이미지에 렌더링 시작 가능
 
-**`renderFinishedSemaphore`**:
+**`renderFinishedSemaphore`:**
 - 렌더링 명령이 모두 완료되었을 때 Signaled
 - 화면에 이미지 표시 가능
 
@@ -119,16 +121,16 @@ if (vkCreateSemaphore(device, &semaphoreInfo, nullptr, &imageAvailableSemaphore)
 
 펜스는 **CPU와 GPU 간 동기화**를 수행한다.
 
-**특징**:
+**특징:**
 - CPU가 펜스 상태를 확인하고 대기 가능
 - GPU 작업 완료를 CPU에 알림
 - 이진 펜스: Unsignaled / Signaled 두 상태
 
 ### 3.2. 펜스 vs 세마포어
 
-| | Fence | Semaphore |
-|---|-------|-----------|
-| **동기화 대상** | CPU ↔ GPU | GPU ↔ GPU |
+| 항목 | Fence | Semaphore |
+|------|-------|-----------|
+| **동기화 대상** | CPU - GPU | GPU - GPU |
 | **CPU 접근** | 가능 | 불가능 |
 | **주요 용도** | CPU가 GPU 완료 대기 | 큐 간 의존성 관리 |
 
@@ -146,22 +148,22 @@ if (vkCreateFence(device, &fenceInfo, nullptr, &inFlightFence) != VK_SUCCESS) {
 }
 ```
 
-**`VK_FENCE_CREATE_SIGNALED_BIT`**:
+**`VK_FENCE_CREATE_SIGNALED_BIT`:**
 - 첫 프레임에서 `vkWaitForFences`가 즉시 통과하도록 초기 Signaled 상태로 생성
 
 ### 3.4. 펜스 사용
 
-**CPU에서 대기**:
+**CPU에서 대기:**
 ```cpp
 vkWaitForFences(device, 1, &inFlightFence, VK_TRUE, UINT64_MAX);
 ```
 
-**펜스 리셋**:
+**펜스 리셋:**
 ```cpp
 vkResetFences(device, 1, &inFlightFence);
 ```
 
-**큐 제출 시 펜스 지정**:
+**큐 제출 시 펜스 지정:**
 ```cpp
 vkQueueSubmit(graphicsQueue, 1, &submitInfo, inFlightFence);
 // GPU 작업 완료 시 inFlightFence가 Signaled 됨
@@ -173,11 +175,11 @@ vkQueueSubmit(graphicsQueue, 1, &submitInfo, inFlightFence);
 
 ### 4.1. MAX_FRAMES_IN_FLIGHT의 필요성
 
-**문제**: CPU가 GPU보다 빠르게 프레임을 제출하면:
+**문제:** CPU가 GPU보다 빠르게 프레임을 제출하면:
 - GPU 큐가 무한정 쌓임
 - 메모리 부족 및 지연 증가
 
-**해결**: 동시에 GPU에서 처리 중인 프레임 수를 제한
+**해결:** 동시에 GPU에서 처리 중인 프레임 수를 제한
 
 ```cpp
 const int MAX_FRAMES_IN_FLIGHT = 2;  // 최대 2개 프레임 동시 처리
@@ -337,7 +339,7 @@ vkAcquireNextImageKHR(device, swapChain, UINT64_MAX,
 - `imageAvailableSemaphores[currentFrame]`를 Signaled 상태로 변경
 - 타임아웃: `UINT64_MAX` (무한 대기)
 
-**반환값**:
+**반환값:**
 - `VK_SUCCESS`: 정상
 - `VK_ERROR_OUT_OF_DATE_KHR`: 스왑체인 무효화 (재생성 필요)
 - `VK_SUBOPTIMAL_KHR`: 사용 가능하지만 최적이 아님
@@ -372,17 +374,17 @@ vkResetFences(device, 1, &inFlightFences[currentFrame]);
 vkQueueSubmit(graphicsQueue, 1, &submitInfo, inFlightFences[currentFrame]);
 ```
 
-**waitSemaphores**:
+**waitSemaphores:**
 - `imageAvailableSemaphores[currentFrame]`가 Signaled 될 때까지 대기
 
-**waitDstStageMask**:
+**waitDstStageMask:**
 - `VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT`
 - 컬러 어태치먼트 출력 단계에서 대기
 
-**signalSemaphores**:
+**signalSemaphores:**
 - 렌더링 완료 시 `renderFinishedSemaphores[currentFrame]` Signaled
 
-**fence**:
+**fence:**
 - 큐 제출 완료 시 `inFlightFences[currentFrame]` Signaled
 
 #### 5단계: 화면 표시
@@ -416,14 +418,14 @@ currentFrame = (currentFrame + 1) % MAX_FRAMES_IN_FLIGHT;
 
 ### 6.1. 재생성이 필요한 경우
 
-**창 크기 변경**:
+**창 크기 변경:**
 - 사용자가 창 크기 조정
 - 스왑체인 이미지 크기가 더 이상 맞지 않음
 
-**화면 속성 변경**:
+**화면 속성 변경:**
 - 해상도, 방향, 전체 화면/창 모드 전환
 
-**Vulkan 에러 코드**:
+**Vulkan 에러 코드:**
 - `VK_ERROR_OUT_OF_DATE_KHR`: 스왑체인 완전히 무효화
 - `VK_SUBOPTIMAL_KHR`: 사용 가능하지만 최적이 아님
 
@@ -495,7 +497,7 @@ void cleanupSwapChain() {
 }
 ```
 
-**정리 순서**:
+**정리 순서:**
 1. Framebuffer
 2. Command Buffers
 3. Graphics Pipeline
@@ -535,7 +537,7 @@ void mainLoop() {
 }
 ```
 
-**`vkDeviceWaitIdle`**:
+**`vkDeviceWaitIdle`:**
 - 종료 전 모든 GPU 작업 완료 대기
 - 사용 중인 자원을 안전하게 정리
 
@@ -592,7 +594,7 @@ void cleanup() {
 }
 ```
 
-**정리 순서**:
+**정리 순서:**
 1. Swapchain 관련 자원
 2. 동기화 객체 (Semaphores, Fences)
 3. Command Pool
@@ -609,9 +611,9 @@ void cleanup() {
 
 ```
 [CPU - Frame 0]
-1. vkWaitForFences(inFlightFences[0])      → 초기 Signaled이므로 즉시 통과
-2. vkResetFences(inFlightFences[0])        → Unsignaled로 변경
-3. vkAcquireNextImageKHR(...)              → imageAvailableSemaphores[0] Signal
+1. vkWaitForFences(inFlightFences[0])      // 초기 Signaled이므로 즉시 통과
+2. vkResetFences(inFlightFences[0])        // Unsignaled로 변경
+3. vkAcquireNextImageKHR(...)              // imageAvailableSemaphores[0] Signal
 4. vkQueueSubmit(...)
    - Wait: imageAvailableSemaphores[0]
    - Signal: renderFinishedSemaphores[0]
@@ -620,10 +622,10 @@ void cleanup() {
    - Wait: renderFinishedSemaphores[0]
 
 [GPU - Frame 0]
-- imageAvailableSemaphores[0] Signaled → 렌더링 시작
-- 렌더링 완료 → renderFinishedSemaphores[0] Signal
-- 큐 제출 완료 → inFlightFences[0] Signal
-- renderFinishedSemaphores[0] Signaled → 화면 표시
+- imageAvailableSemaphores[0] Signaled -> 렌더링 시작
+- 렌더링 완료 -> renderFinishedSemaphores[0] Signal
+- 큐 제출 완료 -> inFlightFences[0] Signal
+- renderFinishedSemaphores[0] Signaled -> 화면 표시
 ```
 
 ### 9.2. 프레임 1의 흐름
@@ -631,7 +633,7 @@ void cleanup() {
 ```
 [CPU - Frame 1]
 1. currentFrame = 1
-2. vkWaitForFences(inFlightFences[1])      → 초기 Signaled이므로 즉시 통과
+2. vkWaitForFences(inFlightFences[1])      // 초기 Signaled이므로 즉시 통과
 3. Frame 0과 동일한 과정 반복
 
 [GPU]
@@ -643,7 +645,7 @@ void cleanup() {
 ```
 [CPU - Frame 2]
 1. currentFrame = 0 (2 % 2 = 0)
-2. vkWaitForFences(inFlightFences[0])      → Frame 0 완료 대기
+2. vkWaitForFences(inFlightFences[0])      // Frame 0 완료 대기
 3. Frame 0의 자원 재사용
 
 [결과]
@@ -693,9 +695,9 @@ void cleanup() {
 
 ### 11.1. 검은 화면만 보임
 
-**원인**: 동기화 객체 미사용
+**원인:** 동기화 객체 미사용
 
-**해결**:
+**해결:**
 ```cpp
 // 반드시 세마포어와 펜스를 vkQueueSubmit/Present에 전달
 vkQueueSubmit(..., waitSemaphores, signalSemaphores, fence);
@@ -704,9 +706,9 @@ vkQueuePresentKHR(..., waitSemaphores);
 
 ### 11.2. 프레임 간 깜빡임
 
-**원인**: `imagesInFlight` 추적 누락
+**원인:** `imagesInFlight` 추적 누락
 
-**해결**:
+**해결:**
 ```cpp
 if (imagesInFlight[imageIndex] != VK_NULL_HANDLE) {
     vkWaitForFences(device, 1, &imagesInFlight[imageIndex], VK_TRUE, UINT64_MAX);
@@ -716,9 +718,9 @@ imagesInFlight[imageIndex] = inFlightFences[currentFrame];
 
 ### 11.3. 창 크기 변경 시 크래시
 
-**원인**: 스왑체인 재생성 누락
+**원인:** 스왑체인 재생성 누락
 
-**해결**:
+**해결:**
 ```cpp
 if (result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR) {
     recreateSwapChain();
@@ -728,9 +730,9 @@ if (result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR) {
 
 ### 11.4. 종료 시 Validation Error
 
-**원인**: 사용 중인 자원 정리
+**원인:** 사용 중인 자원 정리
 
-**해결**:
+**해결:**
 ```cpp
 void cleanup() {
     vkDeviceWaitIdle(device);  // 모든 GPU 작업 완료 대기
@@ -744,13 +746,13 @@ void cleanup() {
 
 이제 기본적인 렌더링 루프가 완성되었다. 다음 단계:
 
-1. **Vertex Buffer**: 정점 데이터를 GPU 메모리로 전송
-2. **Uniform Buffer**: 셰이더에 동적 데이터 전달
-3. **Texture Mapping**: 이미지를 모델에 적용
-4. **Depth Buffer**: 깊이 테스트 활성화
+1. **Vertex Buffer:** 정점 데이터를 GPU 메모리로 전송
+2. **Uniform Buffer:** 셰이더에 동적 데이터 전달
+3. **Texture Mapping:** 이미지를 모델에 적용
+4. **Depth Buffer:** 깊이 테스트 활성화
 
 다음 편에서는 **Vertex Buffer**를 생성하여 실제 3D 모델 데이터를 렌더링한다.
 
 ---
 
-**다음 편**: [Vulkan] EP12. Vertex Buffer
+**다음 편:** [Vulkan] EP12. Vertex Buffer
