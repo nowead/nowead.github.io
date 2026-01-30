@@ -76,16 +76,16 @@ Vulkan은 명시적 동기화를 위한 두 가지 주요 객체를 제공한다
 
 **Wait Semaphore:**
 
-```
+```plaintext
 vkQueueSubmit(..., waitSemaphores, ...)
-// 지정된 세마포어가 Signaled 될 때까지 큐 실행 대기
+→ 지정된 세마포어가 Signaled 될 때까지 큐 실행 대기
 ```
 
 **Signal Semaphore:**
 
-```
+```plaintext
 vkQueueSubmit(..., signalSemaphores, ...)
-// 큐 작업 완료 시 세마포어를 Signaled 상태로 변경
+→ 큐 작업 완료 시 세마포어를 Signaled 상태로 변경
 ```
 
 ### 2.3. 세마포어 생성
@@ -609,7 +609,7 @@ void cleanup() {
 
 ### 9.1. 프레임 0의 흐름
 
-```
+```plaintext
 [CPU - Frame 0]
 1. vkWaitForFences(inFlightFences[0])      // 초기 Signaled이므로 즉시 통과
 2. vkResetFences(inFlightFences[0])        // Unsignaled로 변경
@@ -630,7 +630,7 @@ void cleanup() {
 
 ### 9.2. 프레임 1의 흐름
 
-```
+```plaintext
 [CPU - Frame 1]
 1. currentFrame = 1
 2. vkWaitForFences(inFlightFences[1])      // 초기 Signaled이므로 즉시 통과
@@ -642,7 +642,7 @@ void cleanup() {
 
 ### 9.3. 프레임 2의 흐름
 
-```
+```plaintext
 [CPU - Frame 2]
 1. currentFrame = 0 (2 % 2 = 0)
 2. vkWaitForFences(inFlightFences[0])      // Frame 0 완료 대기
