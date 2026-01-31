@@ -449,6 +449,6 @@ void cleanup() {
 
 ## 마치며
 
-이 문서에서는 Vulkan에서 정점 데이터를 정의하고 GPU 메모리로 전달하는 방법을 살펴보았다. `VkVertexInputBindingDescription`과 `VkVertexInputAttributeDescription`을 통해 정점 버퍼의 레이아웃을 정의하고, 스테이징 버퍼를 통해 CPU 메모리의 데이터를 GPU 전용 메모리로 효율적으로 전송하는 패턴을 이해했다.
+이 문서에서는 Vulkan에서 정점 데이터를 정의하고 GPU 메모리로 전달하는 방법을 살펴보았다. `VkVertexInputBindingDescription`과 `VkVertexInputAttributeDescription`을 통해 정점 버퍼의 레이아웃을 정의하고, 버퍼 생성과 메모리 바인딩의 기본 개념을 이해했다.
 
-다음 편에서는 인덱스 버퍼를 활용한 효율적인 메시 렌더링을 다룰 예정이다.
+다음 편에서는 스테이징 버퍼를 활용한 효율적인 GPU 메모리 전송 패턴을 상세히 다룰 예정이다.
