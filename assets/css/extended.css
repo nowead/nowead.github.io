@@ -241,6 +241,47 @@ a:hover {
    Portfolio Styles
    ============================================ */
 
+/* Portfolio Header */
+.portfolio-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 0 20px 0;
+  border-bottom: 2px solid var(--accent);
+  margin-bottom: 40px;
+}
+
+.portfolio-header-title {
+  font-size: 2em;
+  font-weight: 700;
+  color: var(--accent);
+  margin: 0;
+}
+
+.portfolio-home-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 2px solid var(--accent);
+  border-radius: 50%;
+  color: var(--accent);
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.portfolio-home-button:hover {
+  background-color: var(--accent);
+  color: var(--background);
+  transform: scale(1.05);
+}
+
+.portfolio-home-button svg {
+  width: 20px;
+  height: 20px;
+}
+
 /* Override Terminal theme's centered layout for portfolio */
 body:has(.portfolio-page) .container,
 body:has(.portfolio-page) .wrapper {
