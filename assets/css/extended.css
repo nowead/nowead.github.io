@@ -766,6 +766,11 @@ body:has(.portfolio-page) main {
   font-size: 0.9em;
 }
 
+.portfolio-detail-content pre code {
+  color: #e2e8f0;
+  background-color: transparent;
+}
+
 .portfolio-detail-content p code {
   background-color: #f1f5f9;
   color: #e11d48;

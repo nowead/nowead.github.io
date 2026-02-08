@@ -24,7 +24,7 @@ WebServ는 42Seoul의 네트워크 프로젝트로, C++98 표준을 사용하여
 
 ### Layered Architecture (계층 구조)
 
-```
+```plaintext
 ┌─────────────────────────────────────────────────────────────┐
 │                    Presentation Layer                       │
 │                      (main.cpp)                             │
@@ -158,7 +158,7 @@ private:
 - URI 길이 제한 (414 URI Too Long)
 - Body 크기 제한 (413 Payload Too Large)
 
-### 3. CGI (Common Gateway Interface) 지원
+### 3. **CGI**(Common Gateway Interface) 지원
 
 **CGIHandler 클래스:**
 ```cpp
@@ -227,7 +227,7 @@ public:
     static const GlobalConfig& getInstance();
     static void initGlobalConfig(const char* path);
     
-    // 3단계 검색: 리스닝 소켓 → 도메인 이름 → URL 경로
+    // 3단계 검색: 리스닝 소켓 -> 도메인 이름 -> URL 경로
     const RequestConfig* findRequestConfig(
         int listenFd,                   // 리스닝 소켓 FD
         const std::string& domainName,  // Host 헤더
@@ -294,7 +294,7 @@ private:
 
 ## 프로젝트 구조
 
-```
+```plaintext
 src/
 ├── main.cpp                 # 엔트리 포인트
 ├── GlobalConfig/            # 전역 설정 관리 (싱글톤)

@@ -179,7 +179,7 @@ t_vec3 canvas_to_viewport(int x, int y, t_img *img, t_camera *camera) {
 ## .rt 파일 포맷
 
 **장면 파일 예시:**
-```
+```plaintext
 A 0.2 255,255,255          # Ambient light
 C -50,0,20 0,0,1 70        # Camera (position, direction, FOV)
 L -40,0,30 0.7 255,255,255 # Point light
@@ -192,7 +192,7 @@ co 0,-10,0 0,1,0 20 30 255,255,0 # Cone (vertex, axis, dia, height, color)
 
 ## 조작 방법
 
-```
+```plaintext
 W / A / S / D : 카메라 전/후/좌/우 이동
 Q / E         : 카메라 하강 / 상승
 방향키        : 카메라 시점 회전 (상/하/좌/우)
@@ -201,7 +201,7 @@ ESC           : 프로그램 종료
 
 ## 프로젝트 구조
 
-```
+```plaintext
 miniRT/
 ├── includes/          # 헤더 파일
 │   └── minirt.h

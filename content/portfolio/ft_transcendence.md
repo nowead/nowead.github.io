@@ -35,7 +35,7 @@ ft_transcendence는 42Seoul의 최종 웹 프로젝트로, 실시간 멀티플�
 
 ### Frontend - 계층형 아키텍처
 
-```
+```plaintext
 ┌─────────────────────────────────────────────────────────────┐
 │                    Presentation Layer                       │
 │   App.ts │ Terminal.ts │ GamePage.ts │ UserProfile.ts      │
@@ -59,7 +59,7 @@ ft_transcendence는 42Seoul의 최종 웹 프로젝트로, 실시간 멀티플�
 
 ### Backend - Fastify 플러그인 아키텍처
 
-```
+```plaintext
 src/
 ├── app.ts                    # Fastify 앱 설정
 ├── server.ts                 # 서버 엔트리 포인트
@@ -112,7 +112,7 @@ async login(username: string, password: string): Promise<void> {
 - `google-auth-library` 사용
 - 자동 계정 생성 및 연동
 
-#### 2FA (TOTP)
+#### **2FA**(Two-Factor Authentication)
 ```typescript
 // TwoFAModal.ts
 async verifyTwoFA(code: string): Promise<void> {
@@ -325,7 +325,7 @@ terminal.writeLine(i18next.t('welcome.message'));
 ```
 
 #### 번역 파일 구조
-```
+```plaintext
 public/locales/
 ├── ko/
 │   └── translation.json

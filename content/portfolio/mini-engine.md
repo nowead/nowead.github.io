@@ -15,7 +15,7 @@ Mini-Engine은 C++20로 구현된 현대적인 멀티 백엔드 렌더링 엔진
 
 - **언어:** C++20
 - **그래픽 API:** Vulkan 1.3, WebGPU, DirectX 12 (예정), Metal (예정)
-- **렌더링:** PBR (Cook-Torrance BRDF), IBL, GPU-Driven Rendering
+- **렌더링:** **PBR**(Physically Based Rendering), **IBL**(Image Based Lighting), GPU-Driven Rendering
 - **빌드 시스템:** CMake 3.28+, Emscripten (WebAssembly)
 - **플랫폼:** Linux, macOS, Windows, Web (WASM)
 
@@ -44,18 +44,18 @@ class RHITexture;
 - Layer 4: Backend Implementations (Vulkan, WebGPU)
 ```
 
-### 2. 물리 기반 렌더링**PBR**(Physically Based Rendering)
+### 2. 물리 기반 렌더링 **PBR**(Physically Based Rendering)
 
 **Cook-Torrance BRDF 구현:**
 - Metallic/Roughness 워크플로우
-- Normal Distribution Function (GGX)
+- **NDF**(Normal Distribution Function) - GGX
 - Fresnel-Schlick 근사
 - Smith Geometry Function
 
-**Image Based Lighting (IBL):**
+**IBL**(Image Based Lighting):
 - HDR 환경 맵 지원
-- Irradiance Convolution (확산 조명)
-- Prefiltered Specular (반사 조명)
+- **Irradiance Convolution**(확산 조명)
+- **Prefiltered Specular**(반사 조명)
 - BRDF Integration LUT
 
 ### 3. GPU-Driven 렌더링
@@ -88,19 +88,20 @@ void main() {
 #### Vulkan 1.3 Backend (완성)
 - **VMA**(Vulkan Memory Allocator) 통합
 - SPIR-V 셰이더 컴파일
-- Dynamic Rendering (macOS/Windows)
+- **Dynamic Rendering**(macOS/Windows)
 - Layout Transition 자동 관리
 
 #### WebGPU Backend (완성)
 - Emscripten WASM 빌드
-- SPIR-V → WGSL 자동 변환
+- SPIR-V -> WGSL 자동 변환
 - 브라우저 WebGPU API 활용
 - 185KB WASM 번들 크기
 
 ## 개발 과정 및 리팩터링
 
 ### Phase 1-7: Monolith to Layered Architecture
-단일 파일 (main.cpp) 구조에서 20+ 재사용 가능한 클래스로 분리:
+
+단일 파일 **main.cpp**(main.cpp) 구조에서 20+ 재사용 가능한 클래스로 분리:
 
 **개선 지표:**
 | 메트릭 | Before | After | 개선도 |
@@ -111,16 +112,17 @@ void main() {
 | 플랫폼 | 1 | 3+ | 크로스 플랫폼 |
 
 ### Phase 8-9: RHI Migration
+
 완전한 플랫폼 독립 달성:
 
-- Vulkan 의존성 제거 (Application Layer)
+- Vulkan 의존성 제거 **Application Layer**(Application Layer)
 - TextureLayout enum 추가
 - Layout Transition 메소드 구현
 - Zero Platform Leakage 달성
 
 ## 프로젝트 통계
 
-```
+```plaintext
 총 코드 라인: ~24,900 LOC
 - Vulkan Backend: ~8,000 LOC
 - WebGPU Backend: ~6,500 LOC
@@ -149,11 +151,11 @@ make serve-wasm        # http://localhost:8000
 
 ## 핵심 설계 원칙
 
-1. **API Abstraction**: 그래픽 API가 백엔드 구현에만 격리
-2. **Dependency Rule**: 상위 레이어는 RHI 추상화에만 의존
-3. **Single Responsibility**: 각 클래스는 하나의 명확한 책임
-4. **RAII**: `vk::raii::*` 래퍼를 통한 자동 리소스 관리
-5. **Zero-Cost Abstraction**: 가상 함수 오버헤드 < 5%
+1. **API Abstraction:** 그래픽 API가 백엔드 구현에만 격리
+2. **Dependency Rule:** 상위 레이어는 RHI 추상화에만 의존
+3. **Single Responsibility:** 각 클래스는 하나의 명확한 책임
+4. **RAII:** `vk::raii::*` 래퍼를 통한 자동 리소스 관리
+5. **Zero-Cost Abstraction:** 가상 함수 오버헤드 < 5%
 
 ## 향후 계획
 
