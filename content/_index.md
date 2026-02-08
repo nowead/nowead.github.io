@@ -121,7 +121,7 @@ Vulkan과 WebGPU를 통한 Desktop과 Web 환경 지원
 평점평균: 4.11 / 4.5
 
 **42Seoul**
-- Kadet (2023년 10월 ~)
+- Cadet (2023년 10월 ~)
 - Transcender (2025년 8월 ~)
 
 </div>
