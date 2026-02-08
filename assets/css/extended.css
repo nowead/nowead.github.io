@@ -241,6 +241,21 @@ a:hover {
    Portfolio Styles
    ============================================ */
 
+/* Portfolio Page - Full Width Layout */
+.portfolio-page {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 40px 60px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .portfolio-page {
+    padding: 20px;
+  }
+}
+
 /* Portfolio Container - Two Column Layout */
 .portfolio-container {
   display: flex;
