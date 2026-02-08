@@ -32,18 +32,18 @@ WebServ는 42Seoul의 네트워크 프로젝트로, C++98 표준을 사용하여
                               │
 ┌─────────────────────────────────────────────────────────────┐
 │                   Business Logic Layer                      │
-│  ServerManager │ EventHandler │ TimeoutHandler │ AuthManager │
+│  ServerManager │ EventHandler │ TimeoutHandler │ AuthManager│
 └─────────────────────────────────────────────────────────────┘
                               │
-┌─────────────────────────────────────────────────────────────┐
-│                     Service Layer                           │
-│  Demultiplexer │ ClientManager │ RequestParser │ StaticHandler │
-│  CgiHandler │ ResponseBuilder                               │
-└─────────────────────────────────────────────────────────────┘
+┌───────────────────────────────────────────────────────────────┐
+│                     Service Layer                             │
+│  Demultiplexer │ ClientManager │ RequestParser │ StaticHandler│
+│  CgiHandler │ ResponseBuilder                                 │
+└───────────────────────────────────────────────────────────────┘
                               │
 ┌─────────────────────────────────────────────────────────────┐
 │                      Data Layer                             │
-│  GlobalConfig │ ServerConfig │ RequestConfig │ ClientSession │
+│  GlobalConfig │ ServerConfig │ RequestConfig │ ClientSession│
 └─────────────────────────────────────────────────────────────┘
 ```
 
