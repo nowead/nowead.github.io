@@ -14,22 +14,22 @@ ft_transcendence는 42Seoul의 최종 웹 프로젝트로, 실시간 멀티플�
 ## 핵심 기술 스택
 
 ### Frontend
-- **언어**: TypeScript (Vanilla JS, 프레임워크 없음)
-- **스타일링**: Tailwind CSS
-- **렌더링**: HTML5 Canvas (게임)
-- **실시간 통신**: WebSocket
-- **국제화**: i18next (한국어, 영어, 일본어)
+- **언어:** TypeScript (Vanilla JS, 프레임워크 없음)
+- **스타일링:** Tailwind CSS
+- **렌더링:** HTML5 Canvas (게임)
+- **실시간 통신:** WebSocket
+- **국제화:** i18next (한국어, 영어, 일본어)
 
 ### Backend
-- **런타임**: Node.js
-- **프레임워크**: Fastify
-- **데이터베이스**: SQLite
-- **인증**: JWT, Google OAuth, 2FA (TOTP)
+- **런타임:** Node.js
+- **프레임워크:** Fastify
+- **데이터베이스:** SQLite
+- **인증:** JWT, Google OAuth, 2FA (TOTP)
 
 ### DevOps
-- **컨테이너화**: Docker, Docker Compose
-- **빌드 도구**: TypeScript Compiler, PostCSS
-- **웹 서버**: Nginx (프로덕션)
+- **컨테이너화:** Docker, Docker Compose
+- **빌드 도구:** TypeScript Compiler, PostCSS
+- **웹 서버:** Nginx (프로덕션)
 
 ## 아키텍처
 
@@ -400,24 +400,24 @@ npm run dev
 
 ## 주요 성과
 
-- **풀스택 웹 애플리케이션**: TypeScript 기반 Frontend + Backend 구현
-- **실시간 게임 로직**: WebSocket을 통한 60 FPS 멀티플레이어 게임
-- **토너먼트 시스템**: Single Elimination 방식 대진표 자동 생성
-- **OAuth 통합**: Google OAuth 2.0 구현 (Authorization Code Flow)
-- **2FA 보안**: TOTP 기반 2단계 인증
-- **다국어 지원**: i18next를 통한 3개 언어 (한국어, 영어, 일본어)
-- **모듈화된 아키텍처**: 계층 분리 및 의존성 주입 패턴
+- **풀스택 웹 애플리케이션:** TypeScript 기반 Frontend + Backend 구현
+- **실시간 게임 로직:** WebSocket을 통한 60 FPS 멀티플레이어 게임
+- **토너먼트 시스템:** Single Elimination 방식 대진표 자동 생성
+- **OAuth 통합:** Google OAuth 2.0 구현 (Authorization Code Flow)
+- **2FA 보안:** TOTP 기반 2단계 인증
+- **다국어 지원:** i18next를 통한 3개 언어 (한국어, 영어, 일본어)
+- **모듈화된 아키텍처:** 계층 분리 및 의존성 주입 패턴
 
 ## 기술적 도전 과제
 
-1. **WebSocket 상태 동기화**: 클라이언트-서버 게임 상태 일관성 유지
-2. **Vanilla TypeScript SPA**: 프레임워크 없이 라우팅 및 상태 관리 구현
-3. **토너먼트 로직**: 대진표 생성 알고리즘, 승자 자동 배정
-4. **OAuth & 2FA**: 보안 토큰 관리, TOTP 검증 구현
-5. **Canvas 렌더링**: 60 FPS 게임 렌더링 최적화
+1. **WebSocket 상태 동기화:** 클라이언트-서버 게임 상태 일관성 유지
+2. **Vanilla TypeScript SPA:** 프레임워크 없이 라우팅 및 상태 관리 구현
+3. **토너먼트 로직:** 대진표 생성 알고리즘, 승자 자동 배정
+4. **OAuth & 2FA:** 보안 토큰 관리, TOTP 검증 구현
+5. **Canvas 렌더링:** 60 FPS 게임 렌더링 최적화
 
 ---
 
-**개발 기간**: 2024.09 ~ 2025.04  
-**팀 구성**: 4인  
-**주요 기술**: TypeScript, Fastify, WebSocket, OAuth, 2FA, SQLite, i18next, Docker
+**개발 기간:** 2025.04 ~ 2025.07  
+**팀 구성:** 4인  
+**주요 기술:** TypeScript, Fastify, WebSocket, OAuth, 2FA, SQLite, i18next, Docker

@@ -1,6 +1,6 @@
 ---
 title: "WebServ - C++98 HTTP Server"
-date: 2025-04-01
+date: 2025-01-01
 weight: 3
 tags: ["C++98", "HTTP", "Network", "42Seoul", "kqueue", "CGI"]
 github: "https://github.com/nowead/webserv"
@@ -13,12 +13,12 @@ WebServ는 42Seoul의 네트워크 프로젝트로, C++98 표준을 사용하여
 
 ## 핵심 기술 스택
 
-- **언어**: C++98
-- **프로토콜**: HTTP/1.1
-- **I/O 멀티플렉싱**: kqueue (macOS)
-- **아키텍처**: Reactor Pattern, Event-Driven
-- **CGI 지원**: Python, Bash 스크립트 실행
-- **빌드 시스템**: Makefile
+- **언어:** C++98
+- **프로토콜:** HTTP/1.1
+- **I/O 멀티플렉싱:** kqueue (macOS)
+- **아키텍처:** Reactor Pattern, Event-Driven
+- **CGI 지원:** Python, Bash 스크립트 실행
+- **빌드 시스템:** Makefile
 
 ## 아키텍처
 
@@ -329,24 +329,24 @@ make
 
 ## 주요 성과
 
-- **HTTP/1.1 프로토콜 완전 구현**: GET, POST, DELETE 메소드 지원
-- **이벤트 기반 아키텍처**: kqueue를 활용한 논블로킹 I/O
-- **CGI 지원**: Python, Bash 스크립트 실행 및 환경 변수 전달
-- **가상 호스트**: 도메인별 독립적인 설정 관리
-- **타임아웃 관리**: 비활성 연결 자동 정리
-- **오류 처리**: 커스텀 오류 페이지, 상세한 오류 메시지
-- **Chunked Transfer Encoding**: 스트리밍 데이터 전송 지원
+- **HTTP/1.1 프로토콜 완전 구현:** GET, POST, DELETE 메소드 지원
+- **이벤트 기반 아키텍처:** kqueue를 활용한 논블로킹 I/O
+- **CGI 지원:** Python, Bash 스크립트 실행 및 환경 변수 전달
+- **가상 호스트:** 도메인별 독립적인 설정 관리
+- **타임아웃 관리:** 비활성 연결 자동 정리
+- **오류 처리:** 커스텀 오류 페이지, 상세한 오류 메시지
+- **Chunked Transfer Encoding:** 스트리밍 데이터 전송 지원
 
 ## 기술적 도전 과제
 
-1. **kqueue API 마스터**: macOS의 이벤트 알림 메커니즘 이해
-2. **논블로킹 I/O**: EAGAIN/EWOULDBLOCK 처리, 부분 읽기/쓰기
-3. **HTTP 파싱**: RFC 9110/9112 준수, Chunked Encoding
-4. **CGI 프로세스 관리**: fork/exec, 파이프 통신, 환경 변수
-5. **메모리 관리**: C++98 제약 (스마트 포인터 없음), RAII 패턴 활용
+1. **kqueue API 마스터:** macOS의 이벤트 알림 메커니즘 이해
+2. **논블로킹 I/O:** EAGAIN/EWOULDBLOCK 처리, 부분 읽기/쓰기
+3. **HTTP 파싱:** RFC 9110/9112 준수, Chunked Encoding
+4. **CGI 프로세스 관리:** fork/exec, 파이프 통신, 환경 변수
+5. **메모리 관리:** C++98 제약 (스마트 포인터 없음), RAII 패턴 활용
 
 ---
 
-**개발 기간**: 2024.06 ~ 2025.04  
-**팀 구성**: 4인 (sehyupar, seonseo, damin, taerakim)  
-**주요 기술**: C++98, HTTP/1.1, kqueue, Reactor Pattern, CGI, 논블로킹 I/O
+**개발 기간:** 2025.01 ~ 2025.03  
+**팀 구성:** 4인 (sehyupar, seonseo, damin, taerakim)  
+**주요 기술:** C++98, HTTP/1.1, kqueue, Reactor Pattern, CGI, 논블로킹 I/O

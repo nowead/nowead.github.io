@@ -1,6 +1,6 @@
 ---
 title: "Mini-Engine - Multi-Backend Rendering Engine"
-date: 2026-01-07
+date: 2025-09-01  
 weight: 1
 tags: ["C++20", "Vulkan", "WebGPU", "PBR", "RHI", "Graphics"]
 github: "https://github.com/nowead/Mini-Engine"
@@ -9,19 +9,19 @@ summary: "RHI 기반 멀티 백엔드 렌더링 엔진 - Vulkan 1.3 & WebGPU 지
 
 ## 프로젝트 개요
 
-Mini-Engine은 C++20로 구현된 현대적인 멀티 백엔드 렌더링 엔진으로, RHI (Render Hardware Interface) 아키텍처를 통해 Vulkan, WebGPU, DirectX 12, Metal 백엔드를 지원하도록 설계되었습니다. Vulkan-tutorial.com의 학습 자료에서 시작하여 확장 가능한 엔진 아키텍처로 발전했습니다.
+Mini-Engine은 C++20로 구현된 현대적인 멀티 백엔드 렌더링 엔진으로, **RHI**(Render Hardware Interface) 아키텍처를 통해 Vulkan, WebGPU, DirectX 12, Metal 백엔드를 지원하도록 설계되었습니다. Vulkan-tutorial.com의 학습 자료에서 시작하여 확장 가능한 엔진 아키텍처로 발전했습니다.
 
 ## 핵심 기술 스택
 
-- **언어**: C++20
-- **그래픽 API**: Vulkan 1.3, WebGPU, DirectX 12 (예정), Metal (예정)
-- **렌더링**: PBR (Cook-Torrance BRDF), IBL, GPU-Driven Rendering
-- **빌드 시스템**: CMake 3.28+, Emscripten (WebAssembly)
-- **플랫폼**: Linux, macOS, Windows, Web (WASM)
+- **언어:** C++20
+- **그래픽 API:** Vulkan 1.3, WebGPU, DirectX 12 (예정), Metal (예정)
+- **렌더링:** PBR (Cook-Torrance BRDF), IBL, GPU-Driven Rendering
+- **빌드 시스템:** CMake 3.28+, Emscripten (WebAssembly)
+- **플랫폼:** Linux, macOS, Windows, Web (WASM)
 
 ## 주요 기능
 
-### 1. RHI (Render Hardware Interface) 아키텍처
+### 1. **RHI**(Render Hardware Interface) 아키텍처
 
 15개의 순수 추상 인터페이스로 구성된 RHI 레이어를 통해 플랫폼 독립적인 렌더링을 구현:
 
@@ -36,12 +36,15 @@ class RHITexture;
 ```
 
 **계층 구조:**
+```plaintext
+```plaintext
 - Layer 1: Application (플랫폼 독립적)
 - Layer 2: High-Level Subsystems (API 독립적)
 - Layer 3: RHI Abstractions (15개 인터페이스)
 - Layer 4: Backend Implementations (Vulkan, WebGPU)
+```
 
-### 2. 물리 기반 렌더링 (PBR)
+### 2. 물리 기반 렌더링**PBR**(Physically Based Rendering)
 
 **Cook-Torrance BRDF 구현:**
 - Metallic/Roughness 워크플로우
@@ -83,7 +86,7 @@ void main() {
 ### 4. 멀티 백엔드 지원
 
 #### Vulkan 1.3 Backend (완성)
-- VMA (Vulkan Memory Allocator) 통합
+- **VMA**(Vulkan Memory Allocator) 통합
 - SPIR-V 셰이더 컴파일
 - Dynamic Rendering (macOS/Windows)
 - Layout Transition 자동 관리
@@ -169,5 +172,5 @@ make serve-wasm        # http://localhost:8000
 
 ---
 
-**개발 기간**: 2024.12 ~ 2026.01 (진행 중)  
-**주요 기술**: C++20, Vulkan 1.3, WebGPU, PBR, IBL, GPU-Driven Rendering, RAII, RHI Pattern
+**개발 기간:** 2025.09 ~ (진행 중)  
+**주요 기술:** C++20, Vulkan 1.3, WebGPU, PBR, IBL, GPU-Driven Rendering, RAII, RHI Pattern

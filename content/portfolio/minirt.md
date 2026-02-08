@@ -1,6 +1,6 @@
 ---
 title: "miniRT - Ray Tracing Renderer"
-date: 2024-10-01
+date: 2024-09-01
 weight: 2
 tags: ["C", "Ray Tracing", "Graphics", "42Seoul", "Phong", "Texture Mapping"]
 github: "https://github.com/nowead/miniRT"
@@ -13,11 +13,11 @@ miniRT는 42Seoul의 그래픽스 프로젝트로, CPU 기반의 Ray Tracing 렌
 
 ## 핵심 기술 스택
 
-- **언어**: C (C99)
-- **그래픽 라이브러리**: MiniLibX (macOS 및 Linux 지원)
-- **렌더링 기법**: Ray Tracing, Phong Reflection Model
-- **텍스처**: XPM 포맷, Bump Mapping
-- **빌드 시스템**: Makefile
+- **언어:** C (C99)
+- **그래픽 라이브러리:** MiniLibX (macOS 및 Linux 지원)
+- **렌더링 기법:** Ray Tracing, Phong Reflection Model
+- **텍스처:** XPM 포맷, Bump Mapping
+- **빌드 시스템:** Makefile
 
 ## 주요 기능
 
@@ -51,7 +51,7 @@ t_color trace_ray(t_scene *scene, t_vec3 ray_dir) {
 
 ### 2. 지원 오브젝트 및 교차 검사
 
-**Sphere (구)**
+**Sphere**(구)
 ```c
 void intersect_ray_sphere(t_inter_vars vars) {
     // 이차 방정식 계수 계산
@@ -68,11 +68,11 @@ void intersect_ray_sphere(t_inter_vars vars) {
 }
 ```
 
-**Plane (평면)**
+**Plane**(평면)
 - 무한 평면 ray-plane 교차 검사
 - 법선 벡터 기반 조명 계산
 
-**Cylinder (원기둥)**
+**Cylinder**(원기둥)
 - 원기둥 측면 (side) 및 양쪽 캡 (top/bottom cap) 교차 검사
 - 높이 제한 조건 검사
 
@@ -147,7 +147,7 @@ t_color get_checkerboard_color(t_checkerboard *checkerboard,
 
 **Bump Mapping:**
 - 법선 맵을 사용한 표면 디테일 향상
-- World space → Local space 변환
+- World space -> Local space 변환
 
 ### 5. 카메라 시스템
 
@@ -238,23 +238,23 @@ make
 
 ## 주요 성과
 
-- **Ray Tracing 알고리즘 완전 구현**: CPU 기반 광선 추적 렌더러
-- **다양한 오브젝트 지원**: Sphere, Plane, Cylinder, Cone
-- **사실적인 조명**: Phong Reflection Model (Ambient + Diffuse + Specular)
-- **Texture Mapping**: 체커보드, XPM 이미지, Bump Mapping
-- **실시간 카메라 제어**: 키보드 입력을 통한 카메라 이동 및 회전
-- **파싱 시스템**: .rt 파일 형식 정의 및 파싱 구현
+- **Ray Tracing 알고리즘 완전 구현:** CPU 기반 광선 추적 렌더러
+- **다양한 오브젝트 지원:** Sphere, Plane, Cylinder, Cone
+- **사실적인 조명:** Phong Reflection Model (Ambient + Diffuse + Specular)
+- **Texture Mapping:** 체커보드, XPM 이미지, Bump Mapping
+- **실시간 카메라 제어:** 키보드 입력을 통한 카메라 이동 및 회전
+- **파싱 시스템:** .rt 파일 형식 정의 및 파싱 구현
 
 ## 기술적 도전 과제
 
-1. **이차 방정식 해결**: Sphere, Cylinder, Cone 교차 검사
-2. **벡터 수학 구현**: Dot product, Cross product, Normalization
-3. **좌표계 변환**: World space ↔ Local space ↔ Texture space
+1. **이차 방정식 해결:** Sphere, Cylinder, Cone 교차 검사
+2. **벡터 수학 구현:** Dot product, Cross product, Normalization
+3. **좌표계 변환:** World space <-> Local space <-> Texture space
 4. **조명 계산 최적화**: Shadow ray, Reflection ray 구현
 5. **메모리 관리**: MiniLibX와 C 표준 라이브러리 조합
 
 ---
 
-**개발 기간**: 2024.08 ~ 2024.10  
-**팀 구성**: 2인 (민대원, 서성진)  
-**주요 기술**: C, Ray Tracing, Phong Reflection, Texture Mapping, MiniLibX
+**개발 기간:** 2024.09 ~ 2024.10  
+**팀 구성:** 2인 (민대원, 서성진)  
+**주요 기술:** C, Ray Tracing, Phong Reflection, Texture Mapping, MiniLibX
