@@ -1,0 +1,56 @@
+{{ define "main" }}
+  <main class="post">
+    <article class="portfolio-detail">
+      <div class="portfolio-detail-header">
+        <h1 class="post-title">{{ .Title }}</h1>
+        
+        <div class="portfolio-detail-meta">
+          {{ if .Date }}
+            <time class="post-date">
+              {{ .Date.Format "2006.01" }}
+            </time>
+          {{ end }}
+          
+          {{ with .Params.tags }}
+            <div class="post-tags">
+              {{ range . }}
+                <span class="post-tag"><a href="{{ "/tags/" | relURL }}{{ . | urlize }}">#{{ . }}</a></span>
+              {{ end }}
+            </div>
+          {{ end }}
+        </div>
+        
+        {{ with .Params.description }}
+        <p class="portfolio-detail-description">{{ . }}</p>
+        {{ end }}
+      </div>
+
+      <div class="post-content portfolio-detail-content">
+        {{ .Content }}
+      </div>
+
+      <div class="portfolio-detail-nav">
+        <a href="/portfolio" class="portfolio-back-button">
+          ← 포트폴리오 목록으로
+        </a>
+        
+        {{ if or .NextInSection .PrevInSection }}
+        <div class="portfolio-project-nav">
+          {{ if .NextInSection }}
+            <a href="{{ .NextInSection.Permalink }}" class="portfolio-nav-button prev">
+              <span class="nav-label">이전 프로젝트</span>
+              <span class="nav-title">{{ .NextInSection.Title }}</span>
+            </a>
+          {{ end }}
+          {{ if .PrevInSection }}
+            <a href="{{ .PrevInSection.Permalink }}" class="portfolio-nav-button next">
+              <span class="nav-label">다음 프로젝트</span>
+              <span class="nav-title">{{ .PrevInSection.Title }}</span>
+            </a>
+          {{ end }}
+        </div>
+        {{ end }}
+      </div>
+    </article>
+  </main>
+{{ end }}

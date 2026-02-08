@@ -43,22 +43,28 @@ theme = "terminal"
       logoHomeLink = "/"
 
     [[languages.ko.menu.main]]
+      identifier = "portfolio"
+      name = "Portfolio"
+      url = "/portfolio"
+      weight = 1
+
+    [[languages.ko.menu.main]]
       identifier = "series"
       name = "Series"
       url = "/series"
-      weight = 1
+      weight = 2
 
     [[languages.ko.menu.main]]
       identifier = "vulkan-study"
       name = "Vulkan Study"
       url = "/vulkan-study-log"
-      weight = 2
+      weight = 3
 
     [[languages.ko.menu.main]]
       identifier = "tags"
       name = "Tags"
       url = "/tags"
-      weight = 3
+      weight = 4
 
   [languages.en]
     languageName = "English"
@@ -75,22 +81,28 @@ theme = "terminal"
       logoHomeLink = "/en/"
 
     [[languages.en.menu.main]]
+      identifier = "portfolio"
+      name = "Portfolio"
+      url = "/en/portfolio"
+      weight = 1
+
+    [[languages.en.menu.main]]
       identifier = "series"
       name = "Series"
       url = "/en/series"
-      weight = 1
+      weight = 2
 
     [[languages.en.menu.main]]
       identifier = "vulkan-study"
       name = "Vulkan Study"
       url = "/en/vulkan-study-log"
-      weight = 2
+      weight = 3
 
     [[languages.en.menu.main]]
       identifier = "tags"
       name = "Tags"
       url = "/en/tags"
-      weight = 3
+      weight = 4
 
 # 마크다운 설정
 [markup]
