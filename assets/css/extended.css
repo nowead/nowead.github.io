@@ -241,6 +241,20 @@ a:hover {
    Portfolio Styles
    ============================================ */
 
+/* Override Terminal theme's centered layout for portfolio */
+body:has(.portfolio-page) .container,
+body:has(.portfolio-page) .wrapper {
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+body:has(.portfolio-page) main {
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
 /* Portfolio Page - Full Width Layout */
 .portfolio-page {
   width: 100%;
