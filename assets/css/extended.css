@@ -484,19 +484,20 @@ body:has(.portfolio-page) main {
 /* Profile Skills */
 .profile-skills {
   font-size: 0.88em;
-  line-height: 1.6;
+  line-height: 1.7;
 }
 
 .profile-skills p {
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   color: var(--foreground);
+  line-height: 1.6;
 }
 
 .profile-skills strong {
   color: var(--accent);
   font-weight: 600;
-  display: block;
-  margin-bottom: 4px;
+  display: inline;
+  margin-right: 6px;
 }
 
 .profile-skills h2 {
@@ -508,6 +509,39 @@ body:has(.portfolio-page) main {
 .portfolio-main {
   flex: 1;
   min-width: 0;
+}
+
+/* Introduction Quote */
+.portfolio-intro-quote {
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  border-left: 4px solid var(--accent);
+  padding: 20px 24px;
+  margin-bottom: 32px;
+  position: relative;
+  border-radius: 0 4px 4px 0;
+  box-shadow: 0 2px 8px rgba(30, 58, 138, 0.08);
+}
+
+.portfolio-intro-quote::before {
+  content: '“';
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 3em;
+  color: var(--accent);
+  opacity: 0.15;
+  font-family: Georgia, serif;
+  line-height: 1;
+}
+
+.portfolio-intro-quote p {
+  color: #334155;
+  font-size: 0.95em;
+  line-height: 1.8;
+  margin: 0;
+  font-style: italic;
+  position: relative;
+  z-index: 1;
 }
 
 .portfolio-section-title {

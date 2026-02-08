@@ -21,17 +21,12 @@ period = "Transcender (2025년 8월 ~)"
 
 ## 핵심 기술
 
-**Graphics APIs**  
-Vulkan 1.3, WebGPU
+**Graphics APIs**: Vulkan 1.3, WebGPU, OpenGL
 
-**Languages**  
-C++20, C99, TypeScript, GLSL/HLSL
+**Languages**: C++20, C99, TypeScript, GLSL/HLSL
 
-**Rendering**  
-PBR, IBL, GPU-Driven Rendering, Ray Tracing
+**Rendering**: PBR, IBL, GPU-Driven Rendering, Ray Tracing
 
-**Architecture**  
-RHI Pattern, Multi-Backend Design
+**Architecture**: RHI Pattern, Multi-Backend Design
 
-**Tools**  
-CMake, Docker
+**Tools**: CMake, Docker, RenderDoc, NSight
