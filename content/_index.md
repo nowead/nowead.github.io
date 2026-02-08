@@ -16,7 +16,7 @@ title = "Home"
 
 ## 주요 프로젝트
 
-### Mini-Engine: PBR & GPU-Driven 렌더링 엔진 (완료)
+### Mini-Engine: PBR & GPU-Driven 렌더링 엔진
 - **RHI 멀티 백엔드 아키텍처**: Vulkan 1.3 + WebGPU 크로스 플랫폼 지원
 - **Cook-Torrance PBR**: 물리 기반 렌더링 (GGX, Smith Geometry, Fresnel-Schlick)
 - **Image Based Lighting**: HDR 환경맵 기반 IBL 파이프라인
@@ -34,12 +34,11 @@ title = "Home"
 **Graphics APIs**
 - Vulkan 1.3
 - WebGPU
-- OpenGL (경험)
 
 **Programming Languages**
-- C++20 (주력)
+- C++20
 - C
-- Python, Java
+- Python
 
 **Graphics Libraries & Tools**
 - GLFW, GLM, STB
@@ -50,7 +49,7 @@ title = "Home"
 **Build System & Development**
 - CMake 3.28+, vcpkg
 - Git
-- Linux (주 개발 환경)
+- Linux
 - Vim, GDB, Valgrind
 - Docker, Emscripten (WebAssembly)
 
