@@ -18,3 +18,20 @@ degree = "42Seoul"
 school = "Cadet (2023년 10월 ~)"
 period = "Transcender (2025년 8월 ~)"
 +++
+
+## 핵심 기술
+
+**Graphics APIs**  
+Vulkan 1.3, WebGPU
+
+**Languages**  
+C++20, C99, TypeScript, GLSL/HLSL
+
+**Rendering**  
+PBR, IBL, GPU-Driven Rendering, Ray Tracing
+
+**Architecture**  
+RHI Pattern, Multi-Backend Design
+
+**Tools**  
+CMake, Docker
