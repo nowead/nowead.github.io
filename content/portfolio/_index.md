@@ -6,6 +6,7 @@ role = "Graphics & Game Engine Developer"
 profile_image = "민대원_증명사진.jpg"
 email = "dwm951017@gmail.com"
 github = "nowead"
+blog = "https://nowead.github.io/"
 
 [[education]]
 degree = "강원대학교"
@@ -19,7 +20,7 @@ school = "Cadet (2023년 10월 ~)"
 period = "Transcender (2025년 8월 ~)"
 +++
 
-## 핵심 기술
+## Core Skills
 
 **Graphics APIs**: Vulkan 1.3, WebGPU, OpenGL
 

@@ -21,9 +21,16 @@
           <h1 class="profile-name">{{ .Params.name | default "Your Name" }}</h1>
           <p class="profile-title">{{ .Params.role | default "Software Developer" }}</p>
 
+          <!-- Home Link -->
+          <div style="text-align: center; margin: 15px 0; padding-bottom: 15px; border-bottom: 1px solid #e5e7eb;">
+            <a href="/" style="color: #6b7280; font-size: 0.9em; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='#6b7280'">
+              ← Back to Blog Home
+            </a>
+          </div>
+
           <!-- Contact Information -->
           <div class="contact-info">
-            <h3>연락처</h3>
+            <h3>Contact</h3>
             {{ with .Params.email }}
             <div class="contact-item">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -43,6 +50,15 @@
             </div>
             {{ end }}
             
+            {{ with .Params.blog }}
+            <div class="contact-item">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+              </svg>
+              <a href="{{ . }}" target="_blank">{{ . }}</a>
+            </div>
+            {{ end }}
+            
             {{ with .Params.github }}
             <div class="contact-item">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -56,7 +72,7 @@
           <!-- Education -->
           {{ with .Params.education }}
           <div class="education-info">
-            <h3>학력</h3>
+            <h3>Education</h3>
             {{ range . }}
             <div class="education-item">
               <div class="education-degree">{{ .degree }}</div>
