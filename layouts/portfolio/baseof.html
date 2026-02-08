@@ -28,5 +28,33 @@
 </head>
 <body>
   {{ block "main" . }}{{ end }}
+  
+  <script>
+    // Code copy functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const codeBlocks = document.querySelectorAll('pre code');
+      
+      codeBlocks.forEach(function(codeBlock) {
+        const pre = codeBlock.parentElement;
+        const button = document.createElement('button');
+        button.className = 'copy-button';
+        button.textContent = 'Copy';
+        
+        button.addEventListener('click', function() {
+          const code = codeBlock.textContent;
+          navigator.clipboard.writeText(code).then(function() {
+            button.textContent = 'Copied!';
+            button.classList.add('copied');
+            setTimeout(function() {
+              button.textContent = 'Copy';
+              button.classList.remove('copied');
+            }, 2000);
+          });
+        });
+        
+        pre.appendChild(button);
+      });
+    });
+  </script>
 </body>
 </html>
