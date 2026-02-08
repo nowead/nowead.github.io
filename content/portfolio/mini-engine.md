@@ -37,7 +37,6 @@ class RHITexture;
 
 **계층 구조:**
 ```plaintext
-```plaintext
 - Layer 1: Application (플랫폼 독립적)
 - Layer 2: High-Level Subsystems (API 독립적)
 - Layer 3: RHI Abstractions (15개 인터페이스)

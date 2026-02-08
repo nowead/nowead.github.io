@@ -110,10 +110,9 @@ theme = "terminal"
     anchorLineNos = false
     codeFences = true
     guessSyntax = false
-    lineNos = true
-    lineNumbersInTable = false
+    lineNos = false
     noClasses = false
-    style = "monokai"
+    style = "github"
   [markup.goldmark.renderer]
     unsafe = true
 

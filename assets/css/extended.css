@@ -754,21 +754,23 @@ body:has(.portfolio-page) main {
 }
 
 .portfolio-detail-content pre {
-  background-color: #1e293b;
-  padding: 20px;
+  background-color: #f6f8fa;
+  border: 1px solid #d0d7de;
+  padding: 16px;
   border-radius: 6px;
   overflow-x: auto;
-  margin: 25px 0;
+  margin: 20px 0;
 }
 
 .portfolio-detail-content code {
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 0.9em;
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 0.85em;
 }
 
 .portfolio-detail-content pre code {
-  color: #e2e8f0;
   background-color: transparent;
+  padding: 0;
+  border: none;
 }
 
 .portfolio-detail-content p code {
