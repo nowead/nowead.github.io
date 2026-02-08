@@ -16,11 +16,14 @@ title = "Home"
 
 ## 주요 프로젝트
 
-### Vulkan 기반 Mini Engine (완료)
-4-Layered Architecture 기반 렌더링 엔진 개발
-
-### RHI Architecture 도입 (진행 중)
-크로스 플랫폼 그래픽스 추상화 레이어 설계
+### Mini-Engine: PBR & GPU-Driven 렌더링 엔진 (완료)
+- **RHI 멀티 백엔드 아키텍처**: Vulkan 1.3 + WebGPU 크로스 플랫폼 지원
+- **Cook-Torrance PBR**: 물리 기반 렌더링 (GGX, Smith Geometry, Fresnel-Schlick)
+- **Image Based Lighting**: HDR 환경맵 기반 IBL 파이프라인
+- **GPU-Driven Rendering**: Compute Shader Frustum Culling + Indirect Draw
+- **100,000+ 오브젝트** 실시간 렌더링 지원
+- **GPU 프로파일링**: Timestamp Query 기반 per-pass 타이밍 측정
+- **상세 문서**: [GitHub](https://github.com/nowead/Mini-Engine)
 
 </div>
 
@@ -29,17 +32,27 @@ title = "Home"
 ## 기술 스택
 
 **Graphics APIs**
-- Vulkan
-- WebGPU (학습 예정)
+- Vulkan 1.3
+- WebGPU
+- OpenGL (경험)
 
 **Programming Languages**
-- C, C++
+- C++20 (주력)
+- C
 - Python, Java
 
-**Tools & Libraries**
-- CMake, GLFW, GLM, STL
-- Git, Docker
-- Linux, Vim, GDB, Valgrind
+**Graphics Libraries & Tools**
+- GLFW, GLM, STB
+- Vulkan Memory Allocator (VMA)
+- ImGui
+- Compute Shaders (GLSL, WGSL)
+
+**Build System & Development**
+- CMake 3.28+, vcpkg
+- Git
+- Linux (주 개발 환경)
+- Vim, GDB, Valgrind
+- Docker, Emscripten (WebAssembly)
 
 </div>
 
@@ -47,31 +60,38 @@ title = "Home"
 
 ## 기술 스킬
 
-### 프로그래밍 언어
-- **C, C++**: 시스템 프로그래밍 및 그래픽스 엔진 개발
-- **Python, Java**: 프로젝트 보조 및 스크립팅
+### 그래픽스 렌더링
+- **Physically Based Rendering (PBR)**: Cook-Torrance BRDF, Metallic/Roughness Workflow
+- **Image Based Lighting (IBL)**: HDR Environment Maps, Irradiance Convolution, Prefiltered Specular, BRDF LUT
+- **Shadow Mapping**: Directional Light PCF Shadows
+- **Tone Mapping**: ACES Filmic Tonemapping
 
-### 그래픽스 API & 엔진
-- **Vulkan**: 렌더링 파이프라인 구축, 동기화, 메모리 관리
-- **WebGPU**: 차세대 그래픽스 API 학습 예정
-- **MinilibX**: Ray Tracing 기반 렌더링 (miniRT 프로젝트)
+### GPU 최적화 & 렌더링 아키텍처
+- **GPU-Driven Rendering**: SSBO-based Object Data, Compute Shader Frustum Culling, Indirect Draw
+- **대규모 씬 처리**: 100,000+ 오브젝트 실시간 렌더링
+- **GPU 프로파일링**: Timestamp Queries, Per-pass Performance Measurement
+- **메모리 최적화**: Transient Resources, Memory Aliasing
+- **비동기 컴퓨트**: Timeline Semaphores, Dedicated Compute Queue
 
-### 빌드 시스템 & 라이브러리
-- **CMake**: 크로스 플랫폼 빌드 시스템 구성
-- **GLFW**: 윈도우 및 입력 처리
-- **GLM**: 수학 라이브러리
-- **STL**: C++ 표준 템플릿 라이브러리
+### 엔진 아키텍처
+- **RHI (Render Hardware Interface) 패턴**: 그래픽스 API 추상화 계층 설계
+- **멀티 백엔드 지원**: Vulkan, WebGPU 백엔드 구현
+- **RAII 패턴**: 안전한 리소스 관리
+- **크로스 플랫폼**: Linux, macOS (MoltenVK), Web (WebAssembly)
 
-### 개발 도구 & 환경
-- **Linux**: 시스템 프로그래밍, 쉘 환경 구성
-- **Git**: 버전 관리 및 협업
-- **Docker**: 컨테이너 기반 개발 환경
-- **Vim, Makefile, GDB, Valgrind**: 디버깅 및 최적화
+### Vulkan API
+- 렌더링 파이프라인 구축 및 최적화
+- Descriptor Sets, Push Constants, Storage Buffers
+- 동기화 (Semaphores, Fences, Timeline Semaphores)
+- 메모리 관리 (VMA, Staging Buffers)
+- Compute Pipelines
 
 ### 시스템 프로그래밍
-- kqueue 기반 네트워크 이벤트 처리
-- Bash 스크립트 및 시스템 자동화
-- MySQL 연동 및 데이터베이스 설정
+- C++20 Modern Features
+- CMake 크로스 플랫폼 빌드 시스템
+- Linux 시스템 프로그래밍
+- 네트워크 프로그래밍 (kqueue)
+- 쉘 스크립팅 및 자동화
 
 </div>
 
@@ -79,14 +99,17 @@ title = "Home"
 
 ## 전문 분야
 
-### 렌더링 파이프라인 설계
-Vulkan 기반 렌더링 시스템 구축 및 최적화
+### 물리 기반 렌더링 (PBR)
+Cook-Torrance BRDF 기반 사실적인 재질 표현 및 IBL 파이프라인 구현
+
+### GPU-Driven 렌더링
+대규모 씬을 위한 Compute Shader 기반 Frustum Culling 및 Indirect Draw 최적화
 
 ### 게임 엔진 아키텍처
-4-Layered Architecture, RHI 패턴 설계
+RHI 패턴 기반 멀티 백엔드 그래픽스 추상화 계층 설계 및 구현
 
 ### 크로스 플랫폼 그래픽스
-플랫폼 독립적 그래픽스 추상화 계층 구현
+Vulkan과 WebGPU를 통한 Desktop과 Web 환경 지원
 
 </div>
 
@@ -95,22 +118,12 @@ Vulkan 기반 렌더링 시스템 구축 및 최적화
 ## 학력
 
 **강원대학교** | 컴퓨터정보통신공학과
-2015.02 ~ 2021.08
+2015.03 ~ 2021.08
 평점평균: 4.11 / 4.5
 
 **42Seoul**
 - Kadet (2023년 10월 ~)
 - Transcender (2025년 8월 ~)
-
-</div>
-
-<div class="about-section">
-
-## 블로그
-
-**Mini-Engine 개발기**
-Vulkan 기반 Mini Engine 개발 과정과 그래픽스 기술을 기록하는 블로그입니다.
-- [Velog](https://velog.io/@dwm9510)
 
 </div>
 
