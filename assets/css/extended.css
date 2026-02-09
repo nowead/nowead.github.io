@@ -811,21 +811,24 @@ body:has(.portfolio-page) main {
 
 .portfolio-card-image {
   width: 100%;
-  height: 240px;
+  height: 280px;
   overflow: hidden;
   background-color: #f9fafb;
   border-bottom: 2px solid var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .portfolio-card-image img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   transition: transform 0.3s ease;
 }
 
 .portfolio-card:hover .portfolio-card-image img {
-  transform: scale(1.05);
+  transform: scale(1.03);
 }
 
 .portfolio-card-content {
