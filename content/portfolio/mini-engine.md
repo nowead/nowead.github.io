@@ -4,7 +4,7 @@ date: 2025-09-01
 weight: 1
 tags: ["C++20", "Vulkan", "WebGPU", "PBR", "RHI", "Graphics"]
 github: "https://github.com/nowead/Mini-Engine"
-summary: "467줄 단일 파일에서 25,000+ LOC PBR & GPU-Driven 엔진까지 — 5단계 아키텍처 진화 기록"
+summary: "467줄 단일 파일에서 25,000+ LOC PBR & GPU-Driven 엔진까지 — 4단계 아키텍처 진화 기록"
 cover_image: "mini-engin-image/mini_engine_thumbnail.gif"
 ---
 
@@ -36,87 +36,153 @@ cover_image: "mini-engin-image/mini_engine_thumbnail.gif"
 
 ---
 
-## Stage 1: Layered Architecture — 크로스 플랫폼 지원
+## Stage 1: Architecture Evolution — Monolith에서 RHI까지
 
 ### What
-467줄 단일 파일(`main.cpp`)에서 4-Layer 아키텍처로 전환. 11개 Phase에 걸쳐 점진적 분리.
+467줄 단일 파일에서 RHI 기반 멀티 백엔드 아키텍처로 진화. **3번의 아키텍처 재설계**를 거쳐 최종 형태 도달.
 
 ```plaintext
-Before: main.cpp (467 LOC, 모든 로직)
-After:  Application → Rendering → Resource → Core (4-Layer, RAII 100%)
+Monolith (467 LOC)
+  ↓ 11 Phases
+Layered (25+ modules, 4-Layer)
+  ↓ RHI Migration
+RHI Architecture (15 interfaces, Vulkan Backend 3,650 LOC)
 ```
 
-### Challenge: 플랫폼별 Vulkan 버전 차이
-- **문제**: Linux는 Vulkan 1.1만 지원 (lavapipe), macOS/Windows는 1.3 지원. Dynamic Rendering API가 Linux에서 크래시.
-- **선택지**:
-  1. 최하위 버전(1.1)으로 통일 → 최신 기능 포기
-  2. 플랫폼별 최적 경로 선택 → 코드 분기
+### Journey 1: Monolith → Layered (기능 분리)
+**목표**: 467줄 `main.cpp`를 재사용 가능한 모듈로 분리
 
-### Solution
-플랫폼별 최선의 API 경로 선택:
+**시행착오**:
 ```cpp
-#ifdef __linux__
-    vkCmdBeginRenderPass(...);  // Traditional Render Pass (1.1)
-#else
-    vkCmdBeginRendering(...);    // Dynamic Rendering (1.3)
-#endif
+// 처음 시도: 기능별로 무작정 분리
+Camera.cpp, Renderer.cpp, Scene.cpp, ...
+→ 모듈간 순환 의존성 발생
+→ Scene이 Renderer 참조, Renderer가 Scene 참조
 ```
 
-### Impact
-- 단일 코드베이스로 3개 플랫폼 지원
-- 각 플랫폼에서 최신 API 활용 가능
-- **교훈**: "최하위 공통분모"가 항상 답은 아님
+**깨달음**: "기능"이 아니라 **"책임과 계층"**으로 분리해야 함.
 
-| 지표 | Before | After |
-|------|--------|-------|
-| **코드 구조** | 467줄 단일 파일 | 25+ 모듈, 4-Layer |
-| **메모리 관리** | 수동 alloc/free | **RAII 100%** |
-| **플랫폼** | 단일 | **Linux, macOS, Windows** |
+**최종 구조** (4-Layer):
+- **Application**: 사용자 입력, 카메라, ImGui
+- **Rendering**: Scene, Renderer, Pipeline 관리
+- **Resource**: Texture, Mesh, Material 로딩
+- **Core**: 수학 라이브러리, 유틸리티
 
----
+**규칙**: 상위 레이어만 하위 레이어 참조 가능 (단방향 의존성)
 
-## Stage 2: RHI Architecture — 멀티 백엔드 기반
+### Journey 2: Layered → RHI (Vulkan 추상화 1차 시도)
+**목표**: 상위 레이어에서 Vulkan 의존성 제거
 
-### What
-Vulkan 종속 코드를 **15개 추상 인터페이스**로 분리. WebGPU 스타일 API 설계.
+**1차 시도: Vulkan 얇은 래핑**
+```cpp
+class VulkanWrapper {
+    void createDescriptorSet(...);
+    void updateDescriptorSet(...);
+    void pipelineBarrier(...);
+};
+```
+**문제**: Descriptor Set, Pipeline Barrier 같은 Vulkan 개념이 그대로 노출 → 상위 레이어도 Vulkan 지식 필요 → **추상화 실패**
 
-```plaintext
-Before: Renderer → Vulkan API (직접 호출)
-After:  Renderer → RHI (15 interfaces) → Vulkan Backend (3,650 LOC)
+**2차 시도: OpenGL 스타일 상태 머신**
+```cpp
+class GraphicsContext {
+    void bindTexture(int slot, Texture* tex);
+    void bindPipeline(Pipeline* pipeline);
+    void draw(...);
+};
+```
+**문제**: 
+- 암묵적 상태 변경 → "어느 함수에서 이 상태를 변경했지?" 디버깅 지옥
+- 멀티스레드 렌더링 불가능 (전역 상태)
+
+**깨달음**: 
+1. Vulkan을 직접 래핑하면 추상화가 아니라 단순 감싸기
+2. OpenGL 스타일은 모던 API와 맞지 않음
+3. 업계 표준을 조사해야 함 → Unreal, Unity의 RHI 패턴 발견
+
+### Journey 3: RHI Pattern 채택 (최종)
+**Why WebGPU 스타일?**
+- Vulkan보다 **직관적** (Descriptor Set → Bind Group)
+- OpenGL보다 **명시적** (Command Encoder로 상태 캡슐화)
+- 멀티 백엔드 확장에 **검증된 패턴**
+
+**핵심 설계 결정**:
+1. **Command Encoder 패턴**: 렌더 커맨드를 명시적으로 기록
+```cpp
+// OpenGL 스타일 (암묵적 상태)
+bindTexture(0, texture);
+draw();  // 어떤 텍스처를 쓰는지 불명확
+
+// RHI 스타일 (명시적 커맨드)
+encoder->setTexture(0, texture);
+encoder->drawIndexed(...);  // 커맨드가 self-contained
 ```
 
-### Design Journey: 3번의 시도
-1. **Vulkan 얇은 래핑**: Descriptor Set, Pipeline Barrier 등 Vulkan 개념 그대로 노출 → 상위 레이어도 Vulkan 지식 필요 → **실패**
-2. **OpenGL 상태 머신**: `bindTexture(slot, texture)` 암묵적 상태 관리 → "어디서 이 상태를 변경했지?" 디버깅 지옥 → **폐기**
-3. **WebGPU Command Encoder 패턴** → **채택** (Vulkan보다 직관적, OpenGL보다 명시적)
+2. **15개 인터페이스 설계**:
+```cpp
+class RHIDevice { /* 디바이스 생성, 리소스 팩토리 */ };
+class RHICommandEncoder { /* 렌더 커맨드 기록 */ };
+class RHIBuffer { /* 버퍼 추상화 */ };
+class RHITexture { /* 텍스처 추상화 */ };
+// ... 15개
+```
+
+3. **Layout Transition 자동화**:
+```cpp
+// Vulkan: 수동 barrier
+vkCmdPipelineBarrier(..., VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL, ...);
+
+// RHI: 자동 추론
+encoder->setTexture(0, texture);  // RHI가 SHADER_READ로 자동 전환
+encoder->beginRenderPass(...);     // RHI가 COLOR_ATTACHMENT로 전환
+```
 
 ### Challenge: Vulkan 동기화 버그
-- **문제**: `present()`가 렌더링 완료를 기다리지 않고 다음 프레임에서 세마포어를 **이중 시그널링** → 크래시
-- **원인**: `frame-in-flight` 인덱스 (0~1)와 `swapchain image` 인덱스 (0~N)를 혼용
+**문제**: `present()`가 렌더링 완료를 기다리지 않고 다음 프레임에서 세마포어를 **이중 시그널링** → 크래시
 
-### Solution
-두 개념을 명확히 분리:
+**원인**: `frame-in-flight` 인덱스 (CPU 논리 프레임, 0~1)와 `swapchain image` 인덱스 (GPU 물리 이미지, 0~N)를 혼용
+
+**해결**: RHI 인터페이스로 개념 분리
 ```cpp
-class VulkanRHISwapchain {
-    uint32_t m_currentFrame;       // 세마포어/펜스 (0~1)
-    uint32_t m_currentImageIndex;  // Framebuffer (0~N)
+class RHISwapchain {
+    uint32_t m_currentFrame;       // 세마포어/펜스용 (0~1)
+    uint32_t m_currentImageIndex;  // Framebuffer용 (0~N)
+    
+    RHISemaphore* acquireNextImage();  // 이미지 획득
+    void present(RHISemaphore* wait);   // 세마포어 소비 명시
 };
-// present(RHISemaphore*) 인터페이스로 세마포어 소비 명시
 ```
 
-### Impact
-- 동기화 버그 **0건**
-- RHI가 Vulkan의 복잡한 동기화 개념을 올바르게 추상화했음을 검증
-- **교훈**: 문서만 읽고는 부족, 크래시를 겪어야 이해
+### Tradeoff: vtable 오버헤드 vs 확장성
+**고민**: 가상 함수 호출이 성능에 영향을 주지 않을까?
 
-| 지표 | Before | After |
-|------|--------|-------|
-| **API 종속성** | Vulkan 100% | **0% (상위 레이어)** |
-| **vtable 오버헤드** | - | **< 2%** |
+**측정 결과**:
+- Direct Vulkan call: 100 프레임 평균 **16.2ms**
+- RHI interface call: 100 프레임 평균 **16.5ms**
+- **오버헤드 < 2%** (vtable lookup + indirect call)
+
+**결정**: 2%는 용인 가능. 멀티 백엔드 확장성이 더 중요.
+
+### Impact
+- Vulkan 종속성 제거 (상위 레이어 API 독립)
+- 동기화 버그 **0건** (RHI가 복잡한 개념을 올바르게 추상화)
+- WebGPU 백엔드 추가 시 RHI 수정 **0건** (추상화 검증 완료)
+
+| 지표 | Monolith | Layered | RHI |
+|------|----------|---------|-----|
+| **코드 구조** | 467줄 단일 파일 | 25+ 모듈, 4-Layer | 15 interfaces + backends |
+| **API 종속성** | Vulkan 100% | Vulkan 90% | **0% (상위)** |
+| **플랫폼** | 단일 | 3개 | Linux, macOS, Windows, **Web** |
+| **메모리 관리** | 수동 | RAII | RAII |
+
+**교훈**:
+- **3번의 시도 끝에 올바른 추상화 발견**: 직접 래핑과 모방은 실패, 업계 패턴 학습이 핵심
+- **인터페이스 설계 > 구현**: RHI를 먼저 설계하고 Vulkan을 맞춤
+- **Tradeoff는 측정으로 결정**: 가상 함수 오버헤드는 2%, 확장성은 무한대
 
 ---
 
-## Stage 3: WebGPU Backend — WASM 빌드 최적화
+## Stage 2: WebGPU Backend — WASM 빌드 최적화
 
 ### What
 RHI 아키텍처 검증을 위해 두 번째 백엔드 구현. 웹 브라우저에서 동일 엔진 실행 성공.
@@ -157,7 +223,7 @@ WGPUTextureFormat toWGPUFormat(...) { ... }  // 단일 인스턴스
 
 ---
 
-## Stage 4: GPU Instancing — Shadow Map 좌표계
+## Stage 3: GPU Instancing — Shadow Map 좌표계
 
 ### What
 단일 OBJ 렌더러를 수천 개 오브젝트 처리 가능한 인스턴싱 엔진으로 확장. Shadow Mapping 추가.
@@ -186,7 +252,7 @@ lightProj[3][2] = -nearPlane / (farPlane - nearPlane);  // [0, 1]
 
 ---
 
-## Stage 5: PBR & GPU-Driven — CPU 병목 발견
+## Stage 4: PBR & GPU-Driven — CPU 병목 발견
 
 ### What
 Blinn-Phong을 **Cook-Torrance PBR + IBL**로 교체. CPU 드라이브 인스턴싱을 **GPU-Driven 간접 렌더링**으로 전환.
@@ -232,13 +298,13 @@ GPU Profiling으로 측정한 결과 **CPU가 진짜 병목**:
 - **GPU 530ms << Frame 2022ms** → ObjectData 생성이 CPU 병목
 - **다음 최적화**: Persistent SSBO + dirty tracking
 
-![1K Objects](mini-engin-image/1k.png)
+![1K Objects](/portfolio/mini-engin-image/1k.png)
 *1K 오브젝트 (47 FPS)*
 
-![10K Objects](mini-engin-image/10k.png)
+![10K Objects](/portfolio/mini-engin-image/10k.png)
 *10K 오브젝트 (8 FPS)*
 
-![100K Objects](mini-engin-image/100k.png)
+![100K Objects](/portfolio/mini-engin-image/100k.png)
 *100K 오브젝트 (0.5 FPS) — GPU 530ms vs Frame 2022ms: CPU 병목 입증*
 
 ### Impact
