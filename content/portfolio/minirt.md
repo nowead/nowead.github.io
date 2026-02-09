@@ -5,6 +5,7 @@ weight: 2
 tags: ["C", "Ray Tracing", "Graphics", "42Seoul", "Phong", "Texture Mapping"]
 github: "https://github.com/nowead/miniRT"
 summary: "CPU 기반 Ray Tracing 렌더러 - Phong Reflection 및 Texture Mapping 지원"
+cover_image: "minirt-image/minRT1.png"
 ---
 
 ## 프로젝트 개요

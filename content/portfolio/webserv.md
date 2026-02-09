@@ -5,6 +5,7 @@ weight: 3
 tags: ["C++98", "HTTP", "Network", "42Seoul", "kqueue", "CGI"]
 github: "https://github.com/nowead/webserv"
 summary: "C++98 HTTP/1.1 서버 구현 - Reactor 패턴 기반 이벤트 주도 아키텍처"
+cover_image: "webserv-image/webserv-architecture.png"
 ---
 
 ## 프로젝트 개요

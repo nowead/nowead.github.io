@@ -5,6 +5,7 @@ weight: 4
 tags: ["TypeScript", "Fastify", "WebSocket", "SPA", "42Seoul", "OAuth", "i18n"]
 github: "https://github.com/nowead/ft_transcendence"
 summary: "실시간 멀티플레이어 Pong 게임 - TypeScript/Fastify 풀스택 웹 애플리케이션"
+cover_image: "transendence-image/트센.png"
 ---
 
 ## 프로젝트 개요

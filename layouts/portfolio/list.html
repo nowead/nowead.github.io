@@ -117,34 +117,38 @@
 
         <h2 class="portfolio-section-title">프로젝트</h2>
         
-        <div class="portfolio-list">
+        <div class="portfolio-grid">
           {{ range .Pages.ByWeight }}
-          <a href="{{ .Permalink }}" class="portfolio-card-link">
-            <article class="portfolio-card">
-              <div class="portfolio-card-header">
-                <h3 class="portfolio-card-title">{{ .Title }}</h3>
-                {{ if .Date }}
-                <time class="portfolio-card-date">{{ .Date.Format "2006.01" }}</time>
+            <a href="{{ .Permalink }}" class="portfolio-card-link">
+              <article class="portfolio-card">
+                {{ with .Params.cover_image }}
+                <div class="portfolio-card-image">
+                  <img src="{{ . }}" alt="{{ $.Title }} Preview" loading="lazy">
+                </div>
                 {{ end }}
-              </div>
-              
-              {{ with .Params.summary }}
-              <p class="portfolio-card-description">{{ . }}</p>
-              {{ end }}
-              
-              {{ with .Params.tags }}
-              <div class="portfolio-card-tags">
-                {{ range . }}
-                  <span class="portfolio-tag">{{ . }}</span>
-                {{ end }}
-              </div>
-              {{ end }}
-              
-              <div class="portfolio-card-footer">
-                <span class="portfolio-card-link-text">자세히 보기 →</span>
-              </div>
-            </article>
-          </a>
+                
+                <div class="portfolio-card-content">
+                  <div class="portfolio-card-header">
+                    <h3 class="portfolio-card-title">{{ .Title }}</h3>
+                    {{ if .Date }}
+                    <time class="portfolio-card-date">{{ .Date.Format "2006.01" }}</time>
+                    {{ end }}
+                  </div>
+                  
+                  {{ with .Params.summary }}
+                  <p class="portfolio-card-description">{{ . }}</p>
+                  {{ end }}
+                  
+                  {{ with .Params.tags }}
+                  <div class="portfolio-card-tags">
+                    {{ range . }}
+                      <span class="portfolio-tag">{{ . }}</span>
+                    {{ end }}
+                  </div>
+                  {{ end }}
+                </div>
+              </article>
+            </a>
           {{ end }}
         </div>
       </div>

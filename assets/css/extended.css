@@ -771,11 +771,17 @@ body:has(.portfolio-page) main {
   font-weight: 700;
 }
 
-/* Portfolio List - Vertical Stack */
-.portfolio-list {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+/* Portfolio Grid - 2 Column Layout */
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+@media (max-width: 1024px) {
+  .portfolio-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* Portfolio Card */
@@ -786,18 +792,47 @@ body:has(.portfolio-page) main {
 }
 
 .portfolio-card {
-  border: 1px solid #e5e7eb;
+  border: 2px solid var(--accent);
   background-color: #ffffff;
-  padding: 24px;
+  overflow: hidden;
   transition: all 0.3s ease;
   cursor: pointer;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .portfolio-card:hover {
-  border-color: #d1d5db;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transform: translateY(-2px);
+  border-color: #3b82f6;
+  box-shadow: 0 6px 16px rgba(30, 58, 138, 0.15);
+  transform: translateY(-4px);
+}
+
+.portfolio-card-image {
+  width: 100%;
+  height: 240px;
+  overflow: hidden;
+  background-color: #f9fafb;
+  border-bottom: 2px solid var(--accent);
+}
+
+.portfolio-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.portfolio-card:hover .portfolio-card-image img {
+  transform: scale(1.05);
+}
+
+.portfolio-card-content {
+  padding: 24px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .portfolio-card-header {
