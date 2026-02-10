@@ -32,9 +32,11 @@ cover_image: "minirt-image/minRT1.png"
 **Motivation**: 그래픽스 수학의 기초부터 구현하며 벡터 연산, 광선-표면 교차 검사, 조명 모델을 코드로 실현.
 
 ![miniRT Rendering 1](/portfolio/minirt-image/minRT1.png)
+
 *Phong Reflection Model: Ambient + Diffuse + Specular 조명 계산 결과*
 
 ![miniRT Rendering 2](/portfolio/minirt-image/miniRT2.png)
+
 *멀티 라이트 소스: 각 광원의 그림자 및 반사광 독립 계산 후 합산*
 
 ---

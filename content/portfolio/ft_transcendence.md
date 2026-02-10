@@ -33,9 +33,11 @@ cover_image: "transendence-image/트센_게임.png"
 **Motivation**: 프레임워크 없이 웹 애플리케이션의 내부 동작을 이해하고, 프론트엔드-백엔드 통합 과정에서의 설계 및 협업 경험 획득.
 
 ![ft_transcendence Game](/portfolio/transendence-image/트센_게임.png)
+
 *실시간 멀티플레이어 Pong 게임: WebSocket 기반 60 FPS 동기화*
 
 ![ft_transcendence Login](/portfolio/transendence-image/트센-로그인.png)
+
 *인증 시스템: JWT + Google OAuth + 2FA (TOTP) 지원*
 
 ---

@@ -35,6 +35,7 @@ cover_image: "mini-engin-image/mini_engine_thumbnail.gif"
 **Motivation**: Vulkan Tutorial을 따라하며 **"텍스처 하나 추가하려면 467줄 중 어디를 수정해야 하나?"**라는 질문에 답할 수 없었음. 이 경험이 계기가 되어 확장 가능한 아키텍처 설계를 목표로 설정.
 
 ![Mini-Engine Screenshot](/portfolio/mini-engin-image/mini-engine.png)
+
 *PBR 렌더링 결과: Cook-Torrance 모델 기반 금속성(Metallic)과 거칠기(Roughness) 표현*
 
 ---
@@ -183,19 +184,25 @@ class RHISwapchain {
 - **인터페이스 설계 > 구현**: RHI를 먼저 설계하고 Vulkan을 맞춤
 - **Tradeoff는 측정으로 결정**: 가상 함수 오버헤드는 2%, 확장성은 무한대
 
-**RHI 성능 비교 (Vulkan vs WebGPU):**
+**GPU Frustum Culling 최적화 효과:**
 
 ![16 Triangles](/portfolio/mini-engin-image/16.png)
-*16 Triangles: 양 백엔드 모두 안정적인 60 FPS*
+
+*16 Triangles: 106 FPS - 경량 씬에서 컬링 효과 미미 (모든 객체 가시)*
 
 ![1K Triangles](/portfolio/mini-engin-image/1k.png)
-*1,000 Triangles: WebGPU 약간의 성능 저하 (55 FPS), Vulkan 안정적*
+
+*1,000 Triangles: 49.2 FPS (최적화 전 ~42 FPS) - 약 17% 성능 향상*
 
 ![10K Triangles](/portfolio/mini-engin-image/10k.png)
-*10,000 Triangles: GPU Frustum Culling 효과 가시화*
+
+*10,000 Triangles: 8.7 FPS (최적화 전 ~3.2 FPS) - **약 2.7배 성능 향상***
 
 ![100K Triangles](/portfolio/mini-engin-image/100k.png)
-*100,000 Triangles: Indirect Draw + Frustum Culling으로 양 백엔드 30+ FPS 유지*
+
+*100,000 Triangles: 1.6 FPS (최적화 전 ~0.5 FPS) - **약 3배+ 성능 향상***
+
+> **최적화 핵심**: GPU 기반 Frustum Culling + Indirect Draw로 화면 밖 객체를 GPU에서 조기 제거. 대규모 씬에서 CPU→GPU 데이터 전송량 감소 및 렌더링 부하 최소화.
 
 ---
 
@@ -378,9 +385,9 @@ Backend Implementations
 - **하드웨어 다양성 대응**: M1 workgroup size, compute queue 크래시 경험 → 모든 고급 기능에 capability check 추가
 
 ### Performance
-- **측정 없이는 추측만 할 뿐**: GPU Profiler로 정량화 → 100K에서 CPU가 진짜 병목임을 발견
+- **측정 없이는 추측만 할 뿔**: GPU Profiler로 정량화 → 100K에서 CPU가 진짜 병목임을 발견
 - **GPU-Driven의 역설**: GPU를 빠르게 만들수록 CPU 병목이 더 선명하게 드러남
 
 ---
 
-*개발 기간: 2025.09 ~ 2026.02 | 문서 작성: 2026-02-10*
+*개발 기간: 2025.09 ~ 2026.02

@@ -32,6 +32,7 @@ C++98 표준으로 HTTP/1.1 프로토콜을 지원하는 이벤트 드리븐 웹
 **Motivation**: Nginx와 같은 고성능 웹 서버의 내부 동작 원리를 이해하고, 동시성 처리와 이벤트 기반 아키텍처를 직접 구현하여 네트워크 프로그래밍 역량 강화.
 
 ![WebServ Architecture](/portfolio/webserv-image/webserv-architecture.png)
+
 *4-Layer Architecture: Network → Reactor → Handler → Application*
 
 ---
@@ -106,6 +107,10 @@ public:
     }
 };
 ```
+
+![WebServ Flowchart](/portfolio/webserv-image/webserv-flowchart.png)
+
+*Reactor Pattern 이벤트 흐름: kqueue → Event Dispatch → Handler Execution*
 
 **논블로킹 I/O:**
 ```cpp
