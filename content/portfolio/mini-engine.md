@@ -208,15 +208,15 @@ class RHISwapchain {
 
 ![1K Triangles](/portfolio/mini-engin-image/1k.png)
 
-*1,000 Triangles: 49.2 FPS (최적화 전 ~42 FPS) - 약 17% 성능 향상*
+*1,000 Triangles: 49.2 FPS (최적화 전 `~42 FPS`) - 약 17% 성능 향상*
 
 ![10K Triangles](/portfolio/mini-engin-image/10k.png)
 
-*10,000 Triangles: 8.7 FPS (최적화 전 ~3.2 FPS) - **약 2.7배 성능 향상***
+*10,000 Triangles: 8.7 FPS (최적화 전 `~3.2 FPS`) - **약 2.7배 성능 향상***
 
 ![100K Triangles](/portfolio/mini-engin-image/100k.png)
 
-*100,000 Triangles: 1.6 FPS (최적화 전 ~0.5 FPS) - **약 3배+ 성능 향상***
+*100,000 Triangles: 1.6 FPS (최적화 전 `~0.5 FPS`) - **약 3배+ 성능 향상***
 
 > **최적화 핵심:** GPU 기반 Frustum Culling + Indirect Draw로 화면 밖 객체를 GPU에서 조기 제거. 대규모 씬에서 CPU->GPU 데이터 전송량 감소 및 렌더링 부하 최소화.
 
@@ -237,7 +237,7 @@ Vulkan Backend (3,650 LOC) + WebGPU Backend (6,500 LOC)
 *WebGPU 백엔드: 동일한 RHI 코드로 WASM 빌드, 브라우저에서 실행*
 
 ### Challenge: WASM 빌드 "section too large" 실패
-- **문제:** `WebGPUCommon.hpp`에 ~25개 enum 변환 inline 함수가 13개 .cpp에서 중복 인스턴스화 -> 코드 비대화
+- **문제:** `WebGPUCommon.hpp`에 `~25개` enum 변환 inline 함수가 13개 .cpp에서 중복 인스턴스화 -> 코드 비대화
 - **디버깅 과정:** `nm` 명령으로 심볼 분석 -> inline 함수가 각 translation unit마다 복제됨 발견
 
 ### Solution
@@ -254,7 +254,7 @@ WGPUTextureFormat toWGPUFormat(...) { ... }  // 단일 인스턴스
 ```
 
 ### Impact
-- 빌드 실패 -> 성공, **WASM 156KB** (gzip 후 ~40KB)
+- 빌드 실패 -> 성공, **WASM 156KB** (gzip 후 `~40KB`)
 - 모바일 환경에서도 즉시 로드 가능
 - **교훈**: 헤더 inline 함수는 WASM에서 치명적
 
@@ -374,7 +374,7 @@ Backend Implementations
   ┌─────────────────┬──────────────────┐
   │ Vulkan Backend  │ WebGPU Backend   │
   │ VMA, SPIR-V     │ Emscripten, WGSL │
-  │ ~8,000 LOC      │ ~6,500 LOC       │
+  │ `~8,000 LOC`    │ `~6,500 LOC`     │
   └─────────────────┴──────────────────┘
 ```
 
