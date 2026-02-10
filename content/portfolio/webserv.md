@@ -33,7 +33,7 @@ C++98 표준으로 HTTP/1.1 프로토콜을 지원하는 이벤트 드리븐 웹
 
 ![WebServ Architecture](/portfolio/webserv-image/webserv-architecture.png)
 
-*4-Layer Architecture: Network → Reactor → Handler → Application*
+*4-Layer Architecture: Network -> Reactor -> Handler -> Application*
 
 ---
 
@@ -110,7 +110,7 @@ public:
 
 ![WebServ Flowchart](/portfolio/webserv-image/webserv-flowchart.png)
 
-*Reactor Pattern 이벤트 흐름: kqueue → Event Dispatch → Handler Execution*
+*Reactor Pattern 이벤트 흐름: kqueue -> Event Dispatch -> Handler Execution*
 
 **논블로킹 I/O:**
 ```cpp
@@ -181,8 +181,8 @@ public:
 class ClientManager {
 private:
     typedef std::map<int, ClientSession*> TypeClientMap;
-    TypeClientMap clientList_;           // fd → session 매핑
-    std::map<int, int> pipeToClientFdMap_;  // pipe → client 매핑
+    TypeClientMap clientList_;           // fd -> session 매핑
+    std::map<int, int> pipeToClientFdMap_;  // pipe -> client 매핑
     
 public:
     ~ClientManager() {
@@ -254,8 +254,8 @@ bool CgiHandler::executeCgi(std::vector<std::string>& argv,
                             const std::string& requestBody,
                             pid_t& childPid, int& outPipe_) {
     int inPipe[2], outPipe[2];
-    pipe(inPipe);   // 부모 → 자식 (stdin)
-    pipe(outPipe);  // 자식 → 부모 (stdout)
+    pipe(inPipe);   // 부모 -> 자식 (stdin)
+    pipe(outPipe);  // 자식 -> 부모 (stdout)
     
     // 출력 파이프를 논블로킹으로 설정
     fcntl(outPipe[0], F_SETFL, O_NONBLOCK);
@@ -399,7 +399,7 @@ public:
 ### 아키텍처
 - **Reactor 패턴**: 이벤트 감지와 처리 로직 완전 분리
 - **비동기 I/O**: kqueue로 소켓과 파이프 통합 관리
-- **계층 분리**: Presentation → Application → Service → Infrastructure
+- **계층 분리:** Presentation -> Application -> Service -> Infrastructure
 
 ---
 

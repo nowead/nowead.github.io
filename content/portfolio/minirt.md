@@ -106,7 +106,7 @@ t_closest_hit shadow = closest_intersection(
 ### Problem
 Cylinder와 Cone은 World Space에서 임의 방향을 가지므로, 교차점의 법선 벡터와 텍스처 좌표를 계산하려면 Local Space로 변환 필요. 좌표계 변환 과정에서 정밀도 손실 발생.
 
-### World → Local 좌표 변환
+### World -> Local 좌표 변환
 임의 방향의 원기둥을 Y-up 좌표계로 변환. 회전 행렬 대신 벡터 투영 사용:
 
 $$\mathbf{P}_{local} = \mathbf{R}^{-1}(\mathbf{P}_{world} - \mathbf{C})$$
@@ -210,7 +210,7 @@ t_closest_hit shadow = closest_intersection(
 ### 멀티 라이트 & 렌더링 최적화
 - Linked list로 광원 관리, 각 광원 독립 계산 후 합산
 - 색상 clamping: `fminf(intens.r, 1.0f)` (overflow 방지)
-- pthread 병렬화: 4개 스레드로 화면 수평 분할 → **10초 → 2.5초** (4배 향상)
+- pthread 병렬화: 4개 스레드로 화면 수평 분할 -> **10초 -> 2.5초** (4배 향상)
 
 ### Impact
 - Phong Model: Ambient + Diffuse + Specular 구현
@@ -225,10 +225,10 @@ t_closest_hit shadow = closest_intersection(
 ### Mathematics
 - **이차 방정식 everywhere**: Ray-sphere, ray-cylinder, ray-cone 모두 $at^2 + bt + c = 0$
 - **벡터 수학이 그래픽스의 언어**: Dot product (투영, 거리), Cross product (법선), Normalize (방향)
-- **좌표계 변환의 연쇄**: World space → Object local space → Texture space
+- **좌표계 변환의 연쇄:** World space -> Object local space -> Texture space
 
 ### Graphics Concepts
-- **Ray Tracing 역방향 렌더링**: 픽셀 → 광선 → 표면 → 광원 (물리와 반대)
+- **Ray Tracing 역방향 렌더링:** 픽셀 -> 광선 -> 표면 -> 광원 (물리와 반대)
 - **Phong Model의 물리적 의미**: Ambient (환경광) + Diffuse (확산 반사) + Specular (정반사)
 - **Shadow Acne**: 부동소수점 정밀도 문제, `t_min=0.001`로 극소 교차 무시
 

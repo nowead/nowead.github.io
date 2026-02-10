@@ -168,7 +168,7 @@ if (response.status === 401 && tokenRefreshAttempts < 1) {
 ### Solution: Feature Branch 전략 + 코드 리뷰 프로세스
 
 #### 1. Git Workflow 체계화
-```
+```plaintext
 main (배포)
   ↑
 develop (통합)
@@ -188,7 +188,7 @@ feature/websocket (개인)
 - **Swagger 자동 문서**: 백엔드 코드에서 API 문서 자동 생성으로 항상 최신 상태 유지
 
 #### 3. 실제 협업 사례
-**문제 상황:** 백엔드가 프로필 API의 응답 필드를 `display_name`에서 `displayName`으로 변경 (스네이크 케이스 → 카멜 케이스)
+**문제 상황:** 백엔드가 프로필 API의 응답 필드를 `display_name`에서 `displayName`으로 변경 (스네이크 케이스 -> 카멜 케이스)
 
 **해결 과정:**
 1. 백엔드 팀원이 PR에 변경 사항 명시
