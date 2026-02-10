@@ -34,6 +34,9 @@ cover_image: "mini-engin-image/mini_engine_thumbnail.gif"
 
 **Motivation**: Vulkan Tutorial을 따라하며 **"텍스처 하나 추가하려면 467줄 중 어디를 수정해야 하나?"**라는 질문에 답할 수 없었음. 이 경험이 계기가 되어 확장 가능한 아키텍처 설계를 목표로 설정.
 
+![Mini-Engine Screenshot](/portfolio/mini-engin-image/mini-engine.png)
+*PBR 렌더링 결과: Cook-Torrance 모델 기반 금속성(Metallic)과 거칠기(Roughness) 표현*
+
 ---
 
 ## Stage 1: Architecture Evolution — Monolith에서 RHI까지
@@ -179,6 +182,20 @@ class RHISwapchain {
 - **3번의 시도 끝에 올바른 추상화 발견**: 직접 래핑과 모방은 실패, 업계 패턴 학습이 핵심
 - **인터페이스 설계 > 구현**: RHI를 먼저 설계하고 Vulkan을 맞춤
 - **Tradeoff는 측정으로 결정**: 가상 함수 오버헤드는 2%, 확장성은 무한대
+
+**RHI 성능 비교 (Vulkan vs WebGPU):**
+
+![16 Triangles](/portfolio/mini-engin-image/16.png)
+*16 Triangles: 양 백엔드 모두 안정적인 60 FPS*
+
+![1K Triangles](/portfolio/mini-engin-image/1k.png)
+*1,000 Triangles: WebGPU 약간의 성능 저하 (55 FPS), Vulkan 안정적*
+
+![10K Triangles](/portfolio/mini-engin-image/10k.png)
+*10,000 Triangles: GPU Frustum Culling 효과 가시화*
+
+![100K Triangles](/portfolio/mini-engin-image/100k.png)
+*100,000 Triangles: Indirect Draw + Frustum Culling으로 양 백엔드 30+ FPS 유지*
 
 ---
 
