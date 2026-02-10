@@ -34,9 +34,25 @@ cover_image: "mini-engin-image/mini_engine_thumbnail.gif"
 
 **Motivation**: Vulkan Tutorial을 따라하며 **"텍스처 하나 추가하려면 467줄 중 어디를 수정해야 하나?"**라는 질문에 답할 수 없었음. 이 경험이 계기가 되어 확장 가능한 아키텍처 설계를 목표로 설정.
 
-![Mini-Engine Screenshot](/portfolio/mini-engin-image/mini-engine.png)
+<div style="display: flex; gap: 10px; justify-content: center;">
 
-*PBR 렌더링 결과: Cook-Torrance 모델 기반 금속성(Metallic)과 거칠기(Roughness) 표현*
+<div style="flex: 1;">
+
+![PBR + IBL Rendering](/portfolio/mini-engin-image/PBR+IBL.png)
+
+*PBR + IBL: Cook-Torrance 모델 + Image-Based Lighting으로 현실적인 금속 재질 표현*
+
+</div>
+
+<div style="flex: 1;">
+
+![GPU-Driven Rendering](/portfolio/mini-engin-image/mini-engine.png)
+
+*GPU-Driven: Instancing + Frustum Culling으로 대규모 빌딩 씬 렌더링*
+
+</div>
+
+</div>
 
 ---
 
@@ -215,6 +231,10 @@ RHI 아키텍처 검증을 위해 두 번째 백엔드 구현. 웹 브라우저�
 Vulkan Backend (3,650 LOC) + WebGPU Backend (6,500 LOC)
 -> RHI 인터페이스 변경 0건
 ```
+
+![WebGPU Backend](/portfolio/mini-engin-image/webgpu-example.png)
+
+*WebGPU 백엔드: 동일한 RHI 코드로 WASM 빌드, 브라우저에서 실행*
 
 ### Challenge: WASM 빌드 "section too large" 실패
 - **문제:** `WebGPUCommon.hpp`에 ~25개 enum 변환 inline 함수가 13개 .cpp에서 중복 인스턴스화 -> 코드 비대화
