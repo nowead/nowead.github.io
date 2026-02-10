@@ -69,8 +69,8 @@ Layered (25+ modules, 4-Layer)
 RHI Architecture (15 interfaces, Vulkan Backend 3,650 LOC)
 ```
 
-### Journey 1: Monolith → Layered (기능 분리)
-**목표**: 467줄 `main.cpp`를 재사용 가능한 모듈로 분리
+### Journey 1: Monolith -> Layered (기능 분리)
+**목표:** 467줄 `main.cpp`를 재사용 가능한 모듈로 분리
 
 **시행착오**:
 ```cpp
@@ -160,7 +160,7 @@ encoder->beginRenderPass(...);     // RHI가 COLOR_ATTACHMENT로 전환
 ### Challenge: Vulkan 동기화 버그
 **문제:** `present()`가 렌더링 완료를 기다리지 않고 다음 프레임에서 세마포어를 **이중 시그널링** -> 크래시
 
-**원인:** `frame-in-flight` 인덱스 (CPU 논리 프레임, 0~1)와 `swapchain image` 인덱스 (GPU 물리 이미지, 0~N)를 혼용
+**원인:** `frame-in-flight` 인덱스 (CPU 논리 프레임, `0~1`)와 `swapchain image` 인덱스 (GPU 물리 이미지, `0~N`)를 혼용
 
 **해결:** RHI 인터페이스로 개념 분리
 ```cpp
