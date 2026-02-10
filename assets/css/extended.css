@@ -5,11 +5,15 @@
   --foreground: #1f2937;
   --accent: #1e3a8a;
   --code-border: #3b82f6;
+  --code-bg: #f8f9fa;
 
   /* Override Terminal theme colors */
   --color: var(--foreground);
   --background-color: var(--background);
   --border-color: var(--accent);
+  
+  /* Base font size increase */
+  font-size: 17px;
 }
 
 /* Override Terminal theme orange accent with blue */
@@ -407,7 +411,7 @@ main.post article {
 }
 
 .post-content pre {
-  background-color: #ffffff;
+  background-color: var(--code-bg);
   border: 2px solid var(--accent);
   padding: 20px;
   border-radius: 6px;
@@ -1068,7 +1072,7 @@ body:has(.portfolio-page) main {
 }
 
 .portfolio-detail-content pre {
-  background-color: #ffffff;
+  background-color: var(--code-bg);
   border: 2px solid var(--accent);
   padding: 20px;
   border-radius: 6px;
