@@ -32,7 +32,7 @@ cover_image: "mini-engin-image/mini_engine_thumbnail.gif"
 | **플랫폼** | Linux, macOS, Windows, Web (WASM) |
 | **주요 기능** | Cook-Torrance PBR, IBL, GPU Frustum Culling, Indirect Draw, Shadow Mapping |
 
-**Motivation**: Vulkan Tutorial을 따라하며 **"텍스처 하나 추가하려면 467줄 중 어디를 수정해야 하나?"**라는 질문에 답할 수 없었음. 이 경험이 계기가 되어 확장 가능한 아키텍처 설계를 목표로 설정.
+**Motivation**: Vulkan Tutorial을 따라하며 "텍스처 하나 추가하려면 467줄 중 어디를 수정해야 하나?"라는 질문에 답할 수 없었음. 이 경험이 계기가 되어 확장 가능한 아키텍처 설계를 목표로 설정.
 
 <div style="display: flex; gap: 10px; justify-content: center;">
 
