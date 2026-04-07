@@ -16,8 +16,8 @@ theme = "terminal"
 [params]
   contentTypeName = "posts"
   showMenuItems = 5
-  fullWidthTheme = false
-  centerTheme = true
+  fullWidthTheme = true
+  centerTheme = false
   themeColor = "blue"
 
 [params.twitter]

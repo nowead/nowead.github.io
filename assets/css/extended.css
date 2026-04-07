@@ -242,19 +242,36 @@ a:hover {
 }
 
 /* ============================================
+   Container & Layout Override
+   ============================================ */
+
+/* Full-width container: reset terminal theme's side padding */
+.container {
+  padding-left: 60px !important;
+  padding-right: 60px !important;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+}
+
+/* ============================================
    Post Content Typography
    ============================================ */
 
 main.post {
   max-width: 100%;
   margin: 0;
-  padding: 40px 55px;
+  padding: 20px 0;
   background-color: #ffffff;
 }
 
 main.post article {
   background-color: #ffffff;
-  max-width: 1400px;
+  max-width: 900px;
 }
 
 .post-title {
@@ -366,10 +383,16 @@ main.post article {
 
 .post-content blockquote {
   margin: 1.5em 0;
-  padding-left: 1.5em;
-  border-left: 4px solid var(--accent);
+  padding: 0.75em 1.5em !important;
+  border-top: none !important;
+  border-bottom: none !important;
+  border-left: 4px solid var(--accent) !important;
   color: #4b5563;
   font-style: italic;
+}
+
+.post-content blockquote::before {
+  content: none !important;
 }
 
 .post-content hr {
@@ -403,7 +426,9 @@ main.post article {
   max-width: 100%;
   height: auto;
   margin: 1.5em 0;
-  border-radius: 6px;
+  border-radius: 6px !important;
+  border: 1px solid #e5e7eb !important;
+  padding: 0 !important;
   image-rendering: -webkit-optimize-contrast;
   image-rendering: crisp-edges;
   -webkit-backface-visibility: hidden;
@@ -411,9 +436,9 @@ main.post article {
 }
 
 .post-content pre {
-  background-color: var(--code-bg);
-  border: 2px solid var(--accent);
-  padding: 20px;
+  background-color: var(--code-bg) !important;
+  border: 2px solid var(--accent) !important;
+  padding: 20px !important;
   border-radius: 6px;
   overflow-x: auto;
   margin: 25px 0;
@@ -427,9 +452,19 @@ main.post article {
 
 .post-content pre code {
   color: var(--foreground);
-  background-color: transparent;
-  padding: 0;
-  border: none;
+  background-color: transparent !important;
+  padding: 0 !important;
+  border: none !important;
+}
+
+/* Terminal theme adds .highlight wrapper around code blocks — override its border */
+.post-content .highlight {
+  border: none !important;
+  margin: 0;
+}
+
+.post-content .highlight pre {
+  margin: 0;
 }
 
 /* Code copy button */
@@ -462,12 +497,17 @@ pre .copy-button.copied {
 
 .post-content p code,
 .post-content li code,
-.post-content td code {
-  background-color: #f1f5f9;
-  color: #e11d48;
-  padding: 3px 6px;
+.post-content td code,
+.post-content h1 code,
+.post-content h2 code,
+.post-content h3 code,
+.post-content h4 code {
+  background-color: #f1f5f9 !important;
+  color: #e11d48 !important;
+  padding: 3px 6px !important;
   border-radius: 4px;
   font-size: 0.9em;
+  border: 1px solid #e2e8f0 !important;
 }
 
 /* ============================================
