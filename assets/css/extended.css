@@ -1222,14 +1222,302 @@ body:has(.portfolio-page) main {
     grid-template-columns: repeat(2, 1fr);
     page-break-inside: avoid;
   }
-  
+
   .portfolio-card {
     page-break-inside: avoid;
     box-shadow: none;
     border: 1px solid #000;
   }
-  
+
   .portfolio-intro {
     page-break-after: avoid;
   }
+}
+
+/* ============================================
+   Dark Mode
+   ============================================ */
+
+[data-theme="dark"] {
+  --background: #0f172a;
+  --foreground: #e2e8f0;
+  --accent: #60a5fa;
+  --code-border: #3b82f6;
+  --code-bg: #1e293b;
+
+  --color: var(--foreground);
+  --background-color: var(--background);
+  --border-color: var(--accent);
+}
+
+/* Dark mode toggle button */
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: 2px solid var(--accent);
+  cursor: pointer;
+  color: var(--accent);
+  padding: 0;
+  transition: background-color 0.2s, color 0.2s;
+  flex-shrink: 0;
+}
+
+.theme-toggle:hover {
+  background-color: var(--accent);
+  color: var(--background);
+}
+
+.theme-toggle .sun-icon { display: none; }
+.theme-toggle .moon-icon { display: inline-flex; }
+
+[data-theme="dark"] .theme-toggle .sun-icon { display: inline-flex; }
+[data-theme="dark"] .theme-toggle .moon-icon { display: none; }
+
+/* Global dark mode overrides for hardcoded colors */
+
+/* Body & backgrounds */
+[data-theme="dark"] body {
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+/* Post list */
+[data-theme="dark"] .post.on-list {
+  background-color: var(--background);
+}
+
+[data-theme="dark"] .post.on-list .post-meta {
+  color: #94a3b8;
+}
+
+[data-theme="dark"] .post-link:hover .post.on-list {
+  box-shadow: 0 4px 12px rgba(96, 165, 250, 0.15);
+}
+
+/* Archive */
+[data-theme="dark"] .archive-item {
+  border-bottom-color: #334155;
+}
+
+[data-theme="dark"] .archive-item:hover {
+  background-color: #1e293b;
+}
+
+[data-theme="dark"] .archive-date {
+  color: #94a3b8;
+}
+
+/* Post meta */
+[data-theme="dark"] .post-meta {
+  border-bottom-color: #334155;
+  color: #94a3b8;
+}
+
+[data-theme="dark"] .post-tag {
+  background-color: #1e293b;
+}
+
+[data-theme="dark"] .post-tag a {
+  color: #94a3b8;
+}
+
+/* Post content */
+[data-theme="dark"] main.post,
+[data-theme="dark"] main.post article {
+  background-color: var(--background);
+}
+
+[data-theme="dark"] .post-content strong {
+  color: #f1f5f9;
+}
+
+[data-theme="dark"] .post-content blockquote {
+  color: #94a3b8;
+}
+
+[data-theme="dark"] .post-content hr {
+  border-top-color: #334155;
+}
+
+[data-theme="dark"] .post-content table th,
+[data-theme="dark"] .post-content table td {
+  border-color: #334155;
+}
+
+[data-theme="dark"] .post-content table th {
+  background-color: #1e293b;
+}
+
+[data-theme="dark"] .post-content img {
+  border-color: #334155 !important;
+}
+
+[data-theme="dark"] .post-content p code,
+[data-theme="dark"] .post-content li code,
+[data-theme="dark"] .post-content td code,
+[data-theme="dark"] .post-content h1 code,
+[data-theme="dark"] .post-content h2 code,
+[data-theme="dark"] .post-content h3 code,
+[data-theme="dark"] .post-content h4 code {
+  background-color: #1e293b !important;
+  color: #f87171 !important;
+  border-color: #334155 !important;
+}
+
+/* About page */
+[data-theme="dark"] .about-section {
+  background-color: #1e293b;
+}
+
+[data-theme="dark"] .about-section h2 {
+  border-bottom-color: #334155;
+}
+
+[data-theme="dark"] .about-section h3 {
+  color: #93c5fd;
+}
+
+/* Portfolio */
+[data-theme="dark"] .portfolio-page {
+  background-color: var(--background);
+}
+
+[data-theme="dark"] .profile-section {
+  background-color: #1e293b;
+  border-color: #334155;
+}
+
+[data-theme="dark"] .profile-photo {
+  border-color: #334155;
+  background-color: #1e293b;
+}
+
+[data-theme="dark"] .profile-title {
+  color: #94a3b8;
+}
+
+[data-theme="dark"] .contact-info,
+[data-theme="dark"] .education-info,
+[data-theme="dark"] .profile-skills {
+  border-top-color: #334155;
+}
+
+[data-theme="dark"] .contact-info h3,
+[data-theme="dark"] .education-info h3,
+[data-theme="dark"] .profile-skills h2 {
+  color: #f1f5f9;
+}
+
+[data-theme="dark"] .education-school {
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .education-period,
+[data-theme="dark"] .education-gpa,
+[data-theme="dark"] .profile-title {
+  color: #94a3b8;
+}
+
+[data-theme="dark"] .portfolio-intro-quote {
+  background-color: #1e293b;
+  border-left-color: #e2e8f0;
+}
+
+[data-theme="dark"] .portfolio-intro-quote .quote-highlight {
+  color: #f1f5f9;
+}
+
+[data-theme="dark"] .portfolio-intro-quote p {
+  color: #94a3b8;
+}
+
+[data-theme="dark"] .portfolio-section-title {
+  color: #f1f5f9;
+  border-bottom-color: #334155;
+}
+
+[data-theme="dark"] .portfolio-card {
+  background-color: #1e293b;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .portfolio-card:hover {
+  box-shadow: 0 6px 16px rgba(96, 165, 250, 0.2);
+}
+
+[data-theme="dark"] .portfolio-card-image {
+  background-color: #0f172a;
+  border-bottom-color: #334155;
+}
+
+[data-theme="dark"] .portfolio-card-title {
+  color: #f1f5f9;
+}
+
+[data-theme="dark"] .portfolio-card-date {
+  color: #94a3b8;
+}
+
+[data-theme="dark"] .portfolio-card-description {
+  color: #cbd5e1;
+}
+
+[data-theme="dark"] .portfolio-tag {
+  background-color: #0f172a;
+  color: #94a3b8;
+  border-color: #334155;
+}
+
+[data-theme="dark"] .portfolio-card:hover .portfolio-tag {
+  background-color: #334155;
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .portfolio-card-footer {
+  border-top-color: #334155;
+}
+
+/* Portfolio detail */
+[data-theme="dark"] .portfolio-detail-content h3 {
+  color: #93c5fd;
+}
+
+[data-theme="dark"] .portfolio-detail-content table thead {
+  background-color: #1e293b;
+}
+
+[data-theme="dark"] .portfolio-detail-content table th,
+[data-theme="dark"] .portfolio-detail-content table td {
+  border-color: #334155;
+}
+
+[data-theme="dark"] .portfolio-detail-content p code,
+[data-theme="dark"] .portfolio-detail-content li code,
+[data-theme="dark"] .portfolio-detail-content td code {
+  background-color: #1e293b;
+  color: #f87171;
+}
+
+[data-theme="dark"] .portfolio-detail-content blockquote {
+  color: #94a3b8;
+}
+
+[data-theme="dark"] .portfolio-detail-meta .post-tag {
+  background-color: #1e293b;
+}
+
+[data-theme="dark"] .portfolio-detail-description {
+  color: #94a3b8;
+}
+
+[data-theme="dark"] .portfolio-nav-button:hover {
+  background-color: #1e293b;
+}
+
+[data-theme="dark"] .portfolio-nav-button .nav-label {
+  color: #94a3b8;
 }
