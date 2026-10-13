@@ -1,16 +1,20 @@
 /* Shared site foundations for the blog, study notes, and portfolio. */
 :root, :root[data-theme=light] {
   color-scheme:light;
-  --bg:#fbfdfc;
-  --panel:#eef4f2;
-  --panel-soft:#f3f7f6;
-  --text:#18323f;
-  --muted:#506773;
-  --line:#d8e3e1;
-  --accent:#087875;
+  --bg:#f7f9fc;
+  --panel:#edf1f8;
+  --panel-soft:#f0f4fa;
+  --text:#172641;
+  --muted:#53627b;
+  --line:#dbe2ed;
+  --navy:#203c70;
+  --accent:#203c70;
   --accent-ink:#ffffff;
-  --accent-soft:#e5f1ee;
-  --image-bg:#0c0e1b;
+  --accent-soft:#e8eef8;
+  --image-bg:#0c1425;
+  --shadow-sm:0 2px 6px rgba(23,38,65,.07);
+  --shadow-card:0 8px 24px rgba(23,38,65,.08),0 1px 3px rgba(23,38,65,.04);
+  --shadow-lift:0 12px 30px rgba(23,38,65,.12),0 3px 8px rgba(23,38,65,.05);
   --body-size:1.125rem;
   --small-size:.9375rem;
   --label-size:.8125rem;
@@ -21,15 +25,18 @@
 }
 :root[data-theme=dark] {
   color-scheme:dark;
-  --bg:#10212a;
-  --panel:#19313a;
-  --panel-soft:#152a33;
-  --text:#eef5f3;
-  --muted:#aec4c9;
-  --line:#344c55;
-  --accent:#82ccc2;
-  --accent-ink:#102a2b;
-  --accent-soft:#1b393e
+  --bg:#0c1425;
+  --panel:#142139;
+  --panel-soft:#101d33;
+  --text:#eaf0fc;
+  --muted:#adbbd3;
+  --line:#293b58;
+  --accent:#b0c7ef;
+  --accent-ink:#12223c;
+  --accent-soft:#1d3050;
+  --shadow-sm:0 2px 6px rgba(2,6,15,.22);
+  --shadow-card:0 8px 24px rgba(2,6,15,.28),0 1px 3px rgba(2,6,15,.18);
+  --shadow-lift:0 12px 30px rgba(2,6,15,.36),0 3px 8px rgba(2,6,15,.22)
 }
 *,*::before,*::after {
   box-sizing:border-box
@@ -191,7 +198,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
   border:1px solid var(--line);
   border-radius:3px;
   font-weight:600;
-  transition:background .2s,transform .2s
+  transition:background .2s,transform .2s,box-shadow .2s
 }
 .button:hover {
   transform:translateY(-2px)
@@ -199,7 +206,11 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
 .button.primary {
   background:var(--accent);
   color:var(--accent-ink);
-  border-color:var(--accent)
+  border-color:var(--accent);
+  box-shadow:var(--shadow-sm)
+}
+.button.primary:hover {
+  box-shadow:var(--shadow-card)
 }
 .button.subtle:hover {
   background:var(--panel)
@@ -258,7 +269,12 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
   background:var(--image-bg);
   border:1px solid var(--line);
   border-radius:4px;
-  aspect-ratio:16/10
+  aspect-ratio:16/10;
+  box-shadow:var(--shadow-card);
+  transition:box-shadow .25s ease
+}
+.project-image:hover {
+  box-shadow:var(--shadow-lift)
 }
 .project-image img {
   width:100%;
@@ -279,8 +295,8 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
   display:grid;
   place-items:center;
   color:#fff;
-  background:#171b23d9;
-  border:1px solid #5e646b;
+  background:#12213bdf;
+  border:1px solid #637493;
   font-size:20px
 }
 .project-meta {
@@ -489,7 +505,8 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
   aspect-ratio:3/4;
   object-fit:cover;
   border-radius:8px;
-  border:1px solid var(--line)
+  border:1px solid var(--line);
+  box-shadow:var(--shadow-card)
 }
 .profile-hero__description {
   grid-area:description;
@@ -578,9 +595,9 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
   left:17px;
   top:17px;
   padding:5px 10px;
-  background:#141821df;
-  border:1px solid #444956;
-  color:#e8e9ea;
+  background:#10203de8;
+  border:1px solid #445879;
+  color:#eaf0fc;
   font:var(--label-size)/1.5 var(--mono);
   border-radius:3px
 }
@@ -744,7 +761,8 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
   object-fit:contain;
   background:var(--image-bg);
   border:1px solid var(--line);
-  border-radius:4px
+  border-radius:4px;
+  box-shadow:var(--shadow-card)
 }
 .case-cover figcaption {
   font-size:var(--small-size);
@@ -1079,7 +1097,12 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
   background:var(--image-bg);
   border-radius:4px;
   overflow:hidden;
-  border:1px solid var(--line)
+  border:1px solid var(--line);
+  box-shadow:var(--shadow-card);
+  transition:box-shadow .25s ease
+}
+.case-gallery a:hover {
+  box-shadow:var(--shadow-lift)
 }
 .case-gallery img {
   width:100%;
@@ -1696,7 +1719,10 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
     --text:#111;
     --muted:#444;
     --line:#ccc;
-    --accent:#814127
+    --accent:#203c70;
+    --shadow-sm:none;
+    --shadow-card:none;
+    --shadow-lift:none
   }
   .wrap {
     width:100%

@@ -47,7 +47,8 @@
   padding:28px;
   background:var(--panel-soft);
   border:1px solid var(--line);
-  border-radius:12px
+  border-radius:12px;
+  box-shadow:var(--shadow-card)
 }
 .architecture-node {
   min-width:0;
@@ -91,7 +92,8 @@
   padding-block:23px;
   background:var(--text);
   border-color:var(--text);
-  color:var(--bg)
+  color:var(--bg);
+  box-shadow:var(--shadow-sm)
 }
 .architecture-node--core strong {
   font-size:clamp(22px,2.2vw,28px)

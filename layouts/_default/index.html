@@ -1,37 +1,40 @@
 {{ define "main" }}
-{{ $pages := .Site.RegularPages }}
-{{ if not $pages }}{{ $pages = .Sites.Default.RegularPages }}{{ end }}
-{{ $notes := (where $pages "Section" "in" (slice "vulkan-study-log" "posts")).ByDate.Reverse }}
-{{ $vulkan := where $pages "Section" "vulkan-study-log" }}
-<div class="wrap blog-home">
-  <header class="blog-intro">
-    <p class="blog-kicker">DEVELOPMENT NOTES</p>
-    <h1>민대원의 개발 노트</h1>
-    <p class="blog-description">Vulkan과 C++, 렌더링과 엔진 구조를 직접 구현하며 배운 것들을 기록합니다.</p>
-    <nav class="blog-shortcuts" aria-label="글 찾아보기"><a href="{{ "/archives/" | relURL }}">전체 글 <span aria-hidden="true">↗</span></a><a href="{{ "/series/" | relURL }}">시리즈</a><a href="{{ "/tags/" | relURL }}">태그</a></nav>
-  </header>
-  <div class="blog-layout">
-    <section class="blog-feed" aria-labelledby="recent-posts-title">
-      <div class="blog-section-heading"><h2 id="recent-posts-title">최근 글</h2><span>최신순 · {{ len $notes }}개의 기록</span></div>
-      <div class="blog-posts">{{ range first 6 $notes }}{{ partial "blog/post-row.html" . }}{{ end }}</div>
-      <a class="blog-more text-link" href="{{ "/archives/" | relURL }}">전체 기록 보기 <span aria-hidden="true">→</span></a>
-    </section>
-    <aside class="blog-sidebar" aria-label="시리즈와 포트폴리오">
-      <section class="blog-series-card" aria-labelledby="series-title">
-        <p class="blog-kicker">STUDY SERIES</p>
-        <h2 id="series-title">Vulkan Study Log</h2>
-        <p>API의 기초부터 렌더링 파이프라인, 동기화와 메모리 관리까지.</p>
-        <div class="blog-series-meta"><span>{{ len $vulkan }}개의 기록</span><span>기초 → 구현</span></div>
-        <a class="text-link" href="{{ "/vulkan-study-log/" | relURL }}">학습 순서대로 읽기 <span aria-hidden="true">→</span></a>
-      </section>
-      <section class="blog-portfolio-card" aria-labelledby="portfolio-link-title">
-        <p class="blog-kicker">BEYOND THE NOTES</p>
-        <h2 id="portfolio-link-title">직접 만든 프로젝트</h2>
-        <p>렌더링 엔진과 의료 영상 뷰어의 구현 과정, 담당한 작업을 소개합니다.</p>
-        <a class="text-link" href="{{ "/portfolio/" | relURL }}">포트폴리오 보기 <span aria-hidden="true">↗</span></a>
-      </section>
-      <a class="blog-rss" href="{{ "/index.xml" | relURL }}">RSS로 구독하기 <span aria-hidden="true">↗</span></a>
-    </aside>
-  </div>
+{{ $profile := .Sites.Default.GetPage "/portfolio" }}
+<div class="wrap landing">
+  <section class="landing-hero" aria-labelledby="landing-title">
+    <div class="landing-copy">
+      <p class="landing-kicker">GRAPHICS & GAME ENGINE DEVELOPER</p>
+      <h1 id="landing-title">생각을 구조로,<br><span>구조를 화면으로.</span></h1>
+      <div class="landing-identity">
+        {{ with $profile }}<img src="{{ printf "portfolio/%s" .Params.profile_image | relURL }}" alt="민대원 프로필 사진" width="354" height="472" fetchpriority="high">{{ end }}
+        <p>안녕하세요,<br>개발자 <strong>민대원</strong>입니다.</p>
+      </div>
+      <p class="landing-description">C++과 Vulkan·WebGPU로 게임 엔진과 의료 영상 뷰어를 만듭니다.</p>
+      <div class="landing-social" aria-label="연락처">
+        <a href="https://github.com/nowead" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+        <a href="mailto:dwm951017@gmail.com">Email <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+    <div class="landing-visual" aria-hidden="true">
+      <div class="landing-visual-grid"></div>
+      <span class="landing-visual-label">CODE → GEOMETRY → PIXELS</span>
+      {{ partial "studio/landing-graphic.html" . }}
+      <div class="landing-visual-footer"><span>EXPLORING THE<br>DIMENSIONS OF CODE</span><span class="landing-axis">X · Y · Z</span></div>
+    </div>
+  </section>
+  <nav class="landing-destinations" aria-label="프로젝트와 학습 기록">
+    <a class="landing-destination landing-destination--portfolio" href="{{ "/portfolio/" | relURL }}" aria-labelledby="landing-portfolio-title">
+      <div class="landing-destination-top"><span class="landing-kicker">01 / WORK & EXPERIENCE</span><span class="landing-link-arrow" aria-hidden="true">↗</span></div>
+      <h2 id="landing-portfolio-title">Portfolio</h2>
+      <p>만든 프로젝트와 그 안에서의 고민, 직접 맡은 역할과 구현 과정을 소개합니다.</p>
+      <span class="landing-destination-action">포트폴리오 살펴보기 <span aria-hidden="true">→</span></span>
+    </a>
+    <a class="landing-destination landing-destination--study" href="{{ "/vulkan-study-log/" | relURL }}" aria-labelledby="landing-study-title">
+      <div class="landing-destination-top"><span class="landing-kicker">02 / LEARNING & NOTES</span><span class="landing-link-arrow" aria-hidden="true">↗</span></div>
+      <h2 id="landing-study-title">Study Log</h2>
+      <p>Vulkan과 렌더링을 이해하며 남긴 기록. 학습한 내용과 개발 노트는 이곳에 모았습니다.</p>
+      <span class="landing-destination-action">학습 기록 읽기 <span aria-hidden="true">→</span></span>
+    </a>
+  </nav>
 </div>
 {{ end }}

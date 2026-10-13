@@ -52,11 +52,13 @@ for path in paths:
         if page.count(tag) != 1:
             errors.append(f"{label}: expected one {tag}, found {page.count(tag)}")
     if path == root / "index.html":
-        for anchor in ("recent-posts-title", "series-title", "portfolio-link-title"):
+        for anchor in ("landing-title", "landing-portfolio-title", "landing-study-title"):
             if anchor not in page.ids:
                 errors.append(f"{label}: homepage section #{anchor} did not render")
         if any("profile-hero" in attrs.get("class", "").split() for _, attrs in page.tags):
             errors.append(f"{label}: portfolio introduction must live on /portfolio/")
+        if any("blog-post" in attrs.get("class", "").split() for _, attrs in page.tags):
+            errors.append(f"{label}: recent posts belong in Study Log, not the landing page")
     if path == root / "portfolio/index.html":
         for anchor in ("projects", "about", "profile", "notes-title"):
             if anchor not in page.ids:

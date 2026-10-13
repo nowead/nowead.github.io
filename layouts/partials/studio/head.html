@@ -1,11 +1,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 {{ $title := printf "%s · 민대원의 개발 노트" .Title }}
-{{ if .IsHome }}{{ $title = "민대원의 개발 노트" }}{{ else if eq .Section "portfolio" }}{{ $title = printf "%s · 민대원" .Title }}{{ end }}
+{{ if .IsHome }}{{ $title = "민대원 · Graphics & Game Engine Developer" }}{{ else if eq .Section "portfolio" }}{{ $title = printf "%s · 민대원" .Title }}{{ end }}
 {{ $description := .Description | default .Params.summary | default "Vulkan과 C++, 렌더링과 엔진 구조를 직접 구현하며 남긴 민대원의 개발 기록." }}
 <title>{{ $title }}</title>
 <meta name="description" content="{{ $description }}">
-<meta name="theme-color" content="#fbfdfc">
+<meta name="theme-color" content="#f7f9fc">
 <meta property="og:title" content="{{ $title }}">
 <meta property="og:description" content="{{ $description }}">
 <meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
@@ -32,7 +32,10 @@
 </script>
 {{ $style := resources.Get "css/studio/main.css" | minify | fingerprint }}
 <link rel="stylesheet" href="{{ $style.RelPermalink }}">
-{{ if eq .Section "portfolio" }}
+{{ if .IsHome }}
+{{ $landing := resources.Get "css/studio/landing.css" | minify | fingerprint }}
+<link rel="stylesheet" href="{{ $landing.RelPermalink }}">
+{{ else if eq .Section "portfolio" }}
 {{ $portfolio := resources.Get "css/studio/portfolio.css" | minify | fingerprint }}
 <link rel="stylesheet" href="{{ $portfolio.RelPermalink }}">
 {{ else }}

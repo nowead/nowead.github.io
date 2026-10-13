@@ -3,7 +3,7 @@
 <head>
   {{ partial "studio/head.html" . }}
 </head>
-<body class="studio{{ if ne .Section "portfolio" }} site-blog{{ end }}">
+<body class="studio{{ if .IsHome }} site-landing{{ else if ne .Section "portfolio" }} site-blog{{ end }}">
   <a class="skip-link" href="#main">본문으로 건너뛰기</a>
   {{ partial "studio/header.html" . }}
   <main id="main" tabindex="-1">

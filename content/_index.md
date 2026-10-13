@@ -1,4 +1,4 @@
 +++
-title = "민대원의 개발 노트"
-description = "Vulkan과 C++, 렌더링과 엔진 구조를 직접 구현하며 남긴 개발 기록. 최신 글과 Vulkan Study Log를 읽고 포트폴리오를 살펴보세요."
+title = "민대원 · Graphics & Game Engine Developer"
+description = "C++과 Vulkan·WebGPU로 게임 엔진과 의료 영상 뷰어를 만드는 개발자 민대원입니다. 프로젝트는 포트폴리오에서, 학습과 개발 기록은 Study Log에서 만나보세요."
 +++
