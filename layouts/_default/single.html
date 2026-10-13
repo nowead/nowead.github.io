@@ -1,0 +1,6 @@
+{{ define "main" }}
+<article class="wrap blog-directory">
+  <header class="blog-intro"><a class="back-link" href="{{ "/" | relURL }}">← 블로그</a><h1>{{ .Title }}</h1></header>
+  <div class="prose blog-content">{{ .Content }}</div>
+</article>
+{{ end }}

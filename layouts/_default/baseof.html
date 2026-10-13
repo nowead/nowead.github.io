@@ -1,33 +1,20 @@
 <!DOCTYPE html>
 <html lang="{{ .Site.LanguageCode }}">
 <head>
-  {{ if or .IsHome (eq .Section "portfolio") }}
-    {{ partial "studio/head.html" . }}
-  {{ else }}
-    <title>{{ .Title }} :: {{ .Site.Title }}</title>
-    {{ partial "head.html" . }}
-  {{ end }}
+  {{ partial "studio/head.html" . }}
 </head>
-<body{{ if or .IsHome (eq .Section "portfolio") }} class="studio"{{ end }}>
-{{ if or .IsHome (eq .Section "portfolio") }}
+<body class="studio{{ if ne .Section "portfolio" }} site-blog{{ end }}">
   <a class="skip-link" href="#main">본문으로 건너뛰기</a>
   {{ partial "studio/header.html" . }}
   <main id="main" tabindex="-1">
-{{ else }}
-  <div class="container full">
-    {{ partial "header.html" . }}
-    <div class="content">
-{{ end }}
     {{ block "main" . }}{{ end }}
-{{ if or .IsHome (eq .Section "portfolio") }}
   </main>
   {{ partial "studio/footer.html" . }}
   {{ $script := resources.Get "js/studio.js" | minify | fingerprint }}
   <script src="{{ $script.RelPermalink }}" defer></script>
-{{ else }}
-    </div>
-    {{ partial "footer.html" . }}
-  </div>
+{{ if eq .Section "vulkan-study-log" }}
+  {{ $study := resources.Get "js/study.js" | minify | fingerprint }}
+  <script src="{{ $study.RelPermalink }}" defer></script>
 {{ end }}
 </body>
 </html>

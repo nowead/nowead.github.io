@@ -1,8 +1,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-{{ $title := printf "%s · 민대원" .Title }}
-{{ if .IsHome }}{{ $title = "민대원 · Graphics & Game Engine Developer" }}{{ end }}
-{{ $description := .Description | default .Params.summary | default "C++과 GPU로 렌더링의 원리부터 사용자의 화면까지 연결하는 개발자, 민대원." }}
+{{ $title := printf "%s · 민대원의 개발 노트" .Title }}
+{{ if .IsHome }}{{ $title = "민대원의 개발 노트" }}{{ else if eq .Section "portfolio" }}{{ $title = printf "%s · 민대원" .Title }}{{ end }}
+{{ $description := .Description | default .Params.summary | default "Vulkan과 C++, 렌더링과 엔진 구조를 직접 구현하며 남긴 민대원의 개발 기록." }}
 <title>{{ $title }}</title>
 <meta name="description" content="{{ $description }}">
 <meta name="theme-color" content="#fbfdfc">
@@ -11,10 +11,16 @@
 <meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
 <meta property="og:url" content="{{ .Permalink }}">
 <meta property="og:locale" content="ko_KR">
-{{ $cover := "portfolio/omnimed3d-image/segmentation.jpg" }}
+{{ $cover := "" }}
+{{ if eq .Section "portfolio" }}{{ $cover = "portfolio/omnimed3d-image/segmentation.jpg" }}{{ end }}
 {{ with .Params.cover_image }}{{ $cover = printf "portfolio/%s" . }}{{ end }}
+{{ with .Params.Cover.image }}{{ $cover = . }}{{ end }}
+{{ if $cover }}
 <meta property="og:image" content="{{ $cover | absURL }}">
 <meta name="twitter:card" content="summary_large_image">
+{{ else }}
+<meta name="twitter:card" content="summary">
+{{ end }}
 <link rel="canonical" href="{{ .Permalink }}">
 <link rel="icon" href="{{ "favicon.png" | relURL }}">
 <script>
@@ -26,6 +32,17 @@
 </script>
 {{ $style := resources.Get "css/studio/main.css" | minify | fingerprint }}
 <link rel="stylesheet" href="{{ $style.RelPermalink }}">
+{{ if eq .Section "portfolio" }}
+{{ $portfolio := resources.Get "css/studio/portfolio.css" | minify | fingerprint }}
+<link rel="stylesheet" href="{{ $portfolio.RelPermalink }}">
+{{ else }}
+{{ $blog := resources.Get "css/studio/blog.css" | minify | fingerprint }}
+<link rel="stylesheet" href="{{ $blog.RelPermalink }}">
+{{ end }}
+{{ if eq .Section "vulkan-study-log" }}
+{{ $study := resources.Get "css/studio/study.css" | minify | fingerprint }}
+<link rel="stylesheet" href="{{ $study.RelPermalink }}">
+{{ end }}
 {{ with .Params.architecture }}
 {{ $architecture := resources.Get "css/studio/architecture.css" | minify | fingerprint }}
 <link rel="stylesheet" href="{{ $architecture.RelPermalink }}">

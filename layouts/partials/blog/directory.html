@@ -1,0 +1,11 @@
+<div class="wrap blog-directory">
+  <header class="blog-intro">
+    <a class="back-link" href="{{ "/" | relURL }}">← 블로그</a>
+    <p class="blog-kicker">{{ if eq .Kind "term" }}TOPIC{{ else }}ALL NOTES{{ end }}</p>
+    <h1>{{ .Title }}</h1>
+    {{ with .Content }}<div class="blog-description">{{ . }}</div>{{ end }}
+    <p class="blog-directory-count">{{ len .RegularPages }}개의 글</p>
+  </header>
+  <div class="blog-posts">{{ $paginator := .Paginate .RegularPages.ByDate.Reverse }}{{ range $paginator.Pages }}{{ partial "blog/post-row.html" . }}{{ end }}</div>
+  {{ if gt $paginator.TotalPages 1 }}<nav class="blog-pagination" aria-label="글 목록 페이지">{{ with $paginator.Prev }}<a class="text-link" href="{{ .URL }}">← 이전 페이지</a>{{ end }}<span>{{ $paginator.PageNumber }} / {{ $paginator.TotalPages }}</span>{{ with $paginator.Next }}<a class="text-link" href="{{ .URL }}">다음 페이지 →</a>{{ end }}</nav>{{ end }}
+</div>

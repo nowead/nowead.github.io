@@ -29,7 +29,7 @@ summary = "Vulkan 학습 시리즈의 인덱스입니다. Vulkan API의 기초�
 
 ### Vulkan 초기화
 
-- [Ep06. Instance와 Device](../ep06_instance)
+- [Ep06. Instance와 Physical Device](../ep06_instance)
 - [Ep07. Logical Device와 Queue](../ep07_device)
 - [Ep08. Surface와 Swapchain](../ep08_surface)
 
@@ -37,20 +37,19 @@ summary = "Vulkan 학습 시리즈의 인덱스입니다. Vulkan API의 기초�
 
 - [Ep09. Graphics Pipeline](../ep09_pipeline)
 - [Ep10. Framebuffer와 Command Buffer](../ep10_framebuffer_command)
-- [Ep11. Rendering Presentation](../ep11_rendering_presentation)
+- [Ep11. Rendering과 Presentation](../ep11_rendering_presentation)
+
+### 프레임 처리와 렌더링 정리
+
+- [Ep12. Frames in Flight](../ep12_frames_in_flight)
+- [Ep13. 스왑체인 재생성](../ep13_swapchain_recreation)
+- [Ep14. Vulkan 렌더링 전체 흐름 정리](../ep14_vulkan_rendering_overview)
 
 ### 데이터 다루기
 
-- Ep13. Vertex Buffer (작성 예정)
-- Ep14. Index Buffer (작성 예정)
-- Ep15. Uniform Buffer (작성 예정)
-- Ep16. Descriptor Sets (작성 예정)
-
-### 텍스처와 3D
-
-- Ep17. 텍스처 로딩 (작성 예정)
-- Ep18. Depth Buffering (작성 예정)
-- Ep19. 3D 모델 로딩 (작성 예정)
+- [Ep15. 정점 입력과 버퍼](../ep15_vertex_input_buffer)
+- [Ep16. 스테이징 버퍼(Staging Buffer)](../ep16_staging_buffer)
+- [Ep17. 인덱스 버퍼(Index Buffer)](../ep17_index_buffer)
 
 ---
 

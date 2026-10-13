@@ -1,0 +1,6 @@
+<article class="blog-post">
+  <div class="blog-post-meta"><span>{{ if eq .Section "vulkan-study-log" }}VULKAN STUDY{{ else if eq .Section "portfolio" }}PROJECT{{ else }}DEVELOPMENT{{ end }}</span>{{ if not .Date.IsZero }}<time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006.01.02" }}</time>{{ end }}</div>
+  <h2 class="blog-post-title"><a href="{{ .RelPermalink }}">{{ replaceRE `^\[Vulkan\]\s*` "" .Title }}</a></h2>
+  {{ with .Params.summary | default (.Summary | plainify | truncate 150) }}<p class="blog-post-summary">{{ . | plainify }}</p>{{ end }}
+  {{ with .Params.tags }}<ul class="blog-post-tags" aria-label="태그">{{ range first 3 . }}<li><a href="{{ printf "/tags/%s/" (. | urlize) | relURL }}">{{ . }}</a></li>{{ end }}</ul>{{ end }}
+</article>

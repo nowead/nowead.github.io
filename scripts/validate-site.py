@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Check rendered portfolio pages, including failures that Hugo cannot catch."""
+"""Check blog, study, and portfolio navigation after the Hugo build."""
 import sys
 from html.parser import HTMLParser
 from pathlib import Path
@@ -26,6 +26,12 @@ class Page(HTMLParser):
 root = Path(sys.argv[1] if len(sys.argv) > 1 else "public").resolve()
 paths = [root / "index.html", root / "portfolio/index.html"]
 paths.extend(sorted((root / "portfolio").glob("*/index.html")))
+paths.append(root / "vulkan-study-log/index.html")
+paths.extend(sorted((root / "vulkan-study-log").glob("*/index.html")))
+paths.append(root / "archives/index.html")
+for section in ("tags", "series", "categories"):
+    paths.append(root / section / "index.html")
+    paths.extend(sorted((root / section).glob("*/index.html")))
 errors = []
 cache = {}
 
@@ -46,10 +52,15 @@ for path in paths:
         if page.count(tag) != 1:
             errors.append(f"{label}: expected one {tag}, found {page.count(tag)}")
     if path == root / "index.html":
-        for anchor in ("about", "work-title", "notes-title"):
+        for anchor in ("recent-posts-title", "series-title", "portfolio-link-title"):
             if anchor not in page.ids:
                 errors.append(f"{label}: homepage section #{anchor} did not render")
-    if path in (root / "index.html", root / "portfolio/index.html"):
+        if any("profile-hero" in attrs.get("class", "").split() for _, attrs in page.tags):
+            errors.append(f"{label}: portfolio introduction must live on /portfolio/")
+    if path == root / "portfolio/index.html":
+        for anchor in ("projects", "about", "profile", "notes-title"):
+            if anchor not in page.ids:
+                errors.append(f"{label}: missing portfolio section #{anchor}")
         groups = [attrs for _, attrs in page.tags if "competency-group" in attrs.get("class", "").split()]
         if len(groups) != 2:
             errors.append(f"{label}: core expertise and working knowledge must both render")

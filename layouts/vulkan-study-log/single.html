@@ -1,56 +1,65 @@
 {{ define "main" }}
-  <main class="post">
-    <article>
-      <h1 class="post-title">
-        <a href="{{ .Permalink }}">{{ .Title | markdownify }}</a>
-      </h1>
-      <div class="post-meta">
-        {{ if .Date }}
-          <time class="post-date">
-            {{ .Date.Format "2006-01-02" }}
-          </time>
-        {{ end }}
-        {{ with .Params.tags }}
-          {{ range . }}
-            <span class="post-tag"><a href="{{ "/tags/" | relURL }}{{ . | urlize }}">#{{ . }}</a></span>
-          {{ end }}
-        {{ end }}
-      </div>
-
-      {{ with .Params.Cover }}
-      <div class="post-cover">
-        {{ if .image }}
-          <img src="{{ .image | absURL }}" alt="{{ $.Title }}" />
-        {{ end }}
-      </div>
+{{ $episodes := .CurrentSection.RegularPages.ByDate }}
+{{ $current := . }}
+{{ $previous := false }}
+{{ $next := false }}
+{{ $number := "" }}
+{{ range $index, $episode := $episodes }}
+  {{ if eq .RelPermalink $current.RelPermalink }}
+    {{ $number = printf "%02d" $index }}
+    {{ if gt $index 0 }}{{ $previous = index $episodes (sub $index 1) }}{{ end }}
+    {{ if lt $index (sub (len $episodes) 1) }}{{ $next = index $episodes (add $index 1) }}{{ end }}
+  {{ end }}
+{{ end }}
+{{ $title := replaceRE `(?i)^\[vulkan\]\s*ep\d+\.\s*` "" .Title }}
+{{ $hasTOC := gt (len (findRE `<a href=` .TableOfContents)) 0 }}
+<article class="wrap study-article">
+  <header class="study-article-header">
+    <a class="study-back-link" href="{{ .CurrentSection.RelPermalink }}">← Vulkan Study Log</a>
+    <div class="study-article-meta">
+      <span class="study-article-episode">EP. {{ $number }}</span>
+      <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006.01.02" }}</time>
+      <span>약 {{ .ReadingTime }}분</span>
+    </div>
+    <h1>{{ $title }}</h1>
+    {{ with .Params.Summary }}<p class="study-article-summary">{{ . }}</p>{{ end }}
+    {{ with .GetTerms "tags" }}
+    <ul class="study-article-tags" aria-label="관련 주제">
+      {{ range . }}<li><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></li>{{ end }}
+    </ul>
+    {{ end }}
+  </header>
+  <div class="study-reading-layout">
+    <div class="study-reading-main">
+      {{ if $hasTOC }}
+      <details class="study-mobile-toc">
+        <summary>이 글의 목차</summary>
+        <div class="study-toc-links">{{ replace .TableOfContents `id="TableOfContents"` `aria-label="이 글의 목차"` | safeHTML }}</div>
+      </details>
       {{ end }}
-
-      <div class="post-content">
+      <div class="prose study-prose">
+        {{ with .Params.Cover }}{{ with .image }}<img src="{{ . | relURL }}" alt="{{ $current.Title }}">{{ end }}{{ end }}
         {{ .Content }}
       </div>
-
-      {{ if or .NextInSection .PrevInSection }}
-      <div class="pagination">
-        <div class="pagination__buttons">
-          {{ if .PrevInSection }}
-            <span class="button previous">
-              <a href="{{ .PrevInSection.Permalink }}">
-                <span class="button__icon">←</span>
-                <span class="button__text">{{ .PrevInSection.Title }}</span>
-              </a>
-            </span>
-          {{ end }}
-          {{ if .NextInSection }}
-            <span class="button next">
-              <a href="{{ .NextInSection.Permalink }}">
-                <span class="button__text">{{ .NextInSection.Title }}</span>
-                <span class="button__icon">→</span>
-              </a>
-            </span>
-          {{ end }}
-        </div>
+      <nav class="study-article-navigation" aria-label="이전 글과 다음 글">
+        {{ with $previous }}
+        <a class="study-page-link study-page-previous" href="{{ .RelPermalink }}" rel="prev"><span>← 이전 글</span><strong>{{ replaceRE `(?i)^\[vulkan\]\s*` "" .Title }}</strong></a>
+        {{ end }}
+        {{ with $next }}
+        <a class="study-page-link study-page-next" href="{{ .RelPermalink }}" rel="next"><span>다음 글 →</span><strong>{{ replaceRE `(?i)^\[vulkan\]\s*` "" .Title }}</strong></a>
+        {{ end }}
+      </nav>
+      <a class="study-return-link" href="{{ .CurrentSection.RelPermalink }}">전체 학습 기록 보기 <span aria-hidden="true">↗</span></a>
+    </div>
+    {{ if $hasTOC }}
+    <aside class="study-desktop-toc" aria-label="본문 탐색">
+      <div class="study-toc-sticky">
+        <p class="study-toc-heading">이 글의 목차</p>
+        <div class="study-toc-links">{{ replace .TableOfContents `id="TableOfContents"` `aria-label="이 글의 목차"` | safeHTML }}</div>
+        <a class="study-toc-top" href="#main">맨 위로 ↑</a>
       </div>
-      {{ end }}
-    </article>
-  </main>
+    </aside>
+    {{ end }}
+  </div>
+</article>
 {{ end }}

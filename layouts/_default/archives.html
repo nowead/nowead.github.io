@@ -1,23 +1,7 @@
 {{ define "main" }}
-  <main class="post">
-    <article>
-      <h1 class="post-title">{{ .Title }}</h1>
-
-      <div class="post-content">
-        <p>블로그의 모든 게시글을 시간순으로 정리했습니다.</p>
-      </div>
-
-      {{ range .Site.RegularPages.GroupByDate "2006" }}
-        <h2>{{ .Key }}</h2>
-        <ul class="archive-list">
-          {{ range .Pages }}
-            <li class="archive-item">
-              <time class="archive-date">{{ .Date.Format "01-02" }}</time>
-              <a href="{{ .Permalink }}" class="archive-link">{{ .Title }}</a>
-            </li>
-          {{ end }}
-        </ul>
-      {{ end }}
-    </article>
-  </main>
+{{ $pages := where .Site.RegularPages "Section" "in" (slice "vulkan-study-log" "posts") }}
+<div class="wrap blog-directory">
+  <header class="blog-intro"><a class="back-link" href="{{ "/" | relURL }}">← 블로그</a><p class="blog-kicker">ARCHIVE</p><h1>전체 기록</h1><p class="blog-description">개발하며 남긴 {{ len $pages }}개의 글을 최신순으로 모았습니다.</p></header>
+  {{ range $pages.GroupByDate "2006" }}<section class="blog-archive-year" aria-labelledby="year-{{ .Key }}"><h2 id="year-{{ .Key }}">{{ .Key }}</h2><div class="blog-posts">{{ range .Pages.ByDate.Reverse }}{{ partial "blog/post-row.html" . }}{{ end }}</div></section>{{ end }}
+</div>
 {{ end }}

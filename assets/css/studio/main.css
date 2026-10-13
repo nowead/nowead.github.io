@@ -1,5 +1,4 @@
-/* The portfolio has an isolated stylesheet;
-legacy study notes keep their theme. */
+/* Shared site foundations for the blog, study notes, and portfolio. */
 :root, :root[data-theme=light] {
   color-scheme:light;
   --bg:#fbfdfc;
@@ -1387,9 +1386,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
     gap:12px;
     font-size:var(--control-size)
   }
-  .site-nav a:last-child {
-    display:none
-  }
+  .theme-control { margin-left:auto }
   .theme-control {
     width:40px;
     height:40px;
@@ -1645,6 +1642,14 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
   }
 }
 @media(max-width:360px) {
+  .site-nav {
+    order:3;
+    width:100%;
+    margin-left:0;
+    justify-content:space-between;
+    gap:16px
+  }
+
   .wrap {
     width:calc(100% - 32px)
   }

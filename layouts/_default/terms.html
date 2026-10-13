@@ -1,0 +1,11 @@
+{{ define "main" }}
+<div class="wrap blog-directory">
+  <header class="blog-intro">
+    <a class="back-link" href="{{ "/" | relURL }}">← 블로그</a>
+    <p class="blog-kicker">BROWSE THE NOTES</p>
+    <h1>{{ if eq .Data.Plural "tags" }}태그로 찾아보기{{ else if eq .Data.Plural "series" }}시리즈{{ else if eq .Data.Plural "categories" }}분야별 기록{{ else }}{{ .Title }}{{ end }}</h1>
+    {{ with .Content }}<div class="blog-description">{{ . }}</div>{{ end }}
+  </header>
+  <ul class="blog-topics">{{ range .Data.Terms.Alphabetical }}<li><a href="{{ .Page.RelPermalink }}"><span>{{ .Page.Title }}</span><span class="blog-topic-count">{{ .Count }}개의 글 <span aria-hidden="true">↗</span></span></a></li>{{ end }}</ul>
+</div>
+{{ end }}

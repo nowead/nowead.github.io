@@ -1,4 +1,4 @@
 +++
-title = "민대원 · Graphics & Game Engine Developer"
-description = "C++과 GPU로 렌더링의 원리부터 사용자의 화면까지. 민대원의 그래픽스 엔진, 의료영상 시각화 프로젝트와 학습 기록."
+title = "민대원의 개발 노트"
+description = "Vulkan과 C++, 렌더링과 엔진 구조를 직접 구현하며 남긴 개발 기록. 최신 글과 Vulkan Study Log를 읽고 포트폴리오를 살펴보세요."
 +++

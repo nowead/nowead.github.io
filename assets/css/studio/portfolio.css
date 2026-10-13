@@ -1,0 +1,64 @@
+/* Section navigation is prominent without competing with project titles. */
+.portfolio-page .section-label {
+  margin:0;
+  color:var(--accent);
+  font:700 1.25rem/1.5 var(--mono);
+  letter-spacing:.035em;
+  text-wrap:balance
+}
+.portfolio-page p.section-description {
+  margin-top:12px;
+  color:var(--text);
+  font-size:1.75rem;
+  font-weight:550;
+  line-height:1.5;
+  letter-spacing:-.6px
+}
+.portfolio-page .portfolio-work {
+  padding-top:48px
+}
+.portfolio-page .section-heading {
+  align-items:end
+}
+.portfolio-page .portfolio-profile {
+  padding-bottom:0;
+  border-bottom:1px solid var(--line)
+}
+.portfolio-page .portfolio-profile .profile-band {
+  padding-block:56px;
+  border-bottom:0
+}
+.portfolio-page .competency-group .eyebrow {
+  font-size:1rem;
+  font-weight:700;
+  letter-spacing:.035em
+}
+.portfolio-page .profile-hero__actions.actions {
+  gap:18px 28px
+}
+@media (max-width:540px) {
+  .portfolio-page .section-label {
+    font-size:1rem;
+    letter-spacing:.025em
+  }
+  .portfolio-page p.section-description {
+    margin-top:10px;
+    font-size:1.375rem;
+    letter-spacing:-.35px
+  }
+  .portfolio-page .portfolio-work {
+    padding-top:36px
+  }
+  .portfolio-page .section-heading {
+    align-items:start
+  }
+  .portfolio-page .portfolio-profile .profile-band {
+    padding-block:40px
+  }
+  .portfolio-page .competency-group .eyebrow {
+    font-size:.9375rem
+  }
+  .portfolio-page .profile-hero__actions.actions {
+    gap:14px 24px
+  }
+}
