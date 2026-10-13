@@ -1,11 +1,7 @@
 {{ define "main" }}
 <div class="wrap">
-  <header class="page-intro">
-    <p class="eyebrow"><span class="status-dot"></span> ENGINEERING PORTFOLIO / 민대원</p>
-    <h1>Selected <span>work.</span></h1>
-    <div class="intro-bottom"><p>렌더링 엔진에서 브라우저 의료영상 뷰어까지.<br>각 프로젝트의 담당 역할과 기술적 선택을 소개합니다.</p><a class="text-link" href="https://github.com/nowead" target="_blank" rel="noopener noreferrer">GitHub에서 코드 보기 ↗</a></div>
-  </header>
-  <div class="project-toolbar">
+  {{ partial "studio/profile-intro.html" (dict "profile" . "compact" true) }}
+  <div class="project-toolbar" id="projects">
     <div class="project-filters" role="group" aria-label="프로젝트 분야 필터" hidden>
       <button type="button" data-filter="all" aria-pressed="true">전체 <span>{{ len .RegularPages }}</span></button>
       <button type="button" data-filter="graphics" aria-pressed="false">Graphics <span>{{ len (where .RegularPages "Params.category" "graphics") }}</span></button>
@@ -16,12 +12,15 @@
   </div>
   <div class="featured-projects">{{ range (where .RegularPages "Params.featured" true).ByWeight }}{{ partial "studio/featured-project.html" . }}{{ end }}</div>
   <div class="other-projects" id="more-projects"><div class="section-heading"><div><p class="eyebrow">MORE EXPLORATIONS</p><h2>경험의 기반이 된 프로젝트</h2></div></div><div class="other-grid">{{ range (where .RegularPages "Params.featured" "ne" true).ByWeight }}{{ partial "studio/project-card.html" . }}{{ end }}</div></div>
+  <section class="portfolio-expertise" aria-labelledby="expertise-title">
+    <div class="section-heading"><div><p class="eyebrow">ENGINEERING TOOLKIT</p><h2 id="expertise-title">프로젝트를 만드는 기술</h2></div></div>
+    {{ partial "studio/competencies.html" . }}
+  </section>
   <section class="portfolio-profile" id="profile" aria-labelledby="profile-title">
-  <div class="profile-band">
-    <div class="profile-identity"><img src="{{ "portfolio/민대원_증명사진.jpg" | relURL }}" width="92" height="112" alt="민대원 프로필 사진" loading="lazy"><div><p class="eyebrow">BEHIND THE WORK</p><h2 id="profile-title">민대원 <span>Daewon Min</span></h2><p>{{ .Params.role }}</p><a class="text-link" href="mailto:dwm951017@gmail.com">이메일 보내기 ↗</a></div></div>
-    <div class="education-list">{{ range .Params.education }}<div><h3>{{ .degree }}</h3><p>{{ .school }}</p><small>{{ .period }}{{ with .gpa }} · {{ . }}{{ end }}</small></div>{{ end }}</div>
-  </div>
-  {{ partial "studio/competencies.html" . }}
+    <div class="profile-band">
+      <div class="profile-background"><p class="eyebrow">EDUCATION & BACKGROUND</p><h2 id="profile-title">학력·교육</h2><p>컴퓨터공학의 기초에서 시작해,<br>직접 구현하며 배움을 이어 왔습니다.</p></div>
+      <div class="education-list">{{ range .Params.education }}<div><h3>{{ .degree }}</h3><p>{{ .school }}</p><small>{{ .period }}{{ with .gpa }} · {{ . }}{{ end }}</small></div>{{ end }}</div>
+    </div>
   </section>
 </div>
 {{ end }}

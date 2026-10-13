@@ -12,6 +12,11 @@ legacy study notes keep their theme. */
   --accent-ink:#ffffff;
   --accent-soft:#e5f1ee;
   --image-bg:#0c0e1b;
+  --body-size:1.125rem;
+  --small-size:.9375rem;
+  --label-size:.8125rem;
+  --meta-size:.875rem;
+  --control-size:1rem;
   --sans:Inter,"Pretendard","Noto Sans KR",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
   --mono:"SFMono-Regular",Consolas,"Liberation Mono",monospace
 }
@@ -38,7 +43,7 @@ body.studio {
   margin:0;
   background:var(--bg);
   color:var(--text);
-  font:16px/1.7 var(--sans);
+  font:var(--body-size)/1.8 var(--sans);
   -webkit-font-smoothing:antialiased;
   word-break:keep-all;
   overflow-wrap:break-word
@@ -99,7 +104,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
   top:12px
 }
 .eyebrow {
-  font:11px/1.6 var(--mono);
+  font:var(--label-size)/1.6 var(--mono);
   letter-spacing:1.7px;
   font-weight:500;
   text-transform:uppercase;
@@ -137,7 +142,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
 }
 .brand-sub {
   display:block;
-  font:10px/1.6 var(--sans);
+  font:var(--label-size)/1.6 var(--sans);
   letter-spacing:.2px;
   color:var(--muted);
   margin-top:3px
@@ -147,7 +152,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
   gap:32px;
   align-items:center;
   margin-left:auto;
-  font-size:13px
+  font-size:var(--control-size)
 }
 .site-nav a {
   padding:12px 0;
@@ -180,40 +185,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
 [data-theme=dark] .moon,[data-theme=light] .sun {
   display:none
 }
-.home-hero {
-  display:grid;
-  grid-template-columns:1.05fr 1fr;
-  gap:56px;
-  align-items:center;
-  padding:84px 0 72px
-}
-.hero-copy>.eyebrow {
-  margin-bottom:27px
-}
-.hero-copy h1 {
-  font-size:clamp(50px,4.5vw,66px);
-  letter-spacing:-2.2px;
-  line-height:1.2;
-  font-weight:650
-}
-.hero-role {
-  font-size:25px;
-  line-height:1.45;
-  letter-spacing:-.5px;
-  font-weight:600;
-  margin-top:16px
-}
-.hero-description {
-  color:var(--muted);
-  font-size:15px;
-  line-height:1.95;
-  max-width:460px;
-  margin-top:26px
-}
-.hero-description strong {
-  color:var(--text);
-  font-weight:500
-}
+
 .actions {
   display:flex;
   align-items:center;
@@ -225,8 +197,8 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  gap:26px;
-  font-size:12px;
+  gap:16px;
+  font-size:var(--control-size);
   min-height:46px;
   padding:11px 20px;
   border:1px solid var(--line);
@@ -249,108 +221,25 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
   display:flex;
   flex-wrap:wrap;
   gap:17px;
-  margin-top:42px;
-  font:10px/1.5 var(--mono);
+  margin-top:24px;
+  font:var(--meta-size)/1.5 var(--mono);
   color:var(--muted)
 }
-.hero-visual {
-  display:block;
-  min-width:0;
-  background:var(--image-bg);
-  border:1px solid #363944;
-  border-radius:6px;
-  overflow:hidden;
-  color:#f0f0ec;
-  transition:border-color .2s
-}
-.hero-visual:hover {
-  border-color:var(--accent)
-}
-.visual-topline {
-  height:40px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:0 17px;
-  border-bottom:1px solid #262936;
-  font:9px/1.4 var(--mono);
-  letter-spacing:.7px;
-  color:#a4aab3
-}
-.visual-topline i {
-  display:inline-block;
-  width:5px;
-  height:5px;
-  border-radius:50%;
-  background:#98bea9;
-  margin-right:7px
-}
-.hero-visual>img {
-  width:100%;
-  aspect-ratio:1.48;
-  object-fit:cover;
-  object-position:43% center
-}
-.visual-caption {
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:20px;
-  padding:21px 25px;
-  background:#141821;
-  border-top:1px solid #262936
-}
-.visual-caption .eyebrow {
-  font-size:9px;
-  color:#a4aab3
-}
-.visual-caption strong {
-  display:block;
-  font-size:23px;
-  font-weight:550;
-  letter-spacing:-.5px;
-  margin-top:3px
-}
-.visual-caption p {
-  font-size:11px;
-  color:#a4aab3;
-  margin-top:2px
-}
-.circle-arrow {
-  display:grid;
-  place-items:center;
-  width:37px;
-  height:37px;
-  border:1px solid #424753;
-  border-radius:50%;
-  font-size:20px
-}
-.discipline-strip {
-  display:flex;
-  justify-content:space-between;
-  gap:20px;
-  border-block:1px solid var(--line);
-  padding:19px 0;
-  color:var(--muted);
-  font:10px/1.5 var(--mono);
-  letter-spacing:.4px
-}
-.discipline-strip span:last-child {
-  color:var(--accent)
-}
+
 .section {
-  padding:86px 0;
+  padding:72px 0;
   border-bottom:1px solid var(--line)
 }
 .section-heading {
   display:flex;
+  flex-wrap:wrap;
   align-items:end;
   justify-content:space-between;
   gap:28px;
   margin-bottom:37px
 }
 .section-heading h2 {
-  font-size:28px;
+  font-size:2.125rem;
   letter-spacing:-1px;
   font-weight:550;
   line-height:1.45;
@@ -360,7 +249,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
   display:inline-flex;
   align-items:center;
   gap:20px;
-  font-size:12px;
+  font-size:var(--control-size);
   font-weight:500;
   line-height:1.6
 }
@@ -409,9 +298,10 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
 }
 .project-meta {
   display:flex;
+  flex-wrap:wrap;
   justify-content:space-between;
   gap:12px;
-  font:10px/1.5 var(--mono);
+  font:var(--meta-size)/1.5 var(--mono);
   color:var(--muted);
   text-transform:uppercase;
   letter-spacing:.5px;
@@ -428,7 +318,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
 }
 .project-card>p {
   color:var(--muted);
-  font-size:15px;
+  font-size:var(--body-size);
   line-height:1.9;
   margin-top:12px;
   max-width:530px
@@ -445,54 +335,28 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
   border:1px solid var(--line);
   border-radius:3px;
   padding:4px 9px;
-  font:10px/1.5 var(--mono);
+  font:var(--label-size)/1.5 var(--mono);
   color:var(--muted);
   overflow-wrap:anywhere
 }
-.expertise-grid {
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:43px
-}
-.expertise-number {
-  display:block;
-  font:10px/1.5 var(--mono);
-  color:var(--accent);
-  letter-spacing:.7px;
-  padding-top:25px;
-  border-top:1px solid var(--line)
-}
-.expertise-grid h3 {
-  font-size:19px;
-  font-weight:550;
-  letter-spacing:-.4px;
-  margin:19px 0 13px
-}
-.expertise-grid p {
-  font-size:14px;
-  line-height:1.95;
-  color:var(--muted)
-}
-.expertise-tools {
-  display:block;
-  font:10px/1.8 var(--mono);
-  color:var(--muted);
-  margin-top:22px
-}
+
 .notes-section {
   display:grid;
   grid-template-columns:1fr 1.7fr;
   gap:70px
 }
+.notes-section>* {
+  min-width:0
+}
 .notes-intro h2 {
-  font-size:32px;
+  font-size:2.125rem;
   font-weight:550;
   line-height:1.45;
   letter-spacing:-1px;
   margin-top:17px
 }
 .notes-intro>p:not(.eyebrow) {
-  font-size:14px;
+  font-size:var(--body-size);
   line-height:1.9;
   color:var(--muted);
   margin-top:16px
@@ -513,12 +377,12 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
   border:0
 }
 .note-type {
-  font:9px/1.5 var(--mono);
+  font:var(--label-size)/1.5 var(--mono);
   color:var(--accent);
   letter-spacing:1px
 }
 .notes-list h3 {
-  font-size:17px;
+  font-size:1.25rem;
   font-weight:500;
   line-height:1.6;
   letter-spacing:-.3px;
@@ -531,7 +395,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
   display:flex;
   justify-content:space-between;
   color:var(--muted);
-  font:10px/1.5 var(--mono)
+  font:var(--meta-size)/1.5 var(--mono)
 }
 .note-date span {
   font-size:19px;
@@ -545,15 +409,17 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
   padding:67px 0
 }
 .contact-band h2 {
-  font-size:25px;
+  font-size:1.75rem;
   font-weight:550;
   letter-spacing:-.6px;
   margin-top:10px
 }
 .contact-band>a {
   display:inline-flex;
+  max-width:100%;
+  overflow-wrap:anywhere;
   gap:24px;
-  font-size:16px;
+  font-size:var(--body-size);
   border-bottom:1px solid var(--accent);
   padding-bottom:10px
 }
@@ -569,59 +435,104 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
   flex-wrap:wrap
 }
 .footer-name {
-  font-size:13px;
+  font-size:var(--control-size);
   font-weight:600
 }
 .footer-name span {
-  font:9px/1.6 var(--mono);
+  font:var(--label-size)/1.6 var(--mono);
   margin-left:9px;
   color:var(--muted);
   letter-spacing:1px
 }
 .site-footer p {
-  font-size:11px;
+  font-size:var(--small-size);
   color:var(--muted);
   margin-top:5px
 }
 .footer-links {
   display:flex;
+  flex-wrap:wrap;
   gap:25px;
   margin-left:auto;
-  font-size:11px
+  font-size:var(--small-size)
 }
 .footer-links a:hover {
   color:var(--accent)
 }
 .site-footer>small {
-  font:9px/1.6 var(--mono);
+  font:var(--label-size)/1.6 var(--mono);
   color:var(--muted)
 }
-/* Portfolio overview */
-.page-intro {
-  padding:74px 0 51px
-}
-.page-intro h1 {
-  font-size:clamp(58px,7.5vw,98px);
-  line-height:1.2;
-  font-weight:500;
-  letter-spacing:-5px;
-  margin:19px 0 26px
-}
-.page-intro h1 span {
-  color:var(--accent)
-}
-.intro-bottom {
-  display:flex;
+
+/* Shared content, with distinct desktop and mobile introduction layouts. */
+.profile-hero {
+  display:grid;
+  grid-template-columns:minmax(0,740px) 200px;
+  grid-template-areas:"identity portrait" "description portrait" "actions portrait" "stack portrait";
   justify-content:space-between;
-  align-items:end;
-  gap:25px
+  align-items:start;
+  column-gap:64px;
+  padding:52px 0 48px;
+  border-bottom:1px solid var(--line)
 }
-.intro-bottom p {
-  font-size:15px;
-  color:var(--muted);
-  line-height:1.9
+.profile-hero__identity { grid-area:identity; min-width:0 }
+.profile-hero__identity .eyebrow { margin-bottom:16px; color:var(--accent) }
+.profile-hero__identity h1 {
+  font-size:3.5rem;
+  font-weight:650;
+  line-height:1.2;
+  letter-spacing:-1.8px
 }
+.profile-hero__role {
+  font-size:1.625rem;
+  line-height:1.45;
+  font-weight:550;
+  letter-spacing:-.5px;
+  margin-top:10px
+}
+.profile-hero__portrait {
+  grid-area:portrait;
+  align-self:center;
+  width:200px;
+  margin:0
+}
+.profile-hero__portrait img {
+  width:100%;
+  height:auto;
+  aspect-ratio:3/4;
+  object-fit:cover;
+  border-radius:8px;
+  border:1px solid var(--line)
+}
+.profile-hero__description {
+  grid-area:description;
+  max-width:660px;
+  margin-top:20px;
+  font-size:1.25rem;
+  line-height:1.8;
+  color:var(--muted)
+}
+.profile-hero__actions { grid-area:actions; margin-top:24px }
+.profile-hero__stack { grid-area:stack; margin-top:22px }
+.profile-hero--compact {
+  grid-template-columns:minmax(0,740px) 160px;
+  padding:40px 0 36px;
+  border-bottom:0
+}
+.profile-hero--compact .profile-hero__portrait { width:160px }
+.profile-hero--compact .profile-hero__identity h1 { font-size:2.75rem }
+.profile-hero--compact .profile-hero__role { font-size:1.375rem }
+.profile-hero--compact .profile-hero__description { font-size:var(--body-size); margin-top:16px }
+.profile-hero--compact .profile-hero__actions { margin-top:20px }
+.profile-hero--home + .section { padding-top:40px }
+.portfolio-expertise { padding:64px 0 0 }
+.profile-background { max-width:420px }
+.profile-background h2 { font-size:2rem; margin-top:12px; line-height:1.4 }
+.profile-background>p:not(.eyebrow) { color:var(--muted); margin-top:14px; font-size:var(--body-size) }
+
+/* Portfolio overview */
 .project-toolbar {
+  flex-wrap:wrap;
   border-block:1px solid var(--line);
   padding:18px 0;
   display:flex;
@@ -635,13 +546,14 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
   flex-wrap:wrap
 }
 .project-filters button {
-  font-size:12px;
+  font-size:var(--small-size);
+  min-height:44px;
   padding:9px 15px;
   border-radius:3px;
   color:var(--muted)
 }
 .project-filters button span {
-  font:9px/1 var(--mono);
+  font:var(--label-size)/1 var(--mono);
   margin-left:7px;
   opacity:.8
 }
@@ -653,14 +565,14 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
   background:var(--panel)
 }
 .project-count {
-  font:10px/1.5 var(--mono);
+  font:var(--meta-size)/1.5 var(--mono);
   color:var(--muted);
   white-space:nowrap;
   margin-left:auto
 }
 .featured-project {
   display:grid;
-  grid-template-columns:1.15fr 1fr;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
   gap:49px;
   align-items:center;
   padding:49px 0;
@@ -680,7 +592,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
   background:#141821df;
   border:1px solid #444956;
   color:#e8e9ea;
-  font:9px/1.5 var(--mono);
+  font:var(--label-size)/1.5 var(--mono);
   border-radius:3px
 }
 .featured-copy {
@@ -704,8 +616,8 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
   color:var(--accent)
 }
 .featured-copy>p {
-  font-size:15px;
-  line-height:1.95;
+  font-size:var(--body-size);
+  line-height:1.85;
   color:var(--muted)
 }
 .project-highlights {
@@ -713,7 +625,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
   padding:0;
   margin:20px 0;
   color:var(--text);
-  font-size:13px;
+  font-size:1rem;
   line-height:1.8
 }
 .project-highlights li {
@@ -726,7 +638,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
   position:absolute;
   left:0;
   color:var(--accent);
-  font:13px/1.7 var(--mono)
+  font:1rem/1.8 var(--mono)
 }
 .featured-copy .text-link {
   margin-top:25px
@@ -744,10 +656,10 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
   font-size:23px
 }
 .other-grid .project-card>p {
-  font-size:13px
+  font-size:var(--body-size)
 }
 .other-grid .project-meta {
-  font-size:9px;
+  font-size:var(--meta-size);
   flex-wrap:wrap
 }
 .other-grid .project-image {
@@ -760,59 +672,27 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
   justify-content:space-between;
   align-items:center
 }
-.profile-identity {
-  display:flex;
-  gap:25px;
-  align-items:center
-}
-.profile-identity>img {
-  width:85px;
-  height:108px;
-  object-fit:cover;
-  object-position:top;
-  border-radius:4px;
-  filter:grayscale(1)
-}
-.profile-identity h2 {
-  font-size:24px;
-  letter-spacing:-.5px;
-  font-weight:550;
-  line-height:1.4;
-  margin:8px 0
-}
-.profile-identity h2 span {
-  font-size:12px;
-  letter-spacing:0;
-  font-weight:400;
-  color:var(--muted);
-  margin-left:10px
-}
-.profile-identity p:not(.eyebrow) {
-  font-size:11px;
-  color:var(--muted)
-}
-.profile-identity .text-link {
-  margin-top:10px
-}
+
 .education-list {
+  min-width:0;
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:40px
 }
 .education-list h3 {
-  font-size:13px;
+  font-size:var(--body-size);
   font-weight:550
 }
 .education-list p {
-  font-size:11px;
+  font-size:var(--small-size);
   color:var(--muted);
   margin-top:5px
 }
 .education-list small {
   display:block;
-  font-size:10px;
+  font-size:var(--meta-size);
   color:var(--muted);
-  max-width:210px;
+  max-width:280px;
   margin-top:5px;
   line-height:1.8
 }
@@ -825,7 +705,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
 .back-link {
   display:inline-block;
   color:var(--muted);
-  font-size:12px;
+  font-size:var(--control-size);
   margin-bottom:46px
 }
 .back-link:hover {
@@ -842,7 +722,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
   margin:16px 0 22px
 }
 .case-summary {
-  font-size:17px;
+  font-size:var(--body-size);
   line-height:1.9;
   color:var(--muted);
   max-width:750px
@@ -856,12 +736,12 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
   border-top:1px solid var(--line)
 }
 .case-meta span {
-  font:9px/1.5 var(--mono);
+  font:var(--label-size)/1.5 var(--mono);
   letter-spacing:1px;
   color:var(--muted)
 }
 .case-meta p {
-  font-size:12px;
+  font-size:var(--small-size);
   margin-top:5px
 }
 .case-cover {
@@ -878,13 +758,13 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
   border-radius:4px
 }
 .case-cover figcaption {
-  font-size:11px;
+  font-size:var(--small-size);
   color:var(--muted);
   margin-top:10px
 }
 .case-layout {
   display:grid;
-  grid-template-columns:240px minmax(0,760px);
+  grid-template-columns:230px minmax(0,740px);
   gap:58px;
   align-items:start;
   justify-content:center
@@ -892,14 +772,14 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
 .case-toc {
   position:sticky;
   top:30px;
-  font-size:11px;
+  font-size:var(--small-size);
   line-height:1.7;
   max-height:calc(100vh - 60px);
   overflow:auto;
   padding-right:8px
 }
 .case-toc summary {
-  font:10px/1.5 var(--mono);
+  font:var(--label-size)/1.5 var(--mono);
   letter-spacing:1px;
   color:var(--muted);
   cursor:pointer;
@@ -929,13 +809,13 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
   padding-top:22px;
   border-top:1px solid var(--line);
   display:flex;
-  font-size:11px
+  font-size:var(--small-size)
 }
 .prose {
   min-width:0;
   max-width:100%;
-  font-size:15px;
-  line-height:1.95;
+  font-size:var(--body-size);
+  line-height:1.85;
   color:var(--muted)
 }
 .prose>:first-child {
@@ -948,7 +828,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
   scroll-margin-top:30px
 }
 .prose h2 {
-  font-size:26px;
+  font-size:2rem;
   letter-spacing:-.7px;
   margin:60px 0 22px;
   padding-top:25px;
@@ -959,12 +839,12 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
   border:0
 }
 .prose h3 {
-  font-size:20px;
+  font-size:1.5rem;
   margin:33px 0 15px;
   letter-spacing:-.4px
 }
 .prose h4 {
-  font-size:17px;
+  font-size:1.25rem;
   margin:26px 0 12px
 }
 .prose p {
@@ -996,7 +876,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
   border-left:2px solid var(--accent);
   background:var(--panel-soft);
   color:var(--text);
-  font-size:15px
+  font-size:var(--body-size)
 }
 .prose img {
   max-width:100%;
@@ -1017,7 +897,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
   padding:23px 20px;
   border:1px solid var(--line);
   border-radius:4px;
-  font:12px/1.8 var(--mono);
+  font:var(--meta-size)/1.8 var(--mono);
   background:var(--panel)!important;
   color:var(--text);
   margin:24px 0;
@@ -1043,7 +923,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
   position:absolute;
   right:8px;
   top:7px;
-  font-size:10px;
+  font-size:var(--label-size);
   padding:3px 7px;
   color:var(--text);
   background:var(--panel);
@@ -1060,7 +940,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
   overflow-x:auto;
   border-collapse:collapse;
   width:100%;
-  font-size:13px;
+  font-size:var(--small-size);
   line-height:1.75;
   margin:25px 0
 }
@@ -1101,7 +981,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
 }
 .case-navigation span {
   display:block;
-  font:9px/1.5 var(--mono);
+  font:var(--label-size)/1.5 var(--mono);
   letter-spacing:1px;
   color:var(--muted)
 }
@@ -1126,12 +1006,12 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
 }
 .project-role>span {
   color:var(--accent);
-  font:10px/1.5 var(--mono);
+  font:var(--label-size)/1.5 var(--mono);
   letter-spacing:1px
 }
 .project-role>strong {
   color:var(--text);
-  font-size:14px;
+  font-size:1rem;
   font-weight:600;
   line-height:1.6
 }
@@ -1144,14 +1024,14 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
   margin-top:18px
 }
 .project-role.compact>strong {
-  font-size:13px
+  font-size:1rem
 }
 .profile-intro {
   display:grid;
   grid-template-columns:1.3fr 1fr;
   gap:64px;
-  font-size:15px;
-  line-height:1.95;
+  font-size:var(--body-size);
+  line-height:1.85;
   color:var(--muted);
   margin-bottom:32px
 }
@@ -1170,7 +1050,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
   color:var(--accent)
 }
 .competency-group h3 {
-  font-size:19px;
+  font-size:1.375rem;
   font-weight:600;
   margin:13px 0 17px;
   letter-spacing:-.4px
@@ -1179,7 +1059,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
   list-style:none;
   padding:0;
   color:var(--muted);
-  font-size:14px;
+  font-size:var(--body-size);
   line-height:1.85
 }
 .competency-group li+li {
@@ -1225,12 +1105,12 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
   margin-top:23px
 }
 .gallery-role p {
-  font-size:13px;
+  font-size:var(--small-size);
   color:var(--muted);
   line-height:1.8
 }
 .case-gallery figcaption {
-  font-size:12px;
+  font-size:var(--small-size);
   color:var(--muted);
   margin-top:10px;
   padding-left:14px;
@@ -1250,35 +1130,12 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
   margin-bottom:20px;
   color:var(--accent)!important
 }
-@media(min-width:1500px) {
-  .home-hero {
-    gap:75px;
-    padding-block:98px
-  }
-  .hero-copy h1 {
-    font-size:68px
-  }
-}
+
 @media(max-width:1100px) {
   .wrap {
     width:calc(100% - 64px)
   }
-  .home-hero {
-    gap:32px
-  }
-  .hero-copy h1 {
-    font-size:54px;
-    letter-spacing:-1.8px
-  }
-  .hero-description {
-    font-size:15px
-  }
-  .hero-visual>img {
-    aspect-ratio:1.3
-  }
-  .expertise-grid {
-    gap:25px
-  }
+
   .featured-project {
     gap:30px
   }
@@ -1302,6 +1159,26 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
   }
 }
 @media(max-width:800px) {
+  :root,:root[data-theme] {
+    --body-size:1rem;
+    --small-size:.875rem;
+    --label-size:.75rem;
+    --meta-size:.8125rem;
+    --control-size:.9375rem
+  }
+  .profile-hero {
+    grid-template-columns:minmax(0,1fr) 160px;
+    column-gap:32px;
+    padding-block:38px
+  }
+  .profile-hero__identity h1 { font-size:2.75rem }
+  .profile-hero__portrait { width:160px }
+  .profile-hero__role { font-size:1.25rem }
+  .profile-hero__description { font-size:1.0625rem }
+  .profile-hero--compact .profile-hero__identity h1 { font-size:2.5rem }
+  .profile-hero--compact .profile-hero__role { font-size:1.125rem }
+  .profile-hero--home + .section { padding-top:36px }
+
   .profile-intro {
     grid-template-columns:1fr;
     gap:18px
@@ -1310,7 +1187,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
     padding:24px
   }
   .competency-group h3 {
-    font-size:17px
+    font-size:1.375rem
   }
   .case-gallery {
     gap:18px;
@@ -1324,41 +1201,18 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
     gap:22px
   }
   .brand-sub {
-    font-size:9px
+    font-size:var(--label-size)
   }
-  .home-hero {
-    padding:55px 0 48px;
-    grid-template-columns:1fr;
-    gap:40px
-  }
-  .hero-copy h1 {
-    font-size:60px;
-    letter-spacing:-2px
-  }
-  .hero-description {
-    max-width:520px;
-    font-size:15px
-  }
+
   .hero-stack {
     margin-top:26px
   }
-  .hero-visual {
-    max-width:none
-  }
-  .hero-visual>img {
-    aspect-ratio:1.9;
-    object-fit:cover
-  }
-  .discipline-strip {
-    font-size:9px;
-    flex-wrap:wrap;
-    gap:10px 24px
-  }
+
   .section {
     padding:60px 0
   }
   .section-heading h2 {
-    font-size:25px
+    font-size:1.875rem
   }
   .section-heading {
     align-items:start
@@ -1370,34 +1224,19 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
     font-size:24px
   }
   .project-card>p {
-    font-size:14px
+    font-size:var(--body-size)
   }
   .project-meta {
-    font-size:9px;
+    font-size:var(--meta-size);
     flex-wrap:wrap
   }
-  .expertise-grid {
-    grid-template-columns:1fr;
-    gap:27px
-  }
-  .expertise-grid p {
-    max-width:540px
-  }
-  .expertise-tools {
-    margin-top:12px
-  }
-  .expertise-number {
-    padding-top:20px
-  }
-  .expertise-grid h3 {
-    margin-top:13px
-  }
+
   .notes-section {
     grid-template-columns:1fr 1.4fr;
     gap:35px
   }
   .notes-intro h2 {
-    font-size:27px
+    font-size:1.875rem
   }
   .contact-band {
     align-items:start;
@@ -1405,7 +1244,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
     padding:45px 0
   }
   .contact-band h2 {
-    font-size:24px
+    font-size:1.625rem
   }
   .site-footer>small {
     width:100%
@@ -1419,7 +1258,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
     aspect-ratio:1.7
   }
   .featured-copy .project-meta {
-    font-size:10px
+    font-size:var(--meta-size)
   }
   .featured-copy h2 {
     font-size:34px
@@ -1476,33 +1315,36 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
     font-size:50px
   }
   .case-summary {
-    font-size:16px
+    font-size:var(--body-size)
   }
   .case-meta {
     gap:24px
   }
   .prose {
-    font-size:15px
+    font-size:var(--body-size)
   }
-  .page-intro {
-    padding:55px 0 40px
-  }
-  .page-intro h1 {
-    font-size:76px
-  }
-  .intro-bottom {
-    align-items:start;
-    flex-direction:column;
-    gap:23px
-  }
+
 }
 @media(max-width:540px) {
-  .hero-role {
-    font-size:22px;
-    margin-top:13px
+  .profile-hero,.profile-hero--compact {
+    grid-template-columns:minmax(0,1fr) 96px;
+    grid-template-areas:"identity portrait" "description description" "actions actions" "stack stack";
+    column-gap:18px;
+    padding:30px 0 32px
   }
+  .profile-hero__portrait,.profile-hero--compact .profile-hero__portrait { width:96px; align-self:start; margin-top:4px }
+  .profile-hero__identity .eyebrow { font-size:.6875rem; letter-spacing:.8px; margin-bottom:12px }
+  .profile-hero__identity h1,.profile-hero--compact .profile-hero__identity h1 { font-size:2.25rem; letter-spacing:-1px }
+  .profile-hero__role,.profile-hero--compact .profile-hero__role { font-size:1rem; line-height:1.55; margin-top:10px }
+  .profile-hero__description,.profile-hero--compact .profile-hero__description { font-size:1rem; margin-top:22px }
+  .profile-hero__actions { margin-top:20px }
+  .profile-hero__stack { margin-top:20px; gap:10px 16px }
+  .profile-hero--home + .section { padding-top:32px }
+  .portfolio-expertise { padding-top:44px }
+  .profile-background h2 { font-size:1.625rem }
+
   .profile-intro {
-    font-size:14px;
+    font-size:var(--body-size);
     margin-bottom:26px
   }
   .competencies {
@@ -1513,16 +1355,16 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
     padding:23px
   }
   .competency-group h3 {
-    font-size:18px
+    font-size:1.25rem
   }
   .competency-group ul {
-    font-size:13px
+    font-size:var(--body-size)
   }
   .project-role {
     padding:14px 16px
   }
   .project-role>strong {
-    font-size:13px
+    font-size:1rem
   }
   .project-role.compact {
     flex-direction:column;
@@ -1547,11 +1389,14 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
     width:calc(100% - 40px)
   }
   .site-header {
-    height:79px;
-    gap:15px
+    min-height:79px;
+    height:auto;
+    padding-block:16px;
+    flex-wrap:wrap;
+    gap:10px
   }
   .brand {
-    gap:10px;
+    gap:8px;
     font-size:9px;
     letter-spacing:1px
   }
@@ -1562,77 +1407,33 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
     display:none
   }
   .site-nav {
-    gap:15px;
-    font-size:11px
+    gap:12px;
+    font-size:var(--control-size)
   }
   .site-nav a:last-child {
     display:none
   }
   .theme-control {
-    width:34px;
-    height:34px;
+    width:40px;
+    height:40px;
     flex-shrink:0
   }
-  .home-hero {
-    padding-top:43px;
-    gap:33px
-  }
-  .hero-copy>.eyebrow {
-    font-size:9px;
-    margin-bottom:20px;
-    letter-spacing:1.2px
-  }
-  .hero-copy h1 {
-    font-size:48px;
-    letter-spacing:-1.7px;
-    line-height:1.2
-  }
-  .hero-description {
-    font-size:14px;
-    margin-top:20px;
-    line-height:1.95
-  }
+
   .actions {
     margin-top:24px;
     gap:9px
   }
   .button {
-    font-size:11px;
+    font-size:var(--control-size);
     gap:20px;
     padding:10px 15px;
     min-height:44px
   }
   .hero-stack {
-    font-size:9px;
+    font-size:var(--meta-size);
     gap:14px
   }
-  .hero-visual>img {
-    aspect-ratio:1.45
-  }
-  .visual-topline {
-    font-size:8px;
-    padding-inline:12px;
-    height:35px
-  }
-  .visual-caption {
-    padding:17px
-  }
-  .visual-caption strong {
-    font-size:23px
-  }
-  .visual-caption p {
-    font-size:10px
-  }
-  .discipline-strip {
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    font-size:8px;
-    line-height:1.6;
-    gap:12px
-  }
-  .discipline-strip span:nth-child(even) {
-    text-align:right
-  }
+
   .section {
     padding:47px 0
   }
@@ -1642,15 +1443,15 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
     flex-direction:column
   }
   .section-heading h2 {
-    font-size:22px;
+    font-size:1.625rem;
     letter-spacing:-.8px
   }
   .eyebrow {
-    font-size:9px;
+    font-size:var(--label-size);
     letter-spacing:1.4px
   }
   .text-link {
-    font-size:11px
+    font-size:var(--control-size)
   }
   .selected-grid {
     grid-template-columns:1fr;
@@ -1660,17 +1461,17 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
     font-size:27px
   }
   .project-meta {
-    font-size:9px;
+    font-size:var(--meta-size);
     margin-top:18px
   }
   .project-card>p {
-    font-size:14px
+    font-size:var(--body-size)
   }
   .tags {
     margin-top:17px
   }
   .tags li {
-    font-size:9px
+    font-size:var(--label-size)
   }
   .notes-section {
     grid-template-columns:1fr;
@@ -1680,7 +1481,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
     display:none
   }
   .notes-intro h2 {
-    font-size:24px
+    font-size:1.625rem
   }
   .notes-intro>p:not(.eyebrow) br {
     display:none
@@ -1689,13 +1490,13 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
     margin-top:17px
   }
   .notes-list h3 {
-    font-size:15px
+    font-size:1.25rem
   }
   .contact-band h2 {
-    font-size:22px
+    font-size:1.5rem
   }
   .contact-band>a {
-    font-size:14px;
+    font-size:var(--body-size);
     gap:20px
   }
   .site-footer {
@@ -1704,28 +1505,18 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
   }
   .footer-links {
     gap:17px;
-    font-size:10px
+    font-size:var(--small-size)
   }
   .footer-name span {
     display:none
   }
   .site-footer p {
-    font-size:10px
+    font-size:var(--small-size)
   }
   .site-footer>small {
-    font-size:9px
+    font-size:var(--label-size)
   }
-  .page-intro {
-    padding:43px 0 32px
-  }
-  .page-intro h1 {
-    font-size:58px;
-    letter-spacing:-3px;
-    margin:18px 0 23px
-  }
-  .intro-bottom p {
-    font-size:13px
-  }
+
   .project-toolbar {
     padding:13px 0;
     gap:8px
@@ -1734,15 +1525,15 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
     gap:2px
   }
   .project-filters button {
-    font-size:10px;
+    font-size:var(--small-size);
     padding:9px 10px
   }
   .project-filters button span {
-    font-size:8px;
+    font-size:var(--label-size);
     margin-left:4px
   }
   .project-count {
-    font-size:9px
+    font-size:var(--meta-size)
   }
   .featured-project .project-image {
     aspect-ratio:1.35
@@ -1755,10 +1546,10 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
     margin:13px 0
   }
   .featured-copy>p {
-    font-size:14px
+    font-size:var(--body-size)
   }
   .project-highlights {
-    font-size:13px
+    font-size:1rem
   }
   .featured-copy .text-link {
     margin-top:23px
@@ -1783,27 +1574,16 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
   .profile-band {
     padding:38px 0 43px
   }
-  .profile-identity {
-    gap:19px
-  }
-  .profile-identity h2 {
-    font-size:22px
-  }
-  .profile-identity h2 span {
-    font-size:10px
-  }
-  .profile-identity>img {
-    width:72px;
-    height:93px
-  }
+
   .education-list {
-    gap:24px
+    grid-template-columns:1fr;
+    gap:26px
   }
   .education-list p {
-    font-size:10px
+    font-size:var(--small-size)
   }
   .education-list small {
-    font-size:9px
+    font-size:var(--meta-size)
   }
   .case-header {
     padding:24px 0 29px
@@ -1817,19 +1597,19 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
     overflow-wrap:anywhere
   }
   .case-summary {
-    font-size:14px
+    font-size:var(--body-size)
   }
   .case-meta {
     gap:20px 30px
   }
   .case-meta p {
-    font-size:11px
+    font-size:var(--small-size)
   }
   .case-header .actions {
     gap:8px
   }
   .case-header .button {
-    font-size:10px;
+    font-size:var(--control-size);
     padding:9px 11px;
     gap:8px
   }
@@ -1841,40 +1621,40 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
   }
   .case-toc {
     padding:17px;
-    font-size:10px
+    font-size:var(--small-size)
   }
   .case-toc nav>ul {
     columns:auto
   }
   .case-toc summary {
-    font-size:9px;
+    font-size:var(--label-size);
     margin-bottom:13px
   }
   .prose {
-    font-size:14px;
-    line-height:1.95
+    font-size:var(--body-size);
+    line-height:1.85
   }
   .prose h2 {
-    font-size:22px;
+    font-size:1.625rem;
     margin-top:42px;
     padding-top:23px
   }
   .prose h3 {
-    font-size:18px
+    font-size:1.25rem
   }
   .prose h4 {
-    font-size:16px
+    font-size:1.125rem
   }
   .prose table {
-    font-size:12px
+    font-size:var(--small-size)
   }
   .prose pre {
-    font-size:11px;
+    font-size:var(--meta-size);
     padding:22px 15px
   }
   .prose blockquote {
     padding-inline:15px;
-    font-size:13px
+    font-size:var(--body-size)
   }
   .case-navigation {
     margin-top:45px;
@@ -1884,7 +1664,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
     font-size:17px
   }
   .case-navigation .text-link {
-    font-size:10px
+    font-size:var(--small-size)
   }
 }
 @media(max-width:360px) {
@@ -1900,13 +1680,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
   .site-header {
     gap:18px
   }
-  .hero-copy h1 {
-    font-size:43px;
-    letter-spacing:-1.5px
-  }
-  .page-intro h1 {
-    font-size:49px
-  }
+
   .project-count {
     display:none
   }

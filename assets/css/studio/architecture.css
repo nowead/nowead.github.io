@@ -13,7 +13,7 @@
   gap:12px;
   margin-bottom:16px;
   color:var(--accent);
-  font:600 11px/1.5 var(--mono);
+  font:600 14px/1.5 var(--mono);
   letter-spacing:1.1px
 }
 .architecture-eyebrow::before {
@@ -31,7 +31,7 @@
 }
 .architecture-heading > p:last-child {
   margin-top:13px;
-  font-size:16px;
+  font-size:var(--body-size,18px);
   line-height:1.85;
   color:var(--muted)
 }
@@ -67,7 +67,7 @@
 .architecture-node p {
   margin-top:5px;
   color:var(--muted);
-  font-size:14px;
+  font-size:var(--small-size,15px);
   line-height:1.65;
   overflow-wrap:anywhere
 }
@@ -75,10 +75,11 @@
   display:block;
   margin-bottom:9px;
   color:var(--accent);
-  font-size:11px;
+  font-size:14px;
   line-height:1.6;
   font-weight:600;
-  letter-spacing:.1px
+  letter-spacing:.1px;
+  overflow-wrap:anywhere
 }
 .architecture-role--team {
   color:var(--muted)
@@ -109,7 +110,7 @@
   font-size:16px
 }
 .architecture-node--boundary p {
-  font-size:13px
+  font-size:var(--small-size,15px)
 }
 .architecture-inputs,
 .architecture-outputs {
@@ -124,7 +125,7 @@
   font-size:clamp(16px,1.5vw,19px)
 }
 .architecture-inputs .architecture-node p {
-  font-size:13px
+  font-size:var(--small-size,15px)
 }
 .architecture-connector {
   position:relative;
@@ -182,7 +183,7 @@
 }
 .architecture-diagram figcaption {
   margin-top:22px;
-  font-size:12px;
+  font-size:var(--small-size,15px);
   line-height:1.8;
   color:var(--muted)
 }
@@ -207,7 +208,7 @@
 }
 .architecture-number {
   padding-top:5px;
-  font:600 12px/1.6 var(--mono);
+  font:600 14px/1.6 var(--mono);
   color:var(--accent)
 }
 .architecture-notes h3 {
@@ -217,16 +218,16 @@
   letter-spacing:-.5px
 }
 .architecture-notes p {
-  max-width:38ch;
+  max-width:44ch;
   margin-top:12px;
-  font-size:15px;
+  font-size:var(--body-size,18px);
   line-height:1.95;
   color:var(--muted)
 }
-@media (max-width:900px) {
+@media (max-width:1000px) {
   .architecture-layout {
-    grid-template-columns:minmax(0,1fr) minmax(0,.92fr);
-    gap:28px
+    grid-template-columns:minmax(0,1fr);
+    gap:32px
   }
   .architecture-diagram {
     --architecture-branch-gap:12px;
@@ -251,6 +252,10 @@
   .architecture-heading {
     margin-bottom:26px
   }
+  .architecture-eyebrow,
+  .architecture-role {
+    font-size:12px
+  }
   .architecture-node strong {
     font-size:20px
   }
@@ -271,9 +276,6 @@
   }
 }
 @media (max-width:420px) {
-  .architecture-heading > p:last-child {
-    font-size:15px
-  }
   .architecture-diagram {
     --architecture-branch-gap:10px;
     padding:16px
@@ -293,13 +295,7 @@
   .architecture-node--core strong {
     font-size:23px
   }
-  .architecture-role {
-    font-size:10px
-  }
   .architecture-node--boundary strong {
     font-size:15px
-  }
-  .architecture-notes p {
-    font-size:14px
   }
 }

@@ -1,0 +1,22 @@
+{{ $profile := .profile }}
+{{ $compact := .compact | default false }}
+{{ $titleID := cond $compact "portfolio-intro-title" "intro-title" }}
+{{ with $profile }}
+<section class="profile-hero {{ if $compact }}profile-hero--compact{{ else }}profile-hero--home{{ end }}" aria-labelledby="{{ $titleID }}">
+  <div class="profile-hero__identity">
+    <p class="eyebrow"><span class="status-dot"></span> ENGINEERING PORTFOLIO</p>
+    <h1 id="{{ $titleID }}">{{ .Params.name }}</h1>
+    <p class="profile-hero__role">{{ .Params.role }}</p>
+  </div>
+  <div class="profile-hero__portrait">
+    <img src="{{ printf "portfolio/%s" .Params.profile_image | relURL }}" alt="{{ .Params.name }} 프로필 사진" width="354" height="472" loading="eager" fetchpriority="high">
+  </div>
+  <p class="profile-hero__description">{{ if $compact }}{{ .Params.portfolio_intro }}{{ else }}{{ .Params.hero_intro }}{{ end }}</p>
+  <div class="profile-hero__actions actions">
+    <a class="button primary" href="{{ if $compact }}#projects{{ else }}{{ "/portfolio/" | relURL }}{{ end }}">프로젝트 보기 <span aria-hidden="true">{{ if $compact }}↓{{ else }}↗{{ end }}</span></a>
+    <a class="button subtle" href="{{ printf "https://github.com/%s" .Params.github }}" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+    <a class="button subtle" href="{{ printf "mailto:%s" .Params.email }}">연락하기 <span aria-hidden="true">↗</span></a>
+  </div>
+  {{ if not $compact }}<div class="profile-hero__stack hero-stack"><span>C++20</span><span>Vulkan</span><span>WebGPU</span><span>DICOM</span></div>{{ end }}
+</section>
+{{ end }}
