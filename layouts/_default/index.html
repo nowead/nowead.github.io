@@ -5,17 +5,18 @@
     <div class="landing-copy">
       <p class="landing-kicker">GRAPHICS & GAME ENGINE DEVELOPER</p>
       <h1 id="landing-title">생각을 구조로,<br><span>구조를 화면으로.</span></h1>
-      <div class="landing-identity">
-        {{ with $profile }}<img src="{{ printf "portfolio/%s" .Params.profile_image | relURL }}" alt="민대원 프로필 사진" width="354" height="472" fetchpriority="high">{{ end }}
-        <p class="landing-person">안녕하세요,<br>개발자 <strong>민대원</strong>입니다.</p>
-        <p class="landing-description">C++과 Vulkan·WebGPU로 게임 엔진과 의료 영상 뷰어를 만듭니다.</p>
-        <div class="landing-social" aria-label="연락처">
-          <a href="https://github.com/nowead" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
-          <a href="mailto:dwm951017@gmail.com">Email <span aria-hidden="true">↗</span></a>
-        </div>
+    </div>
+    <div class="landing-identity">
+      {{ with $profile }}<img src="{{ printf "portfolio/%s" .Params.profile_image | relURL }}" alt="민대원 프로필 사진" width="354" height="472" fetchpriority="high">{{ end }}
+      <p class="landing-person">안녕하세요,<br>개발자 <strong>민대원</strong>입니다.</p>
+      <p class="landing-description">C++과 Vulkan·WebGPU로 게임 엔진과 의료 영상 뷰어를 만듭니다.</p>
+      <div class="landing-social" aria-label="연락처">
+        <a href="https://github.com/nowead" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+        <a href="mailto:dwm951017@gmail.com">Email <span aria-hidden="true">↗</span></a>
       </div>
     </div>
-    <div class="landing-results" aria-label="직접 개발한 프로젝트의 실행 화면">
+  </section>
+  <section class="landing-results" aria-label="직접 개발한 프로젝트의 실행 화면">
       {{ range (where $profile.RegularPages "Params.featured" true).ByWeight }}
       {{ $cover := $profile.Resources.GetMatch .Params.cover_image }}
       <a class="landing-result" href="{{ .RelPermalink }}">
@@ -28,7 +29,6 @@
         </figure>
       </a>
       {{ end }}
-    </div>
   </section>
   <nav class="landing-destinations" aria-label="프로젝트와 학습 기록">
     <a class="landing-destination landing-destination--portfolio" href="{{ "/portfolio/" | relURL }}" aria-labelledby="landing-portfolio-title">
