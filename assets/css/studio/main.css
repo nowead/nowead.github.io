@@ -120,7 +120,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
   vertical-align:1px
 }
 .site-header {
-  height:108px;
+  height:88px;
   display:flex;
   align-items:center;
   border-bottom:1px solid var(--line);
@@ -128,25 +128,13 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
 }
 .brand {
   display:flex;
-  gap:16px;
   align-items:center;
-  font:600 11px/1.5 var(--mono);
-  letter-spacing:1.5px
+  min-height:44px;
+  font-size:1.125rem;
+  font-weight:600;
+  letter-spacing:-.3px
 }
-.brand-mark {
-  font:700 43px/1 var(--sans);
-  letter-spacing:-4px
-}
-.brand-mark span {
-  color:var(--accent)
-}
-.brand-sub {
-  display:block;
-  font:var(--label-size)/1.6 var(--sans);
-  letter-spacing:.2px;
-  color:var(--muted);
-  margin-top:3px
-}
+
 .site-nav {
   display:flex;
   gap:32px;
@@ -512,7 +500,9 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
   line-height:1.8;
   color:var(--muted)
 }
-.profile-hero__actions { grid-area:actions; margin-top:24px }
+.profile-hero__actions { grid-area:actions; margin-top:18px }
+.profile-hero__actions.actions { gap:28px }
+.profile-hero__actions .text-link { min-height:44px; gap:10px }
 .profile-hero__stack { grid-area:stack; margin-top:22px }
 .profile-hero--compact {
   grid-template-columns:minmax(0,740px) 160px;
@@ -1194,14 +1184,11 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
     margin-bottom:42px
   }
   .site-header {
-    height:89px;
+    height:80px;
     gap:22px
   }
   .site-nav {
     gap:22px
-  }
-  .brand-sub {
-    font-size:var(--label-size)
   }
 
   .hero-stack {
@@ -1389,23 +1376,13 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
     width:calc(100% - 40px)
   }
   .site-header {
-    min-height:79px;
+    min-height:72px;
     height:auto;
     padding-block:16px;
     flex-wrap:wrap;
     gap:10px
   }
-  .brand {
-    gap:8px;
-    font-size:9px;
-    letter-spacing:1px
-  }
-  .brand-mark {
-    font-size:36px
-  }
-  .brand-sub {
-    display:none
-  }
+
   .site-nav {
     gap:12px;
     font-size:var(--control-size)
@@ -1671,9 +1648,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
   .wrap {
     width:calc(100% - 32px)
   }
-  .brand>span:last-child {
-    display:none
-  }
+
   .site-nav {
     gap:20px
   }

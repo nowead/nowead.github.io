@@ -1,0 +1,32 @@
+.prose math {
+  color:var(--text);
+  font-family:"Cambria Math","STIX Two Math","Latin Modern Math",serif;
+  font-size:1.06em;
+}
+.prose .math-inline {
+  margin-inline:.12em;
+}
+.prose math mtd:first-child {
+  text-align:right;
+}
+.prose math mtd:nth-child(2) {
+  text-align:left;
+}
+.prose .math-block {
+  margin:24px 0;
+  padding:16px 20px;
+  border:1px solid var(--line);
+  border-radius:4px;
+  background:var(--panel-soft);
+  overflow-x:auto;
+}
+.prose .math-block math {
+  width:max-content;
+  min-width:100%;
+  margin-block:6px;
+}
+@media (max-width:600px) {
+  .prose .math-block {
+    padding:12px 8px;
+  }
+}

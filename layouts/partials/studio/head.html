@@ -30,3 +30,7 @@
 {{ $architecture := resources.Get "css/studio/architecture.css" | minify | fingerprint }}
 <link rel="stylesheet" href="{{ $architecture.RelPermalink }}">
 {{ end }}
+{{ if .Params.math }}
+{{ $math := resources.Get "css/studio/math.css" | minify | fingerprint }}
+<link rel="stylesheet" href="{{ $math.RelPermalink }}">
+{{ end }}

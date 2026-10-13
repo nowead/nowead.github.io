@@ -11,7 +11,7 @@ period: "2025.09 — 진행 중"
 role: "엔진 설계 · 구현 · 통합"
 tags: ["C++20", "Vulkan", "WebGPU", "Render Graph", "Volume Rendering"]
 github: "https://github.com/nowead/Mini-Engine"
-summary: "Vulkan 튜토리얼에서 시작해 PBR·GPU 기반 렌더링과 CT/MRI 볼륨 시각화까지 확장한 C++20 렌더링 엔진. 공통 RHI와 데이터 흐름을 설계하고, 구현 결과를 측정하며 발전시키고 있습니다."
+summary: "Vulkan 튜토리얼에서 시작해 PBR·GPU 기반 렌더링과 CT/MRI 볼륨 시각화까지 확장한 C++20 렌더링 엔진. 공통 RHI를 설계하고 대용량 볼륨의 메모리 사용을 최적화했습니다."
 cover_image: "mini-engin-image/PBR+IBL.png"
 image_alt: "Mini-Engine의 HDR 환경광 아래에서 렌더링한 PBR 재질 구체들"
 image_caption: "PBR·IBL 재질 표현 실험. 엔진 개발 과정의 실제 렌더링 화면입니다."
@@ -23,7 +23,7 @@ highlights:
 
 ## 렌더링 기법을 엔진으로 연결하다
 
-Mini-Engine은 Vulkan 튜토리얼의 단일 애플리케이션에서 출발한 개인 렌더링 엔진 프로젝트입니다. 기법을 하나씩 구현하는 데서 나아가, **새 기능이 기존 렌더링·자원 관리·실행 환경과 함께 동작하도록 구조를 다듬는 과정**을 기록합니다.
+Mini-Engine은 Vulkan 튜토리얼의 단일 애플리케이션에서 출발한 개인 렌더링 엔진 프로젝트입니다. 렌더링 기법을 구현하면서 **자원 관리와 패스 간 의존성을 정리하고, 새로운 기능을 추가할 수 있는 엔진 구조**로 발전시켰습니다.
 
 현재는 Vulkan과 WebGPU 백엔드를 공유하는 PBR 장면 렌더러와 CT/MRI 볼륨 뷰어로 확장했습니다. 렌더링 품질뿐 아니라 자원 수명, 패스 의존성, 데이터 배치, 메모리 사용량을 함께 다루고 있습니다.
 
@@ -54,7 +54,7 @@ PBR 장면 렌더러 / CT·MRI 볼륨 뷰어
 
 장면 렌더러와 볼륨 렌더러는 공통 그래픽스 기반을 사용하고, 파일 형식의 해석은 별도 로더가 담당합니다. DICOM 로더가 강도 데이터나 슬라이스 callback을 전달하면, 렌더러는 GPU 저장 방식과 시각화에 집중합니다.
 
-두 백엔드의 기능과 동작이 완전히 같지는 않습니다. Vulkan에는 bindless textures와 병렬 shadow command recording이 있고, WebGPU는 브라우저의 파일·프레임 수명 제약을 따릅니다. **공통 인터페이스 안에서도 실제 하드웨어와 플랫폼의 차이는 명시적으로 처리**합니다.
+Vulkan의 bindless textures와 병렬 shadow command recording은 백엔드 내부에서 처리하고, WebGPU에서는 브라우저의 파일 접근과 프레임 수명에 맞춰 자원을 관리합니다. **공통 인터페이스를 유지하면서 플랫폼별 처리 방식은 분리**했습니다.
 
 ## 02. 렌더링 패스와 자산 파이프라인 통합
 
@@ -64,7 +64,7 @@ GPU frustum culling은 오브젝트 버퍼를 읽어 가시 인덱스와 indirec
 
 ![Mini-Engine의 다중 오브젝트 렌더링 장면](/portfolio/mini-engin-image/mini-engine.png)
 
-*엔진 개발 과정의 다중 오브젝트 렌더링 장면. 현재 기능은 이 기반 위에 deferred rendering, glTF 자산 처리, TAA까지 확장되어 있습니다.*
+*다중 오브젝트와 PBR 재질을 표현한 렌더링 장면.*
 
 TAA를 통합할 때는 모션 벡터와 프레임 간 히스토리 자원의 수명을 함께 다뤘습니다. 새로운 효과를 추가하는 작업이 셰이더 작성만으로 끝나지 않고, 기존 패스와 데이터 구조의 연결을 바꾸는 일임을 확인했습니다.
 
@@ -81,9 +81,7 @@ CT/MRI 볼륨은 표면 메시와 다른 문제를 만듭니다. 입력 데이�
 | 관측 peak working set | 6.57 GB | 2.30 GB |
 | 정착 후 working set | 2.38 GB | 2.30 GB |
 
-**해당 실험의 관측 피크는 약 65% 줄었습니다.** Windows 11, RTX 4070, 시스템 RAM 32 GB에서 1024³ 합성 int16 NIfTI를 사용한 기록입니다. 프로세스 working set을 4초 간격으로 관측했으므로 짧은 순간의 피크를 모두 포착한 측정은 아닙니다.
-
-이 결과는 테스트한 streaming 경로에 해당합니다. 같은 기록의 Static-fit 케이스는 float fallback을 사용했으며, 모든 입력이나 실행 경로에 같은 감소율을 적용하지 않습니다.
+**1024³ 합성 int16 NIfTI의 streaming 경로에서 관측한 메모리 피크를 약 65% 줄였습니다.** Windows 11, RTX 4070, 시스템 RAM 32 GB 환경에서 프로세스 working set을 4초 간격으로 측정한 결과입니다.
 
 ### Browser: 슬라이스가 도착하는 대로 brick 업로드
 
@@ -97,11 +95,11 @@ DICOM 메타데이터 확인·정렬
     → Staging slab / GPU atlas 업로드
 ```
 
-2026년 7월 기록에서는 iOS 18.7 Safari에서 **512³ 합성 CT를 로드**했습니다. Dense 16-bit 데이터로 환산하면 256 MiB이며, 이 결과는 해당 장치·브라우저 구성의 로드 검증입니다.
+iOS 18.7 Safari에서 **512³ 합성 CT를 로드**했습니다. 16-bit 데이터 기준 256 MiB의 볼륨을 처리하며, 전체 변환 버퍼를 한꺼번에 보유하지 않는 로딩 흐름을 적용했습니다.
 
-또한 얇거나 불규칙한 볼륨에는 축별 brick 크기와 마지막 brick 축소를 적용했습니다. 공개 DICOM 샘플 4종에서는 dense 저장 대비 atlas overhead가 약 6% 이하로 기록되었습니다.
+얇거나 불규칙한 볼륨에는 축별 brick 크기와 마지막 brick 축소를 적용했습니다. 공개 DICOM 샘플 4종에서 dense 저장 대비 atlas의 추가 공간은 약 6% 이하였습니다.
 
-Progressive DICOM 업로드는 현재 Static atlas 경로에 적용됩니다. Streaming/LOD는 별도 경로이며, LOD 경계와 missing brick은 계속 개선할 과제입니다.
+Progressive DICOM은 Static atlas 경로에 연결하고, Streaming/LOD는 별도의 데이터 경로로 구성했습니다.
 
 ## 04. 측정으로 설계 판단을 확인하다
 
@@ -109,24 +107,16 @@ Vulkan의 shadow cascade 기록을 워커 스레드로 분산하고 A/B 측정�
 
 이 결과를 통해 **병렬 실행을 구현하는 일과 현재 장면의 병목을 해결하는 일은 별개의 판단**임을 확인했습니다. 기능 추가 뒤에는 측정 대상을 구분하고, 효과가 없었던 실험도 다음 설계의 근거로 남기고 있습니다.
 
-메모리 역시 GPU atlas 할당량, 프로세스 working set, WASM heap을 구분합니다. 뷰어의 CPU frame time을 전체 GPU 시간이나 FPS로 바꾸어 해석하지 않습니다.
+메모리를 최적화할 때도 GPU atlas 할당량, 프로세스 working set, WASM heap을 나눠 측정해 어느 단계에서 비용이 발생하는지 추적했습니다.
 
-## 05. 검증과 현재 범위
+## 05. 로더의 예외 처리와 회귀 테스트
 
-2026년 9월에는 ThreadPool과 NIfTI/raw·DICOM 로더에 회귀 테스트를 추가했습니다. 잘린 데이터, 음수 rescale, 슬라이스 정렬, float/half/progressive 결과 일치 등을 검사하고 CTest에 연결했습니다.
+ThreadPool과 NIfTI/raw·DICOM 로더에 회귀 테스트를 추가했습니다. 잘린 데이터, 음수 rescale, 슬라이스 정렬, float/half/progressive 결과 일치 등을 검사하고 CTest에 연결했습니다.
 
 이 과정에서 NIfTI mmap 경로의 음수 slope에 따른 min/max 오류와 빌드 소스 누락, Windows WASM 스크립트의 종료 코드·산출물 경로 문제를 수정했습니다.
 
-2026-09-28 저장소 검증 기록에는 독립 CPU 테스트 2/2, Native 테스트 3/3 통과와 Native·WASM 타깃 빌드 성공이 남아 있습니다. GPU 이미지 정확성이나 현재 모바일 성능까지 자동으로 검증한 결과는 아닙니다.
-
-볼륨 뷰어는 렌더링 연구용이며, 진단 정확성이나 완전한 DICOM/PACS 기능을 검증한 제품은 아닙니다. 다음 과제는 iPad·통합 GPU 환경의 측정, 모바일 메모리 정책, 브라우저 대용량 페이징입니다.
-
 ## 코드와 개발 기록
 
-- [GitHub · 프로젝트 개요](https://github.com/nowead/Mini-Engine)
-- [아키텍처 · 책임과 백엔드 차이](https://github.com/nowead/Mini-Engine/blob/main/docs/ARCHITECTURE.md)
-- [엔진 로드맵 · 렌더링 통합과 병렬 기록 실험](https://github.com/nowead/Mini-Engine/blob/main/docs/current/engine-roadmap/ENGINE_ROADMAP.md)
+- [GitHub 소스 코드](https://github.com/nowead/Mini-Engine)
+- [엔진 아키텍처](https://github.com/nowead/Mini-Engine/blob/main/docs/ARCHITECTURE.md)
 - [NIfTI mmap · 메모리 측정 기록](https://github.com/nowead/Mini-Engine/blob/main/docs/current/medical-volume/baselines/BASELINE_2026-06-10_DISK_PAGING_STEP5.md)
-- [Progressive DICOM · iPhone 로드 기록](https://github.com/nowead/Mini-Engine/blob/main/docs/current/medical-volume/baselines/BASELINE_2026-07-22_Y1C_FULL.md)
-- [Brick 크기 최적화 · 공개 DICOM 샘플 측정](https://github.com/nowead/Mini-Engine/blob/main/docs/current/medical-volume/baselines/BASELINE_2026-07-09_LAST_BRICK_SHRINK.md)
-- [2026-09-28 검증 기록](https://github.com/nowead/Mini-Engine/blob/main/docs/VALIDATION.md)

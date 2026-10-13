@@ -1,0 +1,8 @@
+{{- $display := .Get "display" | default "inline" -}}
+{{- if eq $display "block" -}}
+<div class="math-block">
+{{- end -}}
+<math xmlns="http://www.w3.org/1998/Math/MathML" display="{{ $display }}" class="math-expression{{ if eq $display "inline" }} math-inline{{ end }}"{{ with .Get "label" }} aria-label="{{ . }}"{{ end }}>{{ .Inner | safeHTML }}</math>
+{{- if eq $display "block" -}}
+</div>
+{{- end -}}

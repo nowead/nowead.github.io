@@ -13,9 +13,8 @@
   </div>
   <p class="profile-hero__description">{{ if $compact }}{{ .Params.portfolio_intro }}{{ else }}{{ .Params.hero_intro }}{{ end }}</p>
   <div class="profile-hero__actions actions">
-    <a class="button primary" href="{{ if $compact }}#projects{{ else }}{{ "/portfolio/" | relURL }}{{ end }}">프로젝트 보기 <span aria-hidden="true">{{ if $compact }}↓{{ else }}↗{{ end }}</span></a>
-    <a class="button subtle" href="{{ printf "https://github.com/%s" .Params.github }}" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
-    <a class="button subtle" href="{{ printf "mailto:%s" .Params.email }}">연락하기 <span aria-hidden="true">↗</span></a>
+    <a class="text-link" href="{{ printf "https://github.com/%s" .Params.github }}" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+    <a class="text-link" href="{{ printf "mailto:%s" .Params.email }}">연락하기 <span aria-hidden="true">↗</span></a>
   </div>
   {{ if not $compact }}<div class="profile-hero__stack hero-stack"><span>C++20</span><span>Vulkan</span><span>WebGPU</span><span>DICOM</span></div>{{ end }}
 </section>

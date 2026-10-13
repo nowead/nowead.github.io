@@ -23,7 +23,7 @@ cover_image: "webserv-image/webserv-architecture.png"
 
 ## Overview
 
-C++98 표준으로 HTTP/1.1 프로토콜을 지원하는 이벤트 드리븐 웹 서버를 처음부터 구현.
+C++98로 HTTP/1.1 프로토콜을 지원하는 이벤트 기반 웹 서버를 구현한 팀 프로젝트입니다.
 
 | 항목 | 내용 |
 |------|------|
@@ -32,7 +32,7 @@ C++98 표준으로 HTTP/1.1 프로토콜을 지원하는 이벤트 드리븐 웹
 | **아키텍처** | Reactor Pattern, 4-Layer |
 | **동시성** | 단일 스레드 이벤트 루프 |
 
-**Motivation**: Nginx와 같은 고성능 웹 서버의 내부 동작 원리를 이해하고, 동시성 처리와 이벤트 기반 아키텍처를 직접 구현하여 네트워크 프로그래밍 역량 강화.
+웹 서버가 여러 연결을 처리하는 원리를 이해하기 위해, 소켓 통신부터 이벤트 루프와 CGI 실행까지 직접 구현했습니다.
 
 ![WebServ Architecture](/portfolio/webserv-image/webserv-architecture.png)
 
@@ -43,7 +43,7 @@ C++98 표준으로 HTTP/1.1 프로토콜을 지원하는 이벤트 드리븐 웹
 ## Challenge 1: kqueue 기반 동시성 처리
 
 ### Problem
-수천 개의 동시 연결을 단일 스레드로 처리하려면 효율적인 I/O 멀티플렉싱 필요. `select()`/`poll()`의 O(n) 스캔은 비효율적.
+단일 스레드에서 여러 연결을 처리할 때 하나의 느린 요청이 다른 연결을 막지 않도록, 준비된 소켓을 감지하고 처리하는 구조가 필요했습니다.
 
 ### Solution: Reactor Pattern + kqueue
 
@@ -59,7 +59,7 @@ void ServerManager::run() {
         // 1. 다음 타임아웃 계산
         timespec* timeout = timeoutHandler.getEarliestTimeout();
         
-        // 2. 이벤트 대기 (O(1) 알림)
+        // 2. 준비된 I/O 이벤트 대기
         int numEvents = reactor.waitForEvent(timeout);
         
         // 3. 이벤트 dispatch
@@ -138,9 +138,9 @@ EnumSesStatus EventHandler::recvRequest(ClientSession& session) {
 ```
 
 ### Impact
-- **동시성**: 단일 스레드로 수천 개 동시 연결 처리 (C10K 해결)
-- **성능**: kqueue의 O(1) 이벤트 알림으로 `select()` 대비 대폭 개선
-- **교훈**: 이벤트 드리븐 아키텍처는 멀티스레딩 없이도 고성능 달성 가능
+- **동시성**: 단일 이벤트 루프에서 여러 클라이언트의 읽기·쓰기를 처리했습니다.
+- **이벤트 처리**: kqueue가 반환한 이벤트를 핸들러에 전달해 준비된 I/O를 처리하도록 구성했습니다.
+- **설계 경험**: 연결마다 스레드를 만드는 대신 세션 상태와 이벤트를 관리하는 방식을 익혔습니다.
 
 ---
 
@@ -237,9 +237,9 @@ public:
 ```
 
 ### Impact
-- **안정성**: Valgrind로 메모리 누수 0 검증
+- **안정성**: Valgrind를 사용해 세션과 요청 객체의 메모리 누수를 점검했습니다.
 - **C++98 역량**: 스마트 포인터 없이 RAII 패턴 구현
-- **교훈**: 명시적 생명주기 관리로 현대 C++보다 자원 흐름 명확히 이해
+- **설계 경험**: 생성과 해제 책임을 명시하면서 객체와 소켓의 생명주기를 이해했습니다.
 
 ---
 
@@ -390,8 +390,8 @@ public:
 ## Key Takeaways
 
 ### 동시성 처리
-- **이벤트 루프 > 멀티스레딩**: 컨텍스트 스위칭 없이 수천 연결 처리
-- **kqueue의 힘**: O(1) 이벤트 알림, level-triggered 방식
+- **이벤트 루프**: 단일 스레드에서 세션별 상태와 I/O 이벤트 관리
+- **kqueue**: level-triggered 방식의 이벤트 감지와 핸들러 연결
 - **논블로킹 I/O**: MSG_DONTWAIT와 증분 파싱 조합
 
 ### C++ 역량

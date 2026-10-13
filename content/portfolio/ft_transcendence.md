@@ -13,17 +13,17 @@ summary: "실시간 멀티플레이어 Pong 게임 - API 통합 및 협업 중�
 cover_image: "transendence-image/트센_게임.png"
 ---
 
-> 프레임워크 없이 구현한 실시간 멀티플레이어 Pong 게임
+> 프런트엔드 프레임워크 없이 구현한 실시간 멀티플레이어 Pong 게임
 
 **TypeScript | Fastify | WebSocket | Vanilla JS**
 
-2024.12 ~ 2025.02 (3개월) | 5인 개발 | 풀스택
+2024.12 ~ 2025.02 (3개월) | 5인 개발 | API 레이어 · 프런트엔드–백엔드 통합
 
 ---
 
 ## Overview
 
-프레임워크 없이 TypeScript로 실시간 멀티플레이어 Pong 게임을 구현. SPA 아키텍처, WebSocket 통신, 서버-클라이언트 동기화를 직접 설계하고 구현 완료.
+TypeScript 기반 SPA와 WebSocket 통신으로 실시간 멀티플레이어 Pong 게임을 만든 팀 프로젝트입니다. API 레이어와 프런트엔드–백엔드 통합을 담당했습니다.
 
 | 항목 | 내용 |
 |------|------|
@@ -33,11 +33,11 @@ cover_image: "transendence-image/트센_게임.png"
 | **데이터베이스** | SQLite |
 | **담당 역할** | Frontend-Backend Integration, API Layer |
 
-**Motivation**: 프레임워크 없이 웹 애플리케이션의 내부 동작을 이해하고, 프론트엔드-백엔드 통합 과정에서의 설계 및 협업 경험 획득.
+공통 API 클라이언트를 설계하면서 웹 애플리케이션의 통신 흐름을 익히고, 프런트엔드와 백엔드가 함께 사용할 인터페이스를 정리했습니다.
 
 ![ft_transcendence Game](/portfolio/transendence-image/트센_게임.png)
 
-*실시간 멀티플레이어 Pong 게임: WebSocket 기반 60 FPS 동기화*
+*WebSocket으로 게임 상태를 동기화하는 실시간 멀티플레이어 Pong 게임.*
 
 ![ft_transcendence Login](/portfolio/transendence-image/트센-로그인.png)
 
@@ -72,7 +72,7 @@ export class ApiClient {
 
 **도입 효과:**
 - 모든 프론트엔드 팀원이 동일한 API 인터페이스 사용
-- 백엔드 스펙 변경 시, BaseApiService만 수정하면 전체 반영
+- 공통 통신 규칙은 BaseApiService에서, 엔드포인트 변경은 해당 서비스에서 관리
 
 #### 2. BaseApiService: 공통 로직 추상화
 ```typescript
@@ -156,9 +156,9 @@ if (response.status === 401 && tokenRefreshAttempts < 1) {
 ```
 
 ### Impact
-- **협업 효율 향상**: API 변경 사항이 자동 반영되어 프론트엔드 팀원 간 코드 충돌 70% 감소
+- **API 변경 대응**: 호출 규칙을 공통 레이어에 모아 화면마다 중복 수정하는 작업을 줄였습니다.
 - **에러 처리 일관성**: 통일된 에러 처리로 사용자에게 명확한 피드백 제공
-- **개발 속도 향상**: 공통 API 레이어 구축 후, 새로운 API 추가 시간 50% 단축
+- **확장성**: 새로운 API에서도 인증·재시도·에러 처리 로직을 재사용할 수 있게 했습니다.
 - **교훈**: "프론트-백 계약(Contract)의 중요성. 초기 설계에 시간을 투자하면 후반 디버깅 시간이 극적으로 감소."
 
 ---
@@ -221,7 +221,7 @@ feature/websocket (개인)
 - **실시간 커뮤니케이션**: 대면을 통한 즉각적인 API 이슈 해결
 
 ### Problem-Solving
-- **초기 설계의 중요성**: API 레이어를 먼저 설계하니 후반 개발 속도가 2배 향상
+- **공통 레이어의 효과**: API 레이어를 먼저 설계해 화면 개발에서 통신 로직을 재사용
 - **예외부터 생각하기**: "정상 케이스"보다 "비정상 케이스"를 먼저 고려해야 안정적인 서비스 구축 가능
 - **협업의 핵심은 계약**: 프론트-백의 "계약(API 스펙)"이 명확하면 각자 독립적으로 개발 가능
 
