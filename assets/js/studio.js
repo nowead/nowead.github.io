@@ -4,7 +4,7 @@
   const syncTheme = () => {
     const dark = root.dataset.theme === 'dark';
     themeButton?.setAttribute('aria-label', dark ? '밝은 테마로 전환' : '어두운 테마로 전환');
-    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', dark ? '#111419' : '#f5f4f0');
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', dark ? '#10212a' : '#fbfdfc');
   };
   if (themeButton) {
     themeButton.hidden = false;

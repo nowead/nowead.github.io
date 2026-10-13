@@ -6,8 +6,9 @@ weight: 2
 featured: true
 category: "graphics"
 category_label: "Rendering engine"
+architecture: "multi-backend"
 period: "2025.09 — 진행 중"
-role: "개인 프로젝트 · 설계 및 개발"
+role: "엔진 설계 · 구현 · 통합"
 tags: ["C++20", "Vulkan", "WebGPU", "Render Graph", "Volume Rendering"]
 github: "https://github.com/nowead/Mini-Engine"
 summary: "Vulkan 튜토리얼에서 시작해 PBR·GPU 기반 렌더링과 CT/MRI 볼륨 시각화까지 확장한 C++20 렌더링 엔진. 공통 RHI와 데이터 흐름을 설계하고, 구현 결과를 측정하며 발전시키고 있습니다."
@@ -22,7 +23,7 @@ highlights:
 
 ## 렌더링 기법을 엔진으로 연결하다
 
-Mini-Engine은 Vulkan 튜토리얼의 단일 애플리케이션에서 출발한 렌더링 학습 프로젝트입니다. 기법을 하나씩 구현하는 데서 나아가, **새 기능이 기존 렌더링·자원 관리·실행 환경과 함께 동작하도록 구조를 다듬는 과정**을 기록합니다.
+Mini-Engine은 Vulkan 튜토리얼의 단일 애플리케이션에서 출발한 개인 렌더링 엔진 프로젝트입니다. 기법을 하나씩 구현하는 데서 나아가, **새 기능이 기존 렌더링·자원 관리·실행 환경과 함께 동작하도록 구조를 다듬는 과정**을 기록합니다.
 
 현재는 Vulkan과 WebGPU 백엔드를 공유하는 PBR 장면 렌더러와 CT/MRI 볼륨 뷰어로 확장했습니다. 렌더링 품질뿐 아니라 자원 수명, 패스 의존성, 데이터 배치, 메모리 사용량을 함께 다루고 있습니다.
 

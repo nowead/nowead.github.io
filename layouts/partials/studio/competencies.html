@@ -1,0 +1,12 @@
+<div class="competencies">
+  <section class="competency-group" aria-label="핵심 역량">
+    <p class="eyebrow">CORE EXPERTISE</p>
+    <h3>주력으로 다루는 기술</h3>
+    <ul>{{ range .Params.core_expertise }}<li>{{ . }}</li>{{ end }}</ul>
+  </section>
+  <section class="competency-group" aria-label="활용 경험이 있는 기술">
+    <p class="eyebrow">WORKING KNOWLEDGE</p>
+    <h3>프로젝트에서 활용한 기술</h3>
+    <ul>{{ range .Params.working_knowledge }}<li>{{ . }}</li>{{ end }}</ul>
+  </section>
+</div>

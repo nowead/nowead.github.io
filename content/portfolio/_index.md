@@ -7,6 +7,17 @@ profile_image = "민대원_증명사진.jpg"
 email = "dwm951017@gmail.com"
 github = "nowead"
 blog = "https://nowead.github.io/"
+profile_intro = "C++과 Vulkan·WebGPU로 렌더링 엔진과 실시간 시각화 시스템을 만듭니다. 확장 가능한 아키텍처와 효율적인 메모리 구조를 설계하며, 기술적 선택이 성능에 미치는 영향을 고민합니다."
+working_practice = "AI를 개발 파트너로 활용해 구현 범위를 넓히고, 복잡한 아이디어를 실제로 동작하는 결과물로 완성합니다."
+core_expertise = [
+  "C / C++20 · Vulkan · WebGPU",
+  "RHI 설계 · GPU 자원과 메모리 관리",
+  "GLSL / WGSL · CMake"
+]
+working_knowledge = [
+  "TypeScript · Python · OpenGL · HLSL",
+  "WASM / Emscripten · Docker"
+]
 
 [[education]]
 degree = "강원대학교"
@@ -15,19 +26,7 @@ period = "2015.03 ~ 2021.08"
 gpa = "평점평균: 4.11 / 4.5"
 
 [[education]]
-degree = "42Seoul"
-school = "Cadet (2023년 10월 ~)"
-period = "Transcender (2025년 8월 ~)"
+degree = "42 Seoul"
+school = "소프트웨어 개발 교육"
+period = "2023.10 입과 · 2025.08 공통과정 완료"
 +++
-
-## Core Skills
-
-**Graphics APIs**: Vulkan 1.3, WebGPU, OpenGL
-
-**Languages**: C++20, C99, TypeScript, GLSL/HLSL
-
-**Rendering**: PBR, IBL, GPU-Driven Rendering, Ray Tracing
-
-**Architecture**: RHI Pattern, Multi-Backend Design
-
-**Tools**: CMake, Docker, RenderDoc, NSight

@@ -1,0 +1,130 @@
+{{- $kind := .Params.architecture -}}
+{{- if or (eq $kind "medical-volume") (eq $kind "multi-backend") -}}
+<section class="architecture-section" aria-labelledby="architecture-title">
+  <header class="architecture-heading">
+    {{ if eq $kind "medical-volume" }}
+    <p class="architecture-eyebrow">DATA TO PIXELS</p>
+    <h2 id="architecture-title">DICOM에서 화면까지</h2>
+    <p>담당한 DICOM 처리와 C++ 렌더링을 중심으로, 팀의 AI 추론 결과를 웹 화면에 연결했습니다.</p>
+    {{ else }}
+    <p class="architecture-eyebrow">RENDERING ARCHITECTURE</p>
+    <h2 id="architecture-title">공통 RHI를 중심으로 나눈 책임</h2>
+    <p>장면을 그리는 로직과 그래픽스 API 구현을 분리해, 네이티브와 브라우저에서 같은 기반을 사용합니다.</p>
+    {{ end }}
+  </header>
+
+  <div class="architecture-layout">
+    {{ if eq $kind "medical-volume" }}
+    <figure class="architecture-diagram architecture-diagram--medical">
+      <div class="architecture-inputs">
+        <div class="architecture-node architecture-node--owned">
+          <span class="architecture-role">담당 · DICOM 처리</span>
+          <strong>DICOM → 볼륨</strong>
+          <p>C++ 파싱 · 방향 정규화</p>
+        </div>
+        <div class="architecture-node">
+          <span class="architecture-role architecture-role--team">팀 · AI 추론</span>
+          <strong>AI 마스크</strong>
+          <p>폐 분할 추론 결과</p>
+        </div>
+      </div>
+      <span class="architecture-junction architecture-junction--merge" aria-hidden="true"></span>
+      <div class="architecture-node architecture-node--boundary">
+        <strong>Shell · 데이터 연결</strong>
+        <p>팀 통합 계층에서 volumeId 확인</p>
+      </div>
+      <span class="architecture-connector" aria-hidden="true"></span>
+      <div class="architecture-node architecture-node--core">
+        <span class="architecture-role">담당 · 3D 렌더링</span>
+        <strong>WebGPUDevice</strong>
+        <p>볼륨 텍스처 · 렌더링 · 마스크 합성</p>
+      </div>
+      <span class="architecture-connector" aria-hidden="true"></span>
+      <div class="architecture-node architecture-node--output">
+        <strong>3D Orbit · 2D Slice</strong>
+        <p>브라우저에서 회전하고, 단면으로 탐색</p>
+      </div>
+      <figcaption>영상 데이터와 팀의 AI 마스크가 Shell을 거쳐 렌더링 엔진으로 전달되는 흐름입니다.</figcaption>
+    </figure>
+
+    <ol class="architecture-notes">
+      <li>
+        <span class="architecture-number" aria-hidden="true">01</span>
+        <div>
+          <h3>파일의 좌표를 영상의 좌표로</h3>
+          <p>DICOM의 픽셀값과 공간 정보를 읽고 슬라이스를 정렬합니다. 방향을 정규화해 탐색 가능한 볼륨으로 구성합니다.</p>
+        </div>
+      </li>
+      <li>
+        <span class="architecture-number" aria-hidden="true">02</span>
+        <div>
+          <h3>3D·2D 보기를 하나의 엔진에서</h3>
+          <p>3D ray marching과 세 방향 단면을 렌더링합니다. Window/Level, 품질 설정과 카메라 조작을 엔진 API로 제공합니다.</p>
+        </div>
+      </li>
+      <li>
+        <span class="architecture-number" aria-hidden="true">03</span>
+        <div>
+          <h3>도착하는 마스크를 점진적으로 합성</h3>
+          <p>팀의 AI 추론 결과를 슬라이스별로 GPU에 반영합니다. 이전 볼륨의 마스크를 거르는 volumeId 검증은 Shell이 담당합니다.</p>
+        </div>
+      </li>
+    </ol>
+    {{ else }}
+    <figure class="architecture-diagram architecture-diagram--engine">
+      <div class="architecture-node">
+        <strong>Renderer · Render Graph</strong>
+        <p>장면 렌더링과 패스 관리</p>
+      </div>
+      <span class="architecture-connector" aria-hidden="true"></span>
+      <div class="architecture-node">
+        <strong>RendererBridge</strong>
+        <p>상위 렌더러와 RHI 연결</p>
+      </div>
+      <span class="architecture-connector" aria-hidden="true"></span>
+      <div class="architecture-node architecture-node--core">
+        <span class="architecture-role">공유하는 그래픽스 기반</span>
+        <strong>공통 RHI</strong>
+        <p>Device · Buffer · Texture · CommandEncoder</p>
+      </div>
+      <span class="architecture-junction architecture-junction--split" aria-hidden="true"></span>
+      <div class="architecture-outputs">
+        <div class="architecture-node architecture-node--output">
+          <strong>Vulkan</strong>
+          <p>네이티브</p>
+        </div>
+        <div class="architecture-node architecture-node--output">
+          <strong>WebGPU</strong>
+          <p>브라우저</p>
+        </div>
+      </div>
+      <figcaption>공통 인터페이스 아래에서 각 백엔드가 플랫폼별 GPU 작업을 구현합니다.</figcaption>
+    </figure>
+
+    <ol class="architecture-notes">
+      <li>
+        <span class="architecture-number" aria-hidden="true">01</span>
+        <div>
+          <h3>렌더링 의도를 공통 인터페이스로</h3>
+          <p>GPU 자원과 렌더링 명령을 RHI 인터페이스로 정의합니다. 상위 렌더러는 이 기반 위에서 장면과 패스를 구성합니다.</p>
+        </div>
+      </li>
+      <li>
+        <span class="architecture-number" aria-hidden="true">02</span>
+        <div>
+          <h3>설정에 따라 백엔드를 선택</h3>
+          <p>RHIFactory가 Vulkan 또는 WebGPU Device를 생성합니다. RendererBridge는 렌더러와 공통 RHI를 연결합니다.</p>
+        </div>
+      </li>
+      <li>
+        <span class="architecture-number" aria-hidden="true">03</span>
+        <div>
+          <h3>API의 차이를 고려한 구현</h3>
+          <p>공통 로직을 재사용하면서도 동기화, 자원 관리와 프레임 수명은 각 백엔드의 제약에 맞게 다룹니다.</p>
+        </div>
+      </li>
+    </ol>
+    {{ end }}
+  </div>
+</section>
+{{- end -}}

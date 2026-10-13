@@ -1,0 +1,305 @@
+/* Project architecture: readable HTML flows adapted from the portfolio PDF. */
+.architecture-section {
+  padding-block:clamp(44px,6vw,76px) clamp(52px,7vw,92px);
+  border-top:1px solid var(--line)
+}
+.architecture-heading {
+  max-width:850px;
+  margin-bottom:32px
+}
+.architecture-eyebrow {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:16px;
+  color:var(--accent);
+  font:600 11px/1.5 var(--mono);
+  letter-spacing:1.1px
+}
+.architecture-eyebrow::before {
+  content:"";
+  display:block;
+  width:24px;
+  height:3px;
+  background:currentColor
+}
+.architecture-heading h2 {
+  font-size:clamp(25px,3.3vw,38px);
+  line-height:1.3;
+  letter-spacing:-1.1px;
+  font-weight:700
+}
+.architecture-heading > p:last-child {
+  margin-top:13px;
+  font-size:16px;
+  line-height:1.85;
+  color:var(--muted)
+}
+.architecture-layout {
+  display:grid;
+  grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);
+  gap:clamp(28px,5.2vw,64px);
+  align-items:start
+}
+.architecture-diagram {
+  --architecture-branch-gap:20px;
+  min-width:0;
+  padding:28px;
+  background:var(--panel-soft);
+  border:1px solid var(--line);
+  border-radius:12px
+}
+.architecture-node {
+  min-width:0;
+  padding:19px 21px;
+  border:1px solid var(--line);
+  border-radius:6px;
+  background:var(--bg)
+}
+.architecture-node strong {
+  display:block;
+  font-size:clamp(17px,1.75vw,22px);
+  line-height:1.4;
+  letter-spacing:-.4px;
+  font-weight:650;
+  overflow-wrap:anywhere
+}
+.architecture-node p {
+  margin-top:5px;
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.65;
+  overflow-wrap:anywhere
+}
+.architecture-role {
+  display:block;
+  margin-bottom:9px;
+  color:var(--accent);
+  font-size:11px;
+  line-height:1.6;
+  font-weight:600;
+  letter-spacing:.1px
+}
+.architecture-role--team {
+  color:var(--muted)
+}
+.architecture-node--owned {
+  border-top:2px solid var(--accent)
+}
+.architecture-node--core {
+  padding-block:23px;
+  background:var(--text);
+  border-color:var(--text);
+  color:var(--bg)
+}
+.architecture-node--core strong {
+  font-size:clamp(22px,2.2vw,28px)
+}
+.architecture-node--core p,
+.architecture-node--core .architecture-role {
+  color:var(--bg);
+  opacity:.85
+}
+.architecture-node--boundary {
+  border-style:dashed;
+  background:transparent;
+  padding-block:13px
+}
+.architecture-node--boundary strong {
+  font-size:16px
+}
+.architecture-node--boundary p {
+  font-size:13px
+}
+.architecture-inputs,
+.architecture-outputs {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:var(--architecture-branch-gap)
+}
+.architecture-inputs .architecture-node {
+  padding:17px 15px
+}
+.architecture-inputs .architecture-node strong {
+  font-size:clamp(16px,1.5vw,19px)
+}
+.architecture-inputs .architecture-node p {
+  font-size:13px
+}
+.architecture-connector {
+  position:relative;
+  display:block;
+  height:30px;
+  width:1px;
+  margin-inline:auto;
+  background:var(--accent)
+}
+.architecture-connector::after {
+  content:"";
+  position:absolute;
+  bottom:0;
+  left:-3px;
+  width:0;
+  height:0;
+  border-left:3.5px solid transparent;
+  border-right:3.5px solid transparent;
+  border-top:5px solid var(--accent)
+}
+.architecture-junction {
+  position:relative;
+  display:block;
+  height:42px
+}
+.architecture-junction::before {
+  content:"";
+  position:absolute;
+  left:calc(25% - var(--architecture-branch-gap)/4);
+  right:calc(25% - var(--architecture-branch-gap)/4);
+  height:21px;
+  border-inline:1px solid var(--accent)
+}
+.architecture-junction::after {
+  content:"";
+  position:absolute;
+  left:50%;
+  width:1px;
+  height:21px;
+  background:var(--accent)
+}
+.architecture-junction--merge::before {
+  top:0;
+  border-bottom:1px solid var(--accent)
+}
+.architecture-junction--merge::after {
+  bottom:0
+}
+.architecture-junction--split::before {
+  bottom:0;
+  border-top:1px solid var(--accent)
+}
+.architecture-junction--split::after {
+  top:0
+}
+.architecture-diagram figcaption {
+  margin-top:22px;
+  font-size:12px;
+  line-height:1.8;
+  color:var(--muted)
+}
+.architecture-notes {
+  list-style:none;
+  padding:0;
+  margin:0
+}
+.architecture-notes li {
+  display:grid;
+  grid-template-columns:24px minmax(0,1fr);
+  gap:15px;
+  padding:25px 0 27px;
+  border-bottom:1px solid var(--line)
+}
+.architecture-notes li:first-child {
+  padding-top:14px
+}
+.architecture-notes li:last-child {
+  border-bottom:0;
+  padding-bottom:0
+}
+.architecture-number {
+  padding-top:5px;
+  font:600 12px/1.6 var(--mono);
+  color:var(--accent)
+}
+.architecture-notes h3 {
+  font-size:clamp(18px,1.7vw,22px);
+  line-height:1.5;
+  font-weight:650;
+  letter-spacing:-.5px
+}
+.architecture-notes p {
+  max-width:38ch;
+  margin-top:12px;
+  font-size:15px;
+  line-height:1.95;
+  color:var(--muted)
+}
+@media (max-width:900px) {
+  .architecture-layout {
+    grid-template-columns:minmax(0,1fr) minmax(0,.92fr);
+    gap:28px
+  }
+  .architecture-diagram {
+    --architecture-branch-gap:12px;
+    padding:20px
+  }
+  .architecture-node {
+    padding:16px
+  }
+  .architecture-inputs .architecture-node {
+    padding:14px 11px
+  }
+  .architecture-notes li {
+    gap:10px;
+    padding-block:19px
+  }
+}
+@media (max-width:740px) {
+  .architecture-layout {
+    grid-template-columns:minmax(0,1fr);
+    gap:26px
+  }
+  .architecture-heading {
+    margin-bottom:26px
+  }
+  .architecture-node strong {
+    font-size:20px
+  }
+  .architecture-node--core strong {
+    font-size:25px
+  }
+  .architecture-inputs .architecture-node strong {
+    font-size:18px
+  }
+  .architecture-notes li {
+    grid-template-columns:28px minmax(0,1fr);
+    gap:13px;
+    padding-block:23px
+  }
+  .architecture-notes p {
+    max-width:none;
+    margin-top:8px
+  }
+}
+@media (max-width:420px) {
+  .architecture-heading > p:last-child {
+    font-size:15px
+  }
+  .architecture-diagram {
+    --architecture-branch-gap:10px;
+    padding:16px
+  }
+  .architecture-node {
+    padding:15px
+  }
+  .architecture-node strong {
+    font-size:18px
+  }
+  .architecture-inputs .architecture-node {
+    padding:13px 10px
+  }
+  .architecture-inputs .architecture-node strong {
+    font-size:16px
+  }
+  .architecture-node--core strong {
+    font-size:23px
+  }
+  .architecture-role {
+    font-size:10px
+  }
+  .architecture-node--boundary strong {
+    font-size:15px
+  }
+  .architecture-notes p {
+    font-size:14px
+  }
+}

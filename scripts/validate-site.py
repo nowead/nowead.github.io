@@ -49,6 +49,12 @@ for path in paths:
         for anchor in ("about", "work-title", "notes-title"):
             if anchor not in page.ids:
                 errors.append(f"{label}: homepage section #{anchor} did not render")
+    if path in (root / "index.html", root / "portfolio/index.html"):
+        groups = [attrs for _, attrs in page.tags if "competency-group" in attrs.get("class", "").split()]
+        if len(groups) != 2:
+            errors.append(f"{label}: core expertise and working knowledge must both render")
+    if path.parent.name in ("omnimed3d", "mini-engine") and "architecture-title" not in page.ids:
+        errors.append(f"{label}: missing project architecture overview")
     for tag, attrs in page.tags:
         if tag == "img" and "alt" not in attrs:
             errors.append(f"{label}: image without alt attribute")

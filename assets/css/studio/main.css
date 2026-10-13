@@ -1,29 +1,31 @@
 /* The portfolio has an isolated stylesheet;
 legacy study notes keep their theme. */
-:root {
-  color-scheme:dark;
-  --bg:#111419;
-  --panel:#191d23;
-  --panel-soft:#15191f;
-  --text:#f0f0ec;
-  --muted:#a4aab3;
-  --line:#30353c;
-  --accent:#f3a582;
-  --accent-ink:#181514;
+:root, :root[data-theme=light] {
+  color-scheme:light;
+  --bg:#fbfdfc;
+  --panel:#eef4f2;
+  --panel-soft:#f3f7f6;
+  --text:#18323f;
+  --muted:#506773;
+  --line:#d8e3e1;
+  --accent:#087875;
+  --accent-ink:#ffffff;
+  --accent-soft:#e5f1ee;
   --image-bg:#0c0e1b;
   --sans:Inter,"Pretendard","Noto Sans KR",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
   --mono:"SFMono-Regular",Consolas,"Liberation Mono",monospace
 }
-:root[data-theme=light] {
-  color-scheme:light;
-  --bg:#f5f4f0;
-  --panel:#eae9e4;
-  --panel-soft:#eeede8;
-  --text:#20242a;
-  --muted:#5f656d;
-  --line:#d5d5ce;
-  --accent:#9e4528;
-  --accent-ink:#fff9f4
+:root[data-theme=dark] {
+  color-scheme:dark;
+  --bg:#10212a;
+  --panel:#19313a;
+  --panel-soft:#152a33;
+  --text:#eef5f3;
+  --muted:#aec4c9;
+  --line:#344c55;
+  --accent:#82ccc2;
+  --accent-ink:#102a2b;
+  --accent-soft:#1b393e
 }
 *,*::before,*::after {
   box-sizing:border-box
@@ -189,13 +191,17 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
   margin-bottom:27px
 }
 .hero-copy h1 {
-  font-size:clamp(30px,3.1vw,44px);
+  font-size:clamp(50px,4.5vw,66px);
   letter-spacing:-2.2px;
-  line-height:1.42;
+  line-height:1.2;
   font-weight:650
 }
-.hero-copy h1 span {
-  color:var(--accent)
+.hero-role {
+  font-size:25px;
+  line-height:1.45;
+  letter-spacing:-.5px;
+  font-weight:600;
+  margin-top:16px
 }
 .hero-description {
   color:var(--muted);
@@ -422,7 +428,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
 }
 .project-card>p {
   color:var(--muted);
-  font-size:14px;
+  font-size:15px;
   line-height:1.9;
   margin-top:12px;
   max-width:530px
@@ -698,7 +704,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
   color:var(--accent)
 }
 .featured-copy>p {
-  font-size:14px;
+  font-size:15px;
   line-height:1.95;
   color:var(--muted)
 }
@@ -707,7 +713,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
   padding:0;
   margin:20px 0;
   color:var(--text);
-  font-size:12px;
+  font-size:13px;
   line-height:1.8
 }
 .project-highlights li {
@@ -1050,6 +1056,8 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
   margin:25px 0
 }
 .prose table {
+  display:block;
+  overflow-x:auto;
   border-collapse:collapse;
   width:100%;
   font-size:13px;
@@ -1057,6 +1065,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
   margin:25px 0
 }
 .table-scroll table {
+  display:table;
   margin:0;
   min-width:470px
 }
@@ -1105,13 +1114,149 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
 .case-navigation>a:hover {
   color:var(--accent)
 }
+.project-role {
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  padding:17px 20px;
+  margin-top:22px;
+  background:var(--accent-soft);
+  border-left:2px solid var(--accent);
+  border-radius:0 4px 4px 0
+}
+.project-role>span {
+  color:var(--accent);
+  font:10px/1.5 var(--mono);
+  letter-spacing:1px
+}
+.project-role>strong {
+  color:var(--text);
+  font-size:14px;
+  font-weight:600;
+  line-height:1.6
+}
+.project-role.compact {
+  flex-direction:row;
+  align-items:baseline;
+  flex-wrap:wrap;
+  gap:8px 16px;
+  padding:12px 15px;
+  margin-top:18px
+}
+.project-role.compact>strong {
+  font-size:13px
+}
+.profile-intro {
+  display:grid;
+  grid-template-columns:1.3fr 1fr;
+  gap:64px;
+  font-size:15px;
+  line-height:1.95;
+  color:var(--muted);
+  margin-bottom:32px
+}
+.competencies {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:24px
+}
+.competency-group {
+  background:var(--panel-soft);
+  border-radius:5px;
+  padding:28px 30px;
+  border-top:2px solid var(--line)
+}
+.competency-group .eyebrow {
+  color:var(--accent)
+}
+.competency-group h3 {
+  font-size:19px;
+  font-weight:600;
+  margin:13px 0 17px;
+  letter-spacing:-.4px
+}
+.competency-group ul {
+  list-style:none;
+  padding:0;
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.85
+}
+.competency-group li+li {
+  margin-top:7px
+}
+.portfolio-profile {
+  padding-bottom:64px
+}
+.portfolio-profile .profile-band {
+  padding-bottom:35px
+}
+.case-gallery {
+  display:grid;
+  grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);
+  gap:22px 28px;
+  align-items:start;
+  margin:0 auto 64px;
+  max-width:1100px
+}
+.case-gallery figure {
+  min-width:0
+}
+.case-gallery figure:first-child {
+  grid-row:span 2
+}
+.case-gallery a {
+  display:block;
+  background:var(--image-bg);
+  border-radius:4px;
+  overflow:hidden;
+  border:1px solid var(--line)
+}
+.case-gallery img {
+  width:100%;
+  height:auto
+}
+.case-gallery figure:first-child img {
+  aspect-ratio:16/9;
+  object-fit:contain;
+  object-position:center
+}
+.gallery-role {
+  margin-top:23px
+}
+.gallery-role p {
+  font-size:13px;
+  color:var(--muted);
+  line-height:1.8
+}
+.case-gallery figcaption {
+  font-size:12px;
+  color:var(--muted);
+  margin-top:10px;
+  padding-left:14px;
+  position:relative
+}
+.case-gallery figcaption::before {
+  content:"";
+  position:absolute;
+  top:8px;
+  left:0;
+  width:4px;
+  height:4px;
+  background:var(--accent)
+}
+.toc-overview {
+  display:block;
+  margin-bottom:20px;
+  color:var(--accent)!important
+}
 @media(min-width:1500px) {
   .home-hero {
     gap:75px;
     padding-block:98px
   }
   .hero-copy h1 {
-    font-size:46px
+    font-size:68px
   }
 }
 @media(max-width:1100px) {
@@ -1122,11 +1267,11 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
     gap:32px
   }
   .hero-copy h1 {
-    font-size:34px;
+    font-size:54px;
     letter-spacing:-1.8px
   }
   .hero-description {
-    font-size:14px
+    font-size:15px
   }
   .hero-visual>img {
     aspect-ratio:1.3
@@ -1157,6 +1302,20 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
   }
 }
 @media(max-width:800px) {
+  .profile-intro {
+    grid-template-columns:1fr;
+    gap:18px
+  }
+  .competency-group {
+    padding:24px
+  }
+  .competency-group h3 {
+    font-size:17px
+  }
+  .case-gallery {
+    gap:18px;
+    margin-bottom:42px
+  }
   .site-header {
     height:89px;
     gap:22px
@@ -1173,7 +1332,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
     gap:40px
   }
   .hero-copy h1 {
-    font-size:45px;
+    font-size:60px;
     letter-spacing:-2px
   }
   .hero-description {
@@ -1211,7 +1370,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
     font-size:24px
   }
   .project-card>p {
-    font-size:13px
+    font-size:14px
   }
   .project-meta {
     font-size:9px;
@@ -1338,6 +1497,52 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
   }
 }
 @media(max-width:540px) {
+  .hero-role {
+    font-size:22px;
+    margin-top:13px
+  }
+  .profile-intro {
+    font-size:14px;
+    margin-bottom:26px
+  }
+  .competencies {
+    grid-template-columns:1fr;
+    gap:17px
+  }
+  .competency-group {
+    padding:23px
+  }
+  .competency-group h3 {
+    font-size:18px
+  }
+  .competency-group ul {
+    font-size:13px
+  }
+  .project-role {
+    padding:14px 16px
+  }
+  .project-role>strong {
+    font-size:13px
+  }
+  .project-role.compact {
+    flex-direction:column;
+    gap:5px
+  }
+  .portfolio-profile {
+    padding-bottom:42px
+  }
+  .case-gallery {
+    grid-template-columns:1fr;
+    gap:24px;
+    margin-bottom:36px
+  }
+  .case-gallery figure:first-child {
+    grid-row:auto
+  }
+  .case-gallery figure:first-child img {
+    aspect-ratio:auto;
+    object-fit:contain
+  }
   .wrap {
     width:calc(100% - 40px)
   }
@@ -1378,12 +1583,12 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
     letter-spacing:1.2px
   }
   .hero-copy h1 {
-    font-size:31px;
+    font-size:48px;
     letter-spacing:-1.7px;
-    line-height:1.5
+    line-height:1.2
   }
   .hero-description {
-    font-size:13px;
+    font-size:14px;
     margin-top:20px;
     line-height:1.95
   }
@@ -1459,7 +1664,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
     margin-top:18px
   }
   .project-card>p {
-    font-size:13px
+    font-size:14px
   }
   .tags {
     margin-top:17px
@@ -1550,10 +1755,10 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
     margin:13px 0
   }
   .featured-copy>p {
-    font-size:13px
+    font-size:14px
   }
   .project-highlights {
-    font-size:11px
+    font-size:13px
   }
   .featured-copy .text-link {
     margin-top:23px
@@ -1696,7 +1901,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
     gap:18px
   }
   .hero-copy h1 {
-    font-size:27px;
+    font-size:43px;
     letter-spacing:-1.5px
   }
   .page-intro h1 {

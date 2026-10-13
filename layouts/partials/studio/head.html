@@ -1,11 +1,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 {{ $title := printf "%s · 민대원" .Title }}
-{{ if .IsHome }}{{ $title = "민대원 · Graphics & Engine Developer" }}{{ end }}
+{{ if .IsHome }}{{ $title = "민대원 · Graphics & Game Engine Developer" }}{{ end }}
 {{ $description := .Description | default .Params.summary | default "C++과 GPU로 렌더링의 원리부터 사용자의 화면까지 연결하는 개발자, 민대원." }}
 <title>{{ $title }}</title>
 <meta name="description" content="{{ $description }}">
-<meta name="theme-color" content="#111419">
+<meta name="theme-color" content="#fbfdfc">
 <meta property="og:title" content="{{ $title }}">
 <meta property="og:description" content="{{ $description }}">
 <meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
@@ -19,10 +19,14 @@
 <link rel="icon" href="{{ "favicon.png" | relURL }}">
 <script>
   (function () {
-    var theme = 'dark';
+    var theme = 'light';
     try { var saved = localStorage.getItem('theme'); if (saved === 'light' || saved === 'dark') theme = saved; } catch (_) {}
     document.documentElement.dataset.theme = theme;
   })();
 </script>
 {{ $style := resources.Get "css/studio/main.css" | minify | fingerprint }}
 <link rel="stylesheet" href="{{ $style.RelPermalink }}">
+{{ with .Params.architecture }}
+{{ $architecture := resources.Get "css/studio/architecture.css" | minify | fingerprint }}
+<link rel="stylesheet" href="{{ $architecture.RelPermalink }}">
+{{ end }}

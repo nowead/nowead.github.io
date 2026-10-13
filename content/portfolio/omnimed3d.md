@@ -6,9 +6,10 @@ weight: 1
 featured: true
 category: "graphics"
 category_label: "Browser medical imaging"
+architecture: "medical-volume"
 tags: ["C++20", "WebGPU", "WebAssembly", "Slang", "TypeScript", "DICOM"]
 role: "3D 렌더링 · DICOM 처리"
-period: "2026"
+period: "2026.08 시작 · 팀 프로젝트"
 github: "https://github.com/OmniMed3D/omnimed3d"
 demo: "https://omnimed3d.pages.dev/app/?demo=LIDC-IDRI-0001"
 website: "https://omnimed3d.pages.dev/"
@@ -16,6 +17,22 @@ summary: "DICOM 파싱부터 3D 볼륨 렌더링과 폐 분할 결과 표시까�
 cover_image: "omnimed3d-image/segmentation.jpg"
 image_alt: "OmniMed3D에서 흉부 CT와 붉은 폐 분할 마스크를 함께 렌더링한 실제 화면"
 image_caption: "공개·비식별 흉부 CT 데모. 붉은 영역은 lungmask R231 모델의 폐 분할 결과입니다."
+gallery:
+  - image: "omnimed3d-image/coronal.png"
+    label: "CT 단면 탐색 · Coronal"
+    alt: "OmniMed3D에서 흉부 CT를 관상면으로 탐색하는 실제 화면"
+    width: 768
+    height: 432
+  - image: "omnimed3d-image/orbit.png"
+    label: "3D Orbit · 볼륨 렌더링"
+    alt: "OmniMed3D WebGPU 엔진에서 흉부 볼륨을 3D로 렌더링한 화면"
+    width: 512
+    height: 288
+  - image: "omnimed3d-image/mask-slice.png"
+    label: "팀의 AI 폐 분할 결과 · 마스크 합성"
+    alt: "흉부 CT 시상면 위에 AI 폐 분할 마스크를 붉게 합성한 화면"
+    width: 512
+    height: 288
 highlights:
   - "C++20 → WASM 렌더링 코어"
   - "WebGPU 볼륨 렌더링 · MPR"

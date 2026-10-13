@@ -6,5 +6,6 @@
   <div class="project-meta"><span>{{ .Params.category_label | default "Project" }}</span><span>{{ .Params.period | default (.Date.Format "2006") }}</span></div>
   <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
   <p>{{ .Params.summary }}</p>
+  {{ if .Params.featured }}{{ with .Params.role }}<div class="project-role compact"><span>MY ROLE</span><strong>{{ . }}</strong></div>{{ end }}{{ end }}
   <ul class="tags" aria-label="사용 기술">{{ range first 4 .Params.tags }}<li>{{ . }}</li>{{ end }}</ul>
 </article>

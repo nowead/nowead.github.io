@@ -1,12 +1,14 @@
 {{ define "main" }}
 {{ $pages := .Site.RegularPages }}
 {{ if not $pages }}{{ $pages = .Sites.Default.RegularPages }}{{ end }}
+{{ $profile := .Sites.Default.GetPage "/portfolio" }}
 <div class="wrap">
   <section class="home-hero" aria-labelledby="intro-title">
     <div class="hero-copy">
-      <p class="eyebrow"><span class="status-dot"></span> GRAPHICS · ENGINE · WEB</p>
-      <h1 id="intro-title">렌더링의 원리부터,<br><span>사용자의 화면까지.</span></h1>
-      <p class="hero-description">C++과 GPU로 복잡한 데이터를 시각화하는 개발자 <strong>민대원</strong>입니다. 렌더링 엔진을 설계하고, 그 위에 실제로 사용할 수 있는 경험을 만듭니다.</p>
+      <p class="eyebrow"><span class="status-dot"></span> ENGINEERING PORTFOLIO</p>
+      <h1 id="intro-title">민대원</h1>
+      <p class="hero-role">Graphics &<br>Game Engine Developer</p>
+      <p class="hero-description">C++과 Vulkan·WebGPU로 렌더링 엔진과 실시간 시각화 시스템을 만듭니다. 확장 가능한 아키텍처와 효율적인 메모리 구조를 설계합니다.</p>
       <div class="actions"><a class="button primary" href="{{ "/portfolio/" | relURL }}">프로젝트 살펴보기 <span aria-hidden="true">↗</span></a><a class="button subtle" href="https://github.com/nowead" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a></div>
       <div class="hero-stack"><span>C++20</span><span>Vulkan</span><span>WebGPU</span><span>WebAssembly</span></div>
     </div>
@@ -22,12 +24,11 @@
     <div class="selected-grid">{{ range (where (where $pages "Section" "portfolio") "Params.featured" true).ByWeight }}{{ partial "studio/project-card.html" . }}{{ end }}</div>
   </section>
   <section class="section about-section" id="about" aria-labelledby="about-title">
-    <div class="section-heading"><div><p class="eyebrow">02 / APPROACH</p><h2 id="about-title">화면 뒤의 구조까지 생각합니다.</h2></div></div>
-    <div class="expertise-grid">
-      <article><span class="expertise-number">01 — RENDERING</span><h3>빛과 데이터를 화면으로</h3><p>PBR과 IBL부터 볼륨 렌더링까지. 수학적 원리를 셰이더로 구현하고, 시각적 결과와 GPU 비용을 함께 살핍니다.</p><span class="expertise-tools">PBR / IBL / Volume rendering</span></article>
-      <article><span class="expertise-number">02 — ARCHITECTURE</span><h3>변화에 대응하는 엔진</h3><p>RHI와 Render Graph로 그래픽스 API와 렌더링 로직을 분리합니다. 기능을 추가할 때 구조가 어떻게 확장되는지 고민합니다.</p><span class="expertise-tools">C++20 / RHI / Render Graph</span></article>
-      <article><span class="expertise-number">03 — DELIVERY</span><h3>브라우저에서도 이어지는 경험</h3><p>WebGPU와 WebAssembly로 네이티브 코드를 웹에 연결합니다. 제한된 메모리와 비동기 실행도 사용 경험의 일부로 다룹니다.</p><span class="expertise-tools">WebGPU / WASM / Memory management</span></article>
-    </div>
+    <div class="section-heading"><div><p class="eyebrow">02 / ENGINEERING PROFILE</p><h2 id="about-title">화면 뒤의 구조까지 생각합니다.</h2></div><a class="text-link" href="{{ "/portfolio/#profile" | relURL }}">학력·교육 보기 ↗</a></div>
+    {{ with $profile }}
+      <div class="profile-intro"><p>{{ .Params.profile_intro }}</p><p>{{ .Params.working_practice }}</p></div>
+      {{ partial "studio/competencies.html" . }}
+    {{ end }}
   </section>
   <section class="section notes-section" aria-labelledby="notes-title">
     <div class="notes-intro"><p class="eyebrow">03 / FIELD NOTES</p><h2 id="notes-title">배운 것을<br>기록합니다.</h2><p>Vulkan을 이해하며 쌓아 온<br>구현과 문제 해결의 기록.</p><a class="text-link" href="{{ "/vulkan-study-log/" | relURL }}">학습 노트 전체 보기 ↗</a></div>
