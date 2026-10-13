@@ -1,6 +1,6 @@
 +++
 title = "Portfolio"
-description = "Graphics & Game Engine Developer Portfolio"
+description = "민대원의 프로젝트 포트폴리오. OmniMed3D, Mini-Engine과 그래픽스·시스템·웹 개발 과정."
 name = "민대원"
 role = "Graphics & Game Engine Developer"
 profile_image = "민대원_증명사진.jpg"

@@ -1,0 +1,14 @@
+<article class="featured-project" data-project data-category="{{ .Params.category | default "graphics" }}">
+  <a class="project-image" href="{{ .RelPermalink }}" tabindex="-1" aria-hidden="true">
+    <img src="{{ printf "portfolio/%s" .Params.cover_image | relURL }}" alt="" width="1280" height="720" loading="lazy">
+    <span class="image-label">{{ .Params.category_label }}</span><span class="image-arrow" aria-hidden="true">↗</span>
+  </a>
+  <div class="featured-copy">
+    <div class="project-meta"><span>0{{ .Weight }} / FEATURED</span><span>{{ .Params.period }}</span></div>
+    <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+    <p>{{ .Params.summary }}</p>
+    {{ with .Params.highlights }}<ul class="project-highlights">{{ range . }}<li>{{ . }}</li>{{ end }}</ul>{{ end }}
+    <ul class="tags" aria-label="사용 기술">{{ range first 4 .Params.tags }}<li>{{ . }}</li>{{ end }}</ul>
+    <a class="text-link" href="{{ .RelPermalink }}">개발 과정 보기 <span aria-hidden="true">↗</span></a>
+  </div>
+</article>

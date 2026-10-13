@@ -1,188 +1,24 @@
 {{ define "main" }}
-  <div class="portfolio-page">
-    <!-- Portfolio Header -->
-    <div class="portfolio-header">
-      <h1 class="portfolio-header-title">Portfolio</h1>
-      <div style="display:flex;align-items:center;gap:10px;">
-        <button id="theme-toggle" class="theme-toggle" aria-label="다크 모드 전환">
-          <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="5"/>
-            <line x1="12" y1="1" x2="12" y2="3"/>
-            <line x1="12" y1="21" x2="12" y2="23"/>
-            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
-            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-            <line x1="1" y1="12" x2="3" y2="12"/>
-            <line x1="21" y1="12" x2="23" y2="12"/>
-            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
-            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-          </svg>
-          <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-          </svg>
-        </button>
-        <a href="/" class="portfolio-home-button" title="Back to Home">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-            <polyline points="9 22 9 12 15 12 15 22"></polyline>
-          </svg>
-        </a>
-      </div>
+<div class="wrap">
+  <header class="page-intro">
+    <p class="eyebrow"><span class="status-dot"></span> PORTFOLIO / 민대원</p>
+    <h1>Selected <span>work.</span></h1>
+    <div class="intro-bottom"><p>렌더링 엔진에서 브라우저 의료영상 뷰어까지.<br>문제를 정의하고, 구조를 설계하고, 직접 구현한 프로젝트입니다.</p><a class="text-link" href="https://github.com/nowead" target="_blank" rel="noopener noreferrer">GitHub에서 코드 보기 ↗</a></div>
+  </header>
+  <div class="project-toolbar">
+    <div class="project-filters" role="group" aria-label="프로젝트 분야 필터" hidden>
+      <button type="button" data-filter="all" aria-pressed="true">전체 <span>{{ len .RegularPages }}</span></button>
+      <button type="button" data-filter="graphics" aria-pressed="false">Graphics <span>{{ len (where .RegularPages "Params.category" "graphics") }}</span></button>
+      <button type="button" data-filter="systems" aria-pressed="false">Systems <span>{{ len (where .RegularPages "Params.category" "systems") }}</span></button>
+      <button type="button" data-filter="web" aria-pressed="false">Web <span>{{ len (where .RegularPages "Params.category" "web") }}</span></button>
     </div>
-
-    <script>
-      (function() {
-        var btn = document.getElementById('theme-toggle');
-        if (!btn) return;
-        btn.addEventListener('click', function() {
-          var current = document.documentElement.getAttribute('data-theme') || 'light';
-          var next = current === 'dark' ? 'light' : 'dark';
-          document.documentElement.setAttribute('data-theme', next);
-          localStorage.setItem('theme', next);
-        });
-      })();
-    </script>
-    
-    <div class="portfolio-container">
-      <!-- Left Sidebar: Profile Section -->
-      <aside class="portfolio-sidebar">
-        <div class="profile-section">
-          <!-- Profile Photo -->
-          <div class="profile-photo">
-            {{ with .Params.profile_image }}
-            <img src="{{ . }}" alt="Profile Photo">
-            {{ else }}
-            <div class="profile-photo-placeholder">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-              </svg>
-            </div>
-            {{ end }}
-          </div>
-
-          <!-- Name -->
-          <h1 class="profile-name">{{ .Params.name | default "Your Name" }}</h1>
-          <p class="profile-title">{{ .Params.role | default "Software Developer" }}</p>
-
-          <!-- Contact Information -->
-          <div class="contact-info">
-            <h3>Contact</h3>
-            {{ with .Params.email }}
-            <div class="contact-item">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                <polyline points="22,6 12,13 2,6"/>
-              </svg>
-              <a href="mailto:{{ . }}">{{ . }}</a>
-            </div>
-            {{ end }}
-            
-            {{ with .Params.phone }}
-            <div class="contact-item">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-              </svg>
-              <span>{{ . }}</span>
-            </div>
-            {{ end }}
-            
-            {{ with .Params.blog }}
-            <div class="contact-item">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
-              </svg>
-              <a href="{{ . }}" target="_blank">{{ . }}</a>
-            </div>
-            {{ end }}
-            
-            {{ with .Params.github }}
-            <div class="contact-item">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.840 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-              </svg>
-              <a href="https://github.com/{{ . }}" target="_blank">github.com/{{ . }}</a>
-            </div>
-            {{ end }}
-          </div>
-
-          <!-- Education -->
-          {{ with .Params.education }}
-          <div class="education-info">
-            <h3>Education</h3>
-            {{ range . }}
-            <div class="education-item">
-              <div class="education-degree">{{ .degree }}</div>
-              <div class="education-school">{{ .school }}</div>
-              {{ with .period }}
-              <div class="education-period">{{ . }}</div>
-              {{ end }}
-              {{ with .gpa }}
-              <div class="education-gpa">{{ . }}</div>
-              {{ end }}
-            </div>
-            {{ end }}
-          </div>
-          {{ end }}
-
-          <!-- Skills from content -->
-          {{ if .Content }}
-          <div class="profile-skills">
-            {{ .Content }}
-          </div>
-          {{ end }}
-        </div>
-      </aside>
-
-      <!-- Right Main Content: Projects -->
-      <div class="portfolio-main">
-        <!-- Introduction Quote -->
-        <div class="portfolio-intro-quote">
-          <div class="quote-highlight">
-            "기술적 한계에 부딪히고 이를 아키텍처로 극복하는 과정에서 엔진 개발의 가치를 찾습니다."
-          </div>
-          <p>
-            모놀리스 구조에서 시작해 현대적인 RHI로 엔진을 발전시키며, 유연하면서도 강력한 시스템 설계의 중요성을 체감했습니다. 
-            새로운 기술을 습등하는 것에 그치지 않고, 프로젝트의 요구사항에 맞춰 기술을 내재화하고 최적화하는 과정을 반복해 왔습니다. 
-            어제보다 더 나은 효율을 내는 엔진을 위해 끝없이 몰입하는 개발자입니다.
-          </p>
-        </div>
-
-        <h2 class="portfolio-section-title">프로젝트</h2>
-        
-        <div class="portfolio-grid">
-          {{ range .Pages.ByWeight }}
-            <a href="{{ .Permalink }}" class="portfolio-card-link">
-              <article class="portfolio-card">
-                {{ with .Params.cover_image }}
-                <div class="portfolio-card-image">
-                  <img src="/portfolio/{{ . }}" alt="{{ $.Title }} Preview" loading="lazy">
-                </div>
-                {{ end }}
-                
-                <div class="portfolio-card-content">
-                  <div class="portfolio-card-header">
-                    <h3 class="portfolio-card-title">{{ .Title }}</h3>
-                    {{ if .Date }}
-                    <time class="portfolio-card-date">{{ .Date.Format "2006.01" }}</time>
-                    {{ end }}
-                  </div>
-                  
-                  {{ with .Params.summary }}
-                  <p class="portfolio-card-description">{{ . }}</p>
-                  {{ end }}
-                  
-                  {{ with .Params.tags }}
-                  <div class="portfolio-card-tags">
-                    {{ range . }}
-                      <span class="portfolio-tag">{{ . }}</span>
-                    {{ end }}
-                  </div>
-                  {{ end }}
-                </div>
-              </article>
-            </a>
-          {{ end }}
-        </div>
-      </div>
-    </div>
+    <p class="project-count" role="status" aria-live="polite">{{ len .RegularPages }} projects</p>
   </div>
+  <div class="featured-projects">{{ range (where .RegularPages "Params.featured" true).ByWeight }}{{ partial "studio/featured-project.html" . }}{{ end }}</div>
+  <div class="other-projects" id="more-projects"><div class="section-heading"><div><p class="eyebrow">MORE EXPLORATIONS</p><h2>경험의 기반이 된 프로젝트</h2></div></div><div class="other-grid">{{ range (where .RegularPages "Params.featured" "ne" true).ByWeight }}{{ partial "studio/project-card.html" . }}{{ end }}</div></div>
+  <section class="profile-band" aria-labelledby="profile-title">
+    <div class="profile-identity"><img src="{{ "portfolio/민대원_증명사진.jpg" | relURL }}" width="92" height="112" alt="민대원 프로필 사진" loading="lazy"><div><p class="eyebrow">BEHIND THE WORK</p><h2 id="profile-title">민대원 <span>Daewon Min</span></h2><p>Graphics & Engine Developer</p><a class="text-link" href="mailto:dwm951017@gmail.com">이메일 보내기 ↗</a></div></div>
+    <div class="education-list">{{ range .Params.education }}<div><h3>{{ .degree }}</h3><p>{{ .school }}</p><small>{{ .period }}{{ with .gpa }} · {{ . }}{{ end }}</small></div>{{ end }}</div>
+  </section>
+</div>
 {{ end }}

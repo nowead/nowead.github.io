@@ -1,14 +1,17 @@
 ---
-title: "WebServ - C++98 HTTP Server"
+title: "WebServ"
 date: 2025-01-01
-weight: 3
+weight: 4
+category: "systems"
+category_label: "HTTP server"
+period: "2025.01 — 2025.03"
+role: "4인 프로젝트"
+image_alt: "WebServ의 네트워크, Reactor, 핸들러, 애플리케이션 계층 구조"
 tags: ["C++98", "HTTP", "Network", "42Seoul", "kqueue", "CGI"]
 github: "https://github.com/nowead/webserv"
 summary: "C++98 HTTP/1.1 서버 구현 - Reactor 패턴 기반 이벤트 주도 아키텍처"
 cover_image: "webserv-image/webserv-architecture.png"
 ---
-
-# WebServ
 
 > C++98로 구현한 HTTP/1.1 웹 서버 — kqueue, Reactor 패턴, 논블로킹 I/O
 

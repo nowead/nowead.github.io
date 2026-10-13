@@ -1,14 +1,17 @@
 ---
-title: "ft_transcendence - Multiplayer Pong Game"
+title: "ft_transcendence"
 date: 2024-12-01
-weight: 4
+weight: 5
+category: "web"
+category_label: "Multiplayer web game"
+period: "2024.12 — 2025.02"
+role: "API 레이어 · 프런트엔드–백엔드 통합"
+image_alt: "ft_transcendence의 실시간 Pong 게임 화면"
 tags: ["TypeScript", "WebSocket", "SPA", "42Seoul", "Web"]
 github: "https://github.com/pong42-dev/ft_transcendence"
 summary: "실시간 멀티플레이어 Pong 게임 - API 통합 및 협업 중심 개발"
 cover_image: "transendence-image/트센_게임.png"
 ---
-
-# ft_transcendence
 
 > 프레임워크 없이 구현한 실시간 멀티플레이어 Pong 게임
 

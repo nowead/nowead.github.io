@@ -1,92 +1,19 @@
 {{ define "main" }}
-  <main class="post">
-    <div style="display:flex;justify-content:flex-end;padding:16px 0 0;">
-      <button id="theme-toggle" class="theme-toggle" aria-label="다크 모드 전환">
-        <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="5"/>
-          <line x1="12" y1="1" x2="12" y2="3"/>
-          <line x1="12" y1="21" x2="12" y2="23"/>
-          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
-          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-          <line x1="1" y1="12" x2="3" y2="12"/>
-          <line x1="21" y1="12" x2="23" y2="12"/>
-          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
-          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-        </svg>
-        <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-        </svg>
-      </button>
-    </div>
-    <script>
-      (function() {
-        var btn = document.getElementById('theme-toggle');
-        if (!btn) return;
-        btn.addEventListener('click', function() {
-          var current = document.documentElement.getAttribute('data-theme') || 'light';
-          var next = current === 'dark' ? 'light' : 'dark';
-          document.documentElement.setAttribute('data-theme', next);
-          localStorage.setItem('theme', next);
-        });
-      })();
-    </script>
-    <article>
-      <h1 class="post-title">
-        <a href="{{ .Permalink }}">{{ .Title | markdownify }}</a>
-      </h1>
-      <div class="post-meta">
-        {{ if .Date }}
-          <time class="post-date">
-            {{ .Date.Format "2006-01-02" }}
-          </time>
-        {{ end }}
-        {{ with .Params.tags }}
-          {{ range . }}
-            <span class="post-tag"><a href="{{ "/tags/" | relURL }}{{ . | urlize }}">#{{ . }}</a></span>
-          {{ end }}
-        {{ end }}
-      </div>
-
-      {{ with .Params.Cover }}
-      <div class="post-cover">
-        {{ if .image }}
-          <img src="{{ .image | absURL }}" alt="{{ $.Title }}" />
-        {{ end }}
-      </div>
-      {{ end }}
-
-      <div class="post-content">
-        {{ .Content }}
-      </div>
-
-      {{ if or .NextInSection .PrevInSection }}
-      <div class="pagination">
-        <div class="pagination__buttons">
-          {{ if .NextInSection }}
-            <span class="button previous">
-              <a href="{{ .NextInSection.Permalink }}">
-                <span class="button__icon">←</span>
-                <span class="button__text">{{ .NextInSection.Title }}</span>
-              </a>
-            </span>
-          {{ end }}
-          {{ if .PrevInSection }}
-            <span class="button next">
-              <a href="{{ .PrevInSection.Permalink }}">
-                <span class="button__text">{{ .PrevInSection.Title }}</span>
-                <span class="button__icon">→</span>
-              </a>
-            </span>
-          {{ end }}
-        </div>
-      </div>
-      {{ end }}
-      
-      <div style="margin-top: 40px; padding-top: 30px; border-top: 2px solid var(--accent);">
-        <a href="/portfolio" style="display: inline-block; padding: 12px 24px; background-color: var(--background); border: 2px solid var(--accent); color: var(--accent); text-decoration: none; font-weight: 500; transition: all 0.2s ease;">
-          ← 포트폴리오 목록으로
-        </a>
-      </div>
-    </article>
-  </main>
+<article class="case-study wrap">
+  <header class="case-header">
+    <a class="back-link" href="{{ "/portfolio/" | relURL }}">← 프로젝트 목록</a>
+    <p class="eyebrow">{{ .Params.category_label | default "PROJECT CASE STUDY" }}</p>
+    <h1>{{ .Title }}</h1>
+    <p class="case-summary">{{ .Params.summary }}</p>
+    <ul class="tags" aria-label="사용 기술">{{ range .Params.tags }}<li>{{ . }}</li>{{ end }}</ul>
+    <div class="case-meta"><div><span>PERIOD</span><p>{{ .Params.period | default (.Date.Format "2006.01") }}</p></div>{{ with .Params.role }}<div><span>ROLE</span><p>{{ . }}</p></div>{{ end }}{{ with .Params.lastmod }}<div><span>UPDATED</span><p>{{ time.Format "2006.01.02" . }}</p></div>{{ end }}</div>
+    <div class="actions">{{ with .Params.github }}<a class="button primary" href="{{ . }}" target="_blank" rel="noopener noreferrer">GitHub 저장소 ↗</a>{{ end }}{{ with .Params.website }}<a class="button subtle" href="{{ . }}" target="_blank" rel="noopener noreferrer">프로젝트 사이트 ↗</a>{{ end }}{{ with .Params.demo }}<a class="button subtle" href="{{ . }}" target="_blank" rel="noopener noreferrer">데모 실행 ↗</a>{{ end }}</div>
+  </header>
+  {{ with .Params.cover_image }}<figure class="case-cover"><img src="{{ printf "portfolio/%s" . | relURL }}" alt="{{ $.Params.image_alt | default (printf "%s 프로젝트 실행 화면" $.Title) }}" width="1280" height="720" fetchpriority="high">{{ with $.Params.image_caption }}<figcaption>{{ . }}</figcaption>{{ end }}</figure>{{ end }}
+  <div class="case-layout">
+    <aside class="case-toc" aria-label="페이지 목차"><details open><summary>ON THIS PAGE</summary>{{ .TableOfContents }}</details><a class="text-link" href="{{ "/portfolio/" | relURL }}">모든 프로젝트 ↗</a></aside>
+    <div class="prose">{{ .Content }}</div>
+  </div>
+  <nav class="case-navigation" aria-label="다른 프로젝트"><a class="text-link" href="{{ "/portfolio/" | relURL }}">← 전체 프로젝트</a>{{ $others := where (where .Site.RegularPages "Section" "portfolio") "RelPermalink" "ne" .RelPermalink }}{{ with index $others.ByWeight 0 }}<a href="{{ .RelPermalink }}"><span>EXPLORE NEXT</span><strong>{{ .Title }} ↗</strong></a>{{ end }}</nav>
+</article>
 {{ end }}

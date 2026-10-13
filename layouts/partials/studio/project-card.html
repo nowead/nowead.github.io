@@ -1,0 +1,10 @@
+<article class="project-card" data-project data-category="{{ .Params.category | default "graphics" }}">
+  <a class="project-image" href="{{ .RelPermalink }}" tabindex="-1" aria-hidden="true">
+    <img src="{{ printf "portfolio/%s" .Params.cover_image | relURL }}" alt="" width="1280" height="720" loading="lazy">
+    <span class="image-arrow" aria-hidden="true">↗</span>
+  </a>
+  <div class="project-meta"><span>{{ .Params.category_label | default "Project" }}</span><span>{{ .Params.period | default (.Date.Format "2006") }}</span></div>
+  <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+  <p>{{ .Params.summary }}</p>
+  <ul class="tags" aria-label="사용 기술">{{ range first 4 .Params.tags }}<li>{{ . }}</li>{{ end }}</ul>
+</article>

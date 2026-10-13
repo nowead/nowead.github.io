@@ -1,413 +1,131 @@
 ---
-title: "Mini-Engine - Multi-Backend Rendering Engine"
-date: 2025-09-01  
-weight: 1
-tags: ["C++20", "Vulkan", "WebGPU", "PBR", "RHI", "Graphics"]
+title: "Mini-Engine"
+date: 2025-09-01
+lastmod: 2026-09-28
+weight: 2
+featured: true
+category: "graphics"
+category_label: "Rendering engine"
+period: "2025.09 — 진행 중"
+role: "개인 프로젝트 · 설계 및 개발"
+tags: ["C++20", "Vulkan", "WebGPU", "Render Graph", "Volume Rendering"]
 github: "https://github.com/nowead/Mini-Engine"
-summary: "467줄 단일 파일에서 25,000+ LOC PBR & GPU-Driven 엔진까지 — 4단계 아키텍처 진화 기록"
-cover_image: "mini-engin-image/mini_engine_thumbnail.gif"
+summary: "Vulkan 튜토리얼에서 시작해 PBR·GPU 기반 렌더링과 CT/MRI 볼륨 시각화까지 확장한 C++20 렌더링 엔진. 공통 RHI와 데이터 흐름을 설계하고, 구현 결과를 측정하며 발전시키고 있습니다."
+cover_image: "mini-engin-image/PBR+IBL.png"
+image_alt: "Mini-Engine의 HDR 환경광 아래에서 렌더링한 PBR 재질 구체들"
+image_caption: "PBR·IBL 재질 표현 실험. 엔진 개발 과정의 실제 렌더링 화면입니다."
+highlights:
+  - "Vulkan / WebGPU 공통 RHI"
+  - "PBR · Render Graph · TAA"
+  - "CT/MRI 볼륨 · Progressive DICOM"
 ---
 
-# Mini-Engine
+## 렌더링 기법을 엔진으로 연결하다
 
-> Vulkan Tutorial 단일 파일(467줄)에서 PBR & GPU-Driven 렌더링 엔진(25,000+ LOC)으로 진화
+Mini-Engine은 Vulkan 튜토리얼의 단일 애플리케이션에서 출발한 렌더링 학습 프로젝트입니다. 기법을 하나씩 구현하는 데서 나아가, **새 기능이 기존 렌더링·자원 관리·실행 환경과 함께 동작하도록 구조를 다듬는 과정**을 기록합니다.
 
-**C++20 | Vulkan 1.3 | WebGPU | GLSL/WGSL**
+현재는 Vulkan과 WebGPU 백엔드를 공유하는 PBR 장면 렌더러와 CT/MRI 볼륨 뷰어로 확장했습니다. 렌더링 품질뿐 아니라 자원 수명, 패스 의존성, 데이터 배치, 메모리 사용량을 함께 다루고 있습니다.
 
-2025.09 ~ 2026.02 (5개월) | 1인 개발 | Linux, macOS, Windows, Web
+| 영역 | 구현 내용 |
+| --- | --- |
+| 언어·환경 | C++20, GLSL/WGSL, CMake, Emscripten |
+| 그래픽스 기반 | Vulkan / WebGPU, RHI, Render Graph |
+| 장면 렌더링 | Deferred PBR, IBL, 그림자, SSAO, Bloom, ACES, FXAA/TAA |
+| 자산·GPU 작업 | glTF 2.0/glb, GPU frustum culling, indirect draw, GPU timestamp |
+| 볼륨 시각화 | Ray marching, path tracing, 누적·A-trous denoising |
+| 대용량 데이터 | Brick atlas, LRU/LOD streaming, NIfTI mmap, progressive DICOM |
 
+## 01. 단일 애플리케이션에서 공통 RHI로
 
----
+처음에는 디바이스 생성, swapchain, 렌더 루프와 자원 관리가 한 애플리케이션에 모여 있었습니다. 기능을 추가할수록 수정할 범위와 자원의 소유 관계를 파악하기 어려워졌습니다.
 
-## Overview
+먼저 역할별 모듈로 나누고, 이후에는 **렌더링 의도와 그래픽스 API의 구체적인 작업을 분리**했습니다. Device, Buffer, Texture, Pipeline, CommandEncoder를 공통 인터페이스로 정의하고 Vulkan과 WebGPU가 각각 구현하도록 구성했습니다.
 
-모놀리스 구조를 **RHI 기반 모듈형 아키텍처**로 진화시킨 자체 제작 렌더링 엔진.
-
-**핵심 성과:** RHI 인터페이스 변경 **0건**으로 Vulkan -> WebGPU 백엔드 추가 완료
-
-| 항목 | 내용 |
-|------|------|
-| **기술 스택** | C++20, Vulkan 1.3, WebGPU, GLSL/WGSL, CMake, vcpkg |
-| **규모** | 25,000+ LOC, 50+ 클래스 |
-| **플랫폼** | Linux, macOS, Windows, Web (WASM) |
-| **주요 기능** | Cook-Torrance PBR, IBL, GPU Frustum Culling, Indirect Draw, Shadow Mapping |
-
-**Motivation**: Vulkan Tutorial을 따라하며 "텍스처 하나 추가하려면 467줄 중 어디를 수정해야 하나?"라는 질문에 답할 수 없었음. 이 경험이 계기가 되어 확장 가능한 아키텍처 설계를 목표로 설정.
-
-<div style="display: flex; gap: 10px; justify-content: center;">
-
-<div style="flex: 1;">
-
-![PBR + IBL Rendering](/portfolio/mini-engin-image/PBR+IBL.png)
-
-*PBR + IBL: Cook-Torrance 모델 + Image-Based Lighting으로 현실적인 금속 재질 표현*
-
-</div>
-
-<div style="flex: 1;">
-
-![GPU-Driven Rendering](/portfolio/mini-engin-image/mini-engine.png)
-
-*GPU-Driven: Instancing + Frustum Culling으로 대규모 빌딩 씬 렌더링*
-
-</div>
-
-</div>
-
----
-
-## Stage 1: Architecture Evolution — Monolith에서 RHI까지
-
-### What
-467줄 단일 파일에서 RHI 기반 멀티 백엔드 아키텍처로 진화. **3번의 아키텍처 재설계**를 거쳐 최종 형태 도달.
-
-```plaintext
-Monolith (467 LOC)
-  ↓ 11 Phases
-Layered (25+ modules, 4-Layer)
-  ↓ RHI Migration
-RHI Architecture (15 interfaces, Vulkan Backend 3,650 LOC)
+```text
+Vulkan 튜토리얼
+    ↓ 책임·자원 소유 관계 분리
+렌더링 / 장면 / 자원 관리 모듈
+    ↓ API별 구현 분리
+공통 RHI + Vulkan / WebGPU 백엔드
+    ↓ 같은 기반을 다른 문제에 적용
+PBR 장면 렌더러 / CT·MRI 볼륨 뷰어
 ```
 
-### Journey 1: Monolith -> Layered (기능 분리)
-**목표:** 467줄 `main.cpp`를 재사용 가능한 모듈로 분리
+장면 렌더러와 볼륨 렌더러는 공통 그래픽스 기반을 사용하고, 파일 형식의 해석은 별도 로더가 담당합니다. DICOM 로더가 강도 데이터나 슬라이스 callback을 전달하면, 렌더러는 GPU 저장 방식과 시각화에 집중합니다.
 
-**시행착오**:
-```cpp
-// 처음 시도: 기능별로 무작정 분리
-Camera.cpp, Renderer.cpp, Scene.cpp, ...
--> 모듈간 순환 의존성 발생
--> Scene이 Renderer 참조, Renderer가 Scene 참조
+두 백엔드의 기능과 동작이 완전히 같지는 않습니다. Vulkan에는 bindless textures와 병렬 shadow command recording이 있고, WebGPU는 브라우저의 파일·프레임 수명 제약을 따릅니다. **공통 인터페이스 안에서도 실제 하드웨어와 플랫폼의 차이는 명시적으로 처리**합니다.
+
+## 02. 렌더링 패스와 자산 파이프라인 통합
+
+장면 렌더러에는 Cook–Torrance PBR과 IBL을 시작으로 deferred G-buffer, 그림자, SSAO, Bloom, tone mapping, anti-aliasing을 연결했습니다. Render Graph는 패스의 자원 사용을 선언하고 의존성과 배리어를 관리합니다.
+
+GPU frustum culling은 오브젝트 버퍼를 읽어 가시 인덱스와 indirect draw 데이터를 구성합니다. glTF는 cgltf로 파싱하고, `AssetImporter`에서 메시·머티리얼·텍스처를 엔진의 표현으로 변환합니다.
+
+![Mini-Engine의 다중 오브젝트 렌더링 장면](/portfolio/mini-engin-image/mini-engine.png)
+
+*엔진 개발 과정의 다중 오브젝트 렌더링 장면. 현재 기능은 이 기반 위에 deferred rendering, glTF 자산 처리, TAA까지 확장되어 있습니다.*
+
+TAA를 통합할 때는 모션 벡터와 프레임 간 히스토리 자원의 수명을 함께 다뤘습니다. 새로운 효과를 추가하는 작업이 셰이더 작성만으로 끝나지 않고, 기존 패스와 데이터 구조의 연결을 바꾸는 일임을 확인했습니다.
+
+## 03. 대용량 볼륨의 메모리 문제 해결
+
+CT/MRI 볼륨은 표면 메시와 다른 문제를 만듭니다. 입력 데이터, 변환 중간 버퍼, GPU atlas가 동시에 존재하면 **파일 크기보다 훨씬 큰 메모리 피크**가 발생합니다. 이를 줄이기 위해 native와 브라우저의 데이터 흐름을 각각 개선했습니다.
+
+### Native: 전체 변환 버퍼를 피하는 NIfTI mmap
+
+기존 경로는 int16 데이터를 float로 풀고 다시 half로 변환하면서 큰 중간 버퍼를 보유했습니다. mmap 소스에서 필요한 데이터를 읽어 brick을 패킹하도록 바꿔, 전체 float·half 변환 버퍼를 거치지 않는 경로를 추가했습니다.
+
+| 측정 항목 | 기존 경로 | mmap 직접 패킹 |
+| --- | ---: | ---: |
+| 관측 peak working set | 6.57 GB | 2.30 GB |
+| 정착 후 working set | 2.38 GB | 2.30 GB |
+
+**해당 실험의 관측 피크는 약 65% 줄었습니다.** Windows 11, RTX 4070, 시스템 RAM 32 GB에서 1024³ 합성 int16 NIfTI를 사용한 기록입니다. 프로세스 working set을 4초 간격으로 관측했으므로 짧은 순간의 피크를 모두 포착한 측정은 아닙니다.
+
+이 결과는 테스트한 streaming 경로에 해당합니다. 같은 기록의 Static-fit 케이스는 float fallback을 사용했으며, 모든 입력이나 실행 경로에 같은 감소율을 적용하지 않습니다.
+
+### Browser: 슬라이스가 도착하는 대로 brick 업로드
+
+브라우저 DICOM 로딩은 전체 볼륨의 half 버퍼를 모으는 대신, 슬라이스를 **66장 ring buffer**에 넣고 완성된 brick 행을 staging slab으로 업로드하도록 변경했습니다. 소비한 가상 파일도 해제해 불필요한 중복 보유를 줄였습니다.
+
+```text
+DICOM 메타데이터 확인·정렬
+    → 슬라이스 디코드
+    → Ring buffer
+    → 완성된 brick 행 패킹
+    → Staging slab / GPU atlas 업로드
 ```
 
-**깨달음**: "기능"이 아니라 **"책임과 계층"**으로 분리해야 함.
+2026년 7월 기록에서는 iOS 18.7 Safari에서 **512³ 합성 CT를 로드**했습니다. Dense 16-bit 데이터로 환산하면 256 MiB이며, 이 결과는 해당 장치·브라우저 구성의 로드 검증입니다.
 
-**최종 구조** (4-Layer):
-- **Application**: 사용자 입력, 카메라, ImGui
-- **Rendering**: Scene, Renderer, Pipeline 관리
-- **Resource**: Texture, Mesh, Material 로딩
-- **Core**: 수학 라이브러리, 유틸리티
+또한 얇거나 불규칙한 볼륨에는 축별 brick 크기와 마지막 brick 축소를 적용했습니다. 공개 DICOM 샘플 4종에서는 dense 저장 대비 atlas overhead가 약 6% 이하로 기록되었습니다.
 
-**규칙**: 상위 레이어만 하위 레이어 참조 가능 (단방향 의존성)
+Progressive DICOM 업로드는 현재 Static atlas 경로에 적용됩니다. Streaming/LOD는 별도 경로이며, LOD 경계와 missing brick은 계속 개선할 과제입니다.
 
-### Journey 2: Layered -> RHI (Vulkan 추상화 1차 시도)
-**목표:** 상위 레이어에서 Vulkan 의존성 제거
+## 04. 측정으로 설계 판단을 확인하다
 
-**1차 시도: Vulkan 얇은 래핑**
-```cpp
-class VulkanWrapper {
-    void createDescriptorSet(...);
-    void updateDescriptorSet(...);
-    void pipelineBarrier(...);
-};
-```
-**문제:** Descriptor Set, Pipeline Barrier 같은 Vulkan 개념이 그대로 노출 -> 상위 레이어도 Vulkan 지식 필요 -> **추상화 실패**
+Vulkan의 shadow cascade 기록을 워커 스레드로 분산하고 A/B 측정을 추가했습니다. 그러나 테스트한 인스턴싱 장면에서는 커맨드 기록량이 적어 병렬화가 기록 시간의 이득으로 이어지지 않았습니다.
 
-**2차 시도: OpenGL 스타일 상태 머신**
-```cpp
-class GraphicsContext {
-    void bindTexture(int slot, Texture* tex);
-    void bindPipeline(Pipeline* pipeline);
-    void draw(...);
-};
-```
-**문제:** 
-- 암묵적 상태 변경 -> "어느 함수에서 이 상태를 변경했지?" 디버깅 지옥
-- 멀티스레드 렌더링 불가능 (전역 상태)
+이 결과를 통해 **병렬 실행을 구현하는 일과 현재 장면의 병목을 해결하는 일은 별개의 판단**임을 확인했습니다. 기능 추가 뒤에는 측정 대상을 구분하고, 효과가 없었던 실험도 다음 설계의 근거로 남기고 있습니다.
 
-**깨달음:** 
-1. Vulkan을 직접 래핑하면 추상화가 아니라 단순 감싸기
-2. OpenGL 스타일은 모던 API와 맞지 않음
-3. 업계 표준을 조사해야 함 -> Unreal, Unity의 RHI 패턴 발견
+메모리 역시 GPU atlas 할당량, 프로세스 working set, WASM heap을 구분합니다. 뷰어의 CPU frame time을 전체 GPU 시간이나 FPS로 바꾸어 해석하지 않습니다.
 
-### Journey 3: RHI Pattern 채택 (최종)
-**Why WebGPU 스타일?**
-- Vulkan보다 **직관적** (Descriptor Set -> Bind Group)
-- OpenGL보다 **명시적** (Command Encoder로 상태 캡슐화)
-- 멀티 백엔드 확장에 **검증된 패턴**
+## 05. 검증과 현재 범위
 
-**핵심 설계 결정:**
-1. **Command Encoder 패턴:** 렌더 커맨드를 명시적으로 기록
-```cpp
-// OpenGL 스타일 (암묵적 상태)
-bindTexture(0, texture);
-draw();  // 어떤 텍스처를 쓰는지 불명확
+2026년 9월에는 ThreadPool과 NIfTI/raw·DICOM 로더에 회귀 테스트를 추가했습니다. 잘린 데이터, 음수 rescale, 슬라이스 정렬, float/half/progressive 결과 일치 등을 검사하고 CTest에 연결했습니다.
 
-// RHI 스타일 (명시적 커맨드)
-encoder->setTexture(0, texture);
-encoder->drawIndexed(...);  // 커맨드가 self-contained
-```
+이 과정에서 NIfTI mmap 경로의 음수 slope에 따른 min/max 오류와 빌드 소스 누락, Windows WASM 스크립트의 종료 코드·산출물 경로 문제를 수정했습니다.
 
-2. **15개 인터페이스 설계**:
-```cpp
-class RHIDevice { /* 디바이스 생성, 리소스 팩토리 */ };
-class RHICommandEncoder { /* 렌더 커맨드 기록 */ };
-class RHIBuffer { /* 버퍼 추상화 */ };
-class RHITexture { /* 텍스처 추상화 */ };
-// ... 15개
-```
+2026-09-28 저장소 검증 기록에는 독립 CPU 테스트 2/2, Native 테스트 3/3 통과와 Native·WASM 타깃 빌드 성공이 남아 있습니다. GPU 이미지 정확성이나 현재 모바일 성능까지 자동으로 검증한 결과는 아닙니다.
 
-3. **Layout Transition 자동화:**
-```cpp
-// Vulkan: 수동 barrier
-vkCmdPipelineBarrier(..., VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL, ...);
+볼륨 뷰어는 렌더링 연구용이며, 진단 정확성이나 완전한 DICOM/PACS 기능을 검증한 제품은 아닙니다. 다음 과제는 iPad·통합 GPU 환경의 측정, 모바일 메모리 정책, 브라우저 대용량 페이징입니다.
 
-// RHI: 자동 추론
-encoder->setTexture(0, texture);  // RHI가 SHADER_READ로 자동 전환
-encoder->beginRenderPass(...);     // RHI가 COLOR_ATTACHMENT로 전환
-```
+## 코드와 개발 기록
 
-### Challenge: Vulkan 동기화 버그
-**문제:** `present()`가 렌더링 완료를 기다리지 않고 다음 프레임에서 세마포어를 **이중 시그널링** -> 크래시
-
-**원인:** `frame-in-flight` 인덱스 (CPU 논리 프레임, `0~1`)와 `swapchain image` 인덱스 (GPU 물리 이미지, `0~N`)를 혼용
-
-**해결:** RHI 인터페이스로 개념 분리
-```cpp
-class RHISwapchain {
-    uint32_t m_currentFrame;       // 세마포어/펜스용 (0~1)
-    uint32_t m_currentImageIndex;  // Framebuffer용 (0~N)
-    
-    RHISemaphore* acquireNextImage();  // 이미지 획득
-    void present(RHISemaphore* wait);   // 세마포어 소비 명시
-};
-```
-
-### Tradeoff: vtable 오버헤드 vs 확장성
-**고민**: 가상 함수 호출이 성능에 영향을 주지 않을까?
-
-**측정 결과**:
-- Direct Vulkan call: 100 프레임 평균 **16.2ms**
-- RHI interface call: 100 프레임 평균 **16.5ms**
-- **오버헤드 < 2%** (vtable lookup + indirect call)
-
-**결정**: 2%는 용인 가능. 멀티 백엔드 확장성이 더 중요.
-
-### Impact
-- Vulkan 종속성 제거 (상위 레이어 API 독립)
-- 동기화 버그 **0건** (RHI가 복잡한 개념을 올바르게 추상화)
-- WebGPU 백엔드 추가 시 RHI 수정 **0건** (추상화 검증 완료)
-
-| 지표 | Monolith | Layered | RHI |
-|------|----------|---------|-----|
-| **코드 구조** | 467줄 단일 파일 | 25+ 모듈, 4-Layer | 15 interfaces + backends |
-| **API 종속성** | Vulkan 100% | Vulkan 90% | **0%** (상위) |
-| **플랫폼** | 단일 | 3개 | Linux, macOS, Windows, **Web** |
-| **메모리 관리** | 수동 | RAII | RAII |
-
-**교훈:**
-- **3번의 시도 끝에 올바른 추상화 발견:** 직접 래핑과 모방은 실패, 업계 패턴 학습이 핵심
-- **인터페이스 설계 > 구현:** RHI를 먼저 설계하고 Vulkan을 맞춤
-- **Tradeoff는 측정으로 결정:** 가상 함수 오버헤드는 2%, 확장성은 무한대
-
-**GPU Frustum Culling 최적화 효과:**
-
-![16 Triangles](/portfolio/mini-engin-image/16.png)
-
-*16 Triangles: 106 FPS - 경량 씬에서 컬링 효과 미미 (모든 객체 가시)*
-
-![1K Triangles](/portfolio/mini-engin-image/1k.png)
-
-*1,000 Triangles: 49.2 FPS (최적화 전 `~42 FPS`) - 약 17% 성능 향상*
-
-![10K Triangles](/portfolio/mini-engin-image/10k.png)
-
-*10,000 Triangles: 8.7 FPS (최적화 전 `~3.2 FPS`) - **약 2.7배 성능 향상***
-
-![100K Triangles](/portfolio/mini-engin-image/100k.png)
-
-*100,000 Triangles: 1.6 FPS (최적화 전 `~0.5 FPS`) - **약 3배+ 성능 향상***
-
-> **최적화 핵심:** GPU 기반 Frustum Culling + Indirect Draw로 화면 밖 객체를 GPU에서 조기 제거. 대규모 씬에서 CPU->GPU 데이터 전송량 감소 및 렌더링 부하 최소화.
-
----
-
-## Stage 2: WebGPU Backend — WASM 빌드 최적화
-
-### What
-RHI 아키텍처 검증을 위해 두 번째 백엔드 구현. 웹 브라우저에서 동일 엔진 실행 성공.
-
-```plaintext
-Vulkan Backend (3,650 LOC) + WebGPU Backend (6,500 LOC)
--> RHI 인터페이스 변경 0건
-```
-
-![WebGPU Backend](/portfolio/mini-engin-image/webgpu-example.png)
-
-*WebGPU 백엔드: 동일한 RHI 코드로 WASM 빌드, 브라우저에서 실행*
-
-### Challenge: WASM 빌드 "section too large" 실패
-- **문제:** `WebGPUCommon.hpp`에 `~25개` enum 변환 inline 함수가 13개 .cpp에서 중복 인스턴스화 -> 코드 비대화
-- **디버깅 과정:** `nm` 명령으로 심볼 분석 -> inline 함수가 각 translation unit마다 복제됨 발견
-
-### Solution
-선언/구현 분리 + Emscripten 최적화:
-```cpp
-// Before: WebGPUCommon.hpp
-inline WGPUTextureFormat toWGPUFormat(...) { ... }  // 13개 .cpp마다 복제
-
-// After: WebGPUCommon.cpp
-WGPUTextureFormat toWGPUFormat(...) { ... }  // 단일 인스턴스
-```
-```bash
--Oz -flto  # 크기 최적화 + Link-Time Optimization
-```
-
-### Impact
-- 빌드 실패 -> 성공, **WASM 156KB** (gzip 후 `~40KB`)
-- 모바일 환경에서도 즉시 로드 가능
-- **교훈**: 헤더 inline 함수는 WASM에서 치명적
-
-| 지표 | 결과 |
-|------|------|
-| **WebGPU Backend** | 15개 클래스, 6,500 LOC |
-| **WASM 크기** | **156KB** |
-| **RHI 수정** | **0건** (추상화 검증 완료) |
-| **지원 플랫폼** | Linux, macOS, Windows, **Web** |
-
----
-
-## Stage 3: GPU Instancing — Shadow Map 좌표계
-
-### What
-단일 OBJ 렌더러를 수천 개 오브젝트 처리 가능한 인스턴싱 엔진으로 확장. Shadow Mapping 추가.
-
-```plaintext
-Before: 1 object = 1 draw call (Blinn-Phong, 그림자 없음)
-After:  N objects = 1 draw call (GPU Instancing, PCF Shadow)
-```
-
-### Challenge: Shadow Map이 씬 절반만 렌더링
-- **문제:** Shadow map이 씬의 절반만 렌더링. 가까운 오브젝트 그림자 사라짐.
-- **디버깅:** ImGui로 shadow map을 texture로 시각화 -> 절반이 검은색
-- **원인:** `glm::ortho`는 OpenGL 스타일로 Z를 [-1, 1]로 매핑. Vulkan은 [0, 1] 기대 -> 음수 Z 클리핑
-
-### Solution
-Light projection matrix Z를 Vulkan NDC로 수동 변환:
-```cpp
-lightProj[2][2] = -1.0f / (farPlane - nearPlane);
-lightProj[3][2] = -nearPlane / (farPlane - nearPlane);  // [0, 1]
-```
-추가: Shadow Pass에 **front-face culling** 적용 -> Peter Panning 제거 (bias 불필요)
-
-### Impact
-- 씬 전체를 커버하는 정확한 그림자
-- **교훈:** OpenGL/Vulkan NDC 차이는 shadow, **IBL** 등에서 반복적으로 문제 발생. **시각화가 최고의 디버깅 도구**.
-
----
-
-## Stage 4: PBR & GPU-Driven — CPU 병목 발견
-
-### What
-Blinn-Phong을 **Cook-Torrance PBR + IBL**로 교체. CPU 드라이브 인스턴싱을 **GPU-Driven 간접 렌더링**으로 전환.
-
-```plaintext
-Before: CPU가 draw call 발행 (Blinn-Phong)
-After:  GPU가 draw call 결정 (PBR + IBL + Frustum Culling + Indirect Draw)
-```
-
-**구현**: Compute Shader Frustum Culling + Atomic Indirect Draw
-```glsl
-// 64 threads parallel
-for (int i = 0; i < 6; i++) {  // 6개 frustum plane
-    if (isAABBOutsidePlane(frustumPlanes[i], bboxMin, bboxMax)) {
-        visible = false; break;
-    }
-}
-if (visible) atomicAdd(indirect.instanceCount, 1);  // GPU가 결정
-```
-
-### Challenge 1: Async Compute 하드웨어 폴백
-- **문제:** Apple M1은 dedicated compute queue 없음. Timeline Semaphore 미지원 -> 크래시
-- **해결**: Capability check + fallback
-```cpp
-if (features.dedicatedComputeQueue && features.timelineSemaphores) {
-    // Async compute on dedicated queue
-} else {
-    // Fallback: inline compute on graphics queue
-}
-```
-
-### Challenge 2: 100K 오브젝트에서 CPU 병목 발견
-GPU Profiling으로 측정한 결과 **CPU가 진짜 병목**:
-
-| 오브젝트 | Frustum (ms) | Shadow (ms) | Main (ms) | GPU Total (ms) | Frame (ms) |
-|---------|-------------|-------------|-----------|---------------|------------|
-| **1K** | 1 | 6 | 10 | 17 | 21 |
-| **10K** | 1 | 34 | 61 | 95 | 125 |
-| **100K** | 2 | 193 | 329 | **530** | **2022** |
-
-**Discovery**:
-- Frustum Culling **O(1)** (Compute Shader 병렬성 입증)
-- **GPU 530ms << Frame 2022ms** -> ObjectData 생성이 CPU 병목
-- **다음 최적화:** Persistent SSBO + dirty tracking
-
-![1K Objects](/portfolio/mini-engin-image/1k.png)
-*1K 오브젝트 (47 FPS)*
-
-![10K Objects](/portfolio/mini-engin-image/10k.png)
-*10K 오브젝트 (8 FPS)*
-
-![100K Objects](/portfolio/mini-engin-image/100k.png)
-*100K 오브젝트 (0.5 FPS) — GPU 530ms vs Frame 2022ms: CPU 병목 입증*
-
-### Impact
-- Cook-Torrance PBR + IBL 구현 완료
-- GPU-Driven으로 100K+ 오브젝트 처리
-- **교훈:** GPU를 빠르게 만들수록 CPU 병목이 더 선명하게 드러남. 측정 없이는 추측만 할 뿐.
-
----
-
-## 최종 아키텍처
-
-```plaintext
-Application Layer (플랫폼 독립적)
-  Application, Camera, Input, ImGui (PBR controls, GPU timing)
-      ↓
-High-Level Subsystems (API 독립적)
-  Renderer, IBLManager, ShadowRenderer, ResourceManager
-      ↓
-RHI (15개 추상 인터페이스)
-  RHIDevice, RHICommandEncoder, RHIBuffer, RHIPipeline, ...
-      ↓
-Backend Implementations
-  ┌─────────────────┬──────────────────┐
-  │ Vulkan Backend  │ WebGPU Backend   │
-  │ VMA, SPIR-V     │ Emscripten, WGSL │
-  │ `~8,000 LOC`    │ `~6,500 LOC`     │
-  └─────────────────┴──────────────────┘
-```
-
----
-
-## 전체 성과
-
-| 지표 | 시작점 | 최종 |
-|------|--------|------|
-| **코드 구조** | 467줄 단일 파일 | 25,000+ LOC, 50+ 클래스 |
-| **그래픽스 API** | Vulkan only | Vulkan + WebGPU |
-| **렌더링** | Blinn-Phong | Cook-Torrance PBR + IBL |
-| **오브젝트** | 단일 모델 | 100K+ GPU-Driven Indirect Draw |
-| **Culling** | 없음 | GPU Frustum Culling (Compute Shader) |
-| **플랫폼** | 단일 | Linux, macOS, Windows, Web |
-
----
-
-## Key Takeaways
-
-### Design
-- **3번의 시도 끝에 WebGPU 스타일 채택:** Vulkan 직접 래핑, OpenGL 상태 머신 모두 실패 -> Command Encoder 패턴
-- **Tradeoff 이해:** vtable 오버헤드 2% vs 멀티 백엔드 확장성 -> 후자 선택, RHI 수정 0건으로 검증
-
-### Problem Solving
-- **문서만으로는 부족:** Vulkan 동기화, NDC 좌표계 모두 크래시를 겪고 나서야 이해
-- **시각화가 디버깅의 핵심:** ImGui로 shadow map 렌더링하여 문제 즉시 파악
-- **하드웨어 다양성 대응:** M1 workgroup size, compute queue 크래시 경험 -> 모든 고급 기능에 capability check 추가
-
-### Performance
-- **측정 없이는 추측만 할 뿐:** GPU Profiler로 정량화 -> 100K에서 CPU가 진짜 병목임을 발견
-- **GPU-Driven의 역설:** GPU를 빠르게 만들수록 CPU 병목이 더 선명하게 드러남
-
----
-
-*개발 기간: 2025.09 ~ 2026.02
+- [GitHub · 프로젝트 개요](https://github.com/nowead/Mini-Engine)
+- [아키텍처 · 책임과 백엔드 차이](https://github.com/nowead/Mini-Engine/blob/main/docs/ARCHITECTURE.md)
+- [엔진 로드맵 · 렌더링 통합과 병렬 기록 실험](https://github.com/nowead/Mini-Engine/blob/main/docs/current/engine-roadmap/ENGINE_ROADMAP.md)
+- [NIfTI mmap · 메모리 측정 기록](https://github.com/nowead/Mini-Engine/blob/main/docs/current/medical-volume/baselines/BASELINE_2026-06-10_DISK_PAGING_STEP5.md)
+- [Progressive DICOM · iPhone 로드 기록](https://github.com/nowead/Mini-Engine/blob/main/docs/current/medical-volume/baselines/BASELINE_2026-07-22_Y1C_FULL.md)
+- [Brick 크기 최적화 · 공개 DICOM 샘플 측정](https://github.com/nowead/Mini-Engine/blob/main/docs/current/medical-volume/baselines/BASELINE_2026-07-09_LAST_BRICK_SHRINK.md)
+- [2026-09-28 검증 기록](https://github.com/nowead/Mini-Engine/blob/main/docs/VALIDATION.md)

@@ -41,6 +41,8 @@ jobs:
           hugo \
             --minify \
             --baseURL "${{ steps.pages.outputs.base_url }}/"
+      - name: Validate rendered site
+        run: python3 scripts/validate-site.py public
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

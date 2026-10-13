@@ -1,14 +1,17 @@
 ---
-title: "miniRT - Ray Tracing Renderer"
+title: "miniRT"
 date: 2024-08-30
-weight: 2
+weight: 3
+category: "graphics"
+category_label: "CPU ray tracer"
+period: "2024.08 — 2024.10"
+role: "2인 프로젝트"
+image_alt: "구, 평면, 원기둥의 재질과 조명을 계산한 miniRT 렌더링 화면"
 tags: ["C", "Ray Tracing", "Graphics", "42Seoul", "Phong", "Texture Mapping"]
 github: "https://github.com/nowead/miniRT"
 summary: "CPU 기반 Ray Tracing 렌더러 - Phong Reflection 및 Texture Mapping 지원"
 cover_image: "minirt-image/minRT1.png"
 ---
-
-# miniRT
 
 > CPU 기반 Ray Tracing 렌더러 — 외부 라이브러리 없이 수학 구현
 
