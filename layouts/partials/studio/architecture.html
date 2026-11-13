@@ -1,11 +1,15 @@
 {{- $kind := .Params.architecture -}}
-{{- if or (eq $kind "medical-volume") (eq $kind "multi-backend") -}}
+{{- if or (eq $kind "medical-volume") (eq $kind "multi-backend") (eq $kind "delivery-loop") -}}
 <section class="architecture-section" aria-labelledby="architecture-title">
   <header class="architecture-heading">
     {{ if eq $kind "medical-volume" }}
     <p class="architecture-eyebrow">DATA TO PIXELS</p>
     <h2 id="architecture-title">DICOM에서 화면까지</h2>
     <p>담당한 DICOM 처리와 C++ 렌더링을 중심으로, 팀의 AI 추론 결과를 웹 화면에 연결했습니다.</p>
+    {{ else if eq $kind "delivery-loop" }}
+    <p class="architecture-eyebrow">REQUEST TO PRODUCTION</p>
+    <h2 id="architecture-title">요청에서 운영까지</h2>
+    <p>서비스 오너의 요청이 요구사항과 테스트를 거쳐 운영 환경에 반영되고, 운영에서 나온 피드백이 다시 요청이 됩니다.</p>
     {{ else }}
     <p class="architecture-eyebrow">RENDERING ARCHITECTURE</p>
     <h2 id="architecture-title">공통 RHI를 중심으로 나눈 책임</h2>
@@ -67,6 +71,62 @@
         <div>
           <h3>도착하는 마스크를 점진적으로 합성</h3>
           <p>팀의 AI 추론 결과를 슬라이스별로 GPU에 반영합니다. 이전 볼륨의 마스크를 거르는 volumeId 검증은 Shell이 담당합니다.</p>
+        </div>
+      </li>
+    </ol>
+    {{ else if eq $kind "delivery-loop" }}
+    <figure class="architecture-diagram architecture-diagram--delivery">
+      <div class="architecture-inputs">
+        <div class="architecture-node architecture-node--owned">
+          <span class="architecture-role">입력 · 서비스 오너</span>
+          <strong>현장의 요청</strong>
+          <p>한 줄짜리 요청 · 사용 피드백</p>
+        </div>
+        <div class="architecture-node">
+          <span class="architecture-role architecture-role--team">기준 · 제품 문서</span>
+          <strong>PRD · ADR</strong>
+          <p>범위와 결정 기록 42건</p>
+        </div>
+      </div>
+      <span class="architecture-junction architecture-junction--merge" aria-hidden="true"></span>
+      <div class="architecture-node architecture-node--boundary">
+        <strong>요구사항 FR-* 129개</strong>
+        <p>확인 질문으로 범위를 정하고 번호를 붙임</p>
+      </div>
+      <span class="architecture-connector" aria-hidden="true"></span>
+      <div class="architecture-node architecture-node--core">
+        <span class="architecture-role">완료 기준</span>
+        <strong>테스트 하네스</strong>
+        <p>테스트 · 추적성 · 화면 회귀 · 운영 구성 점검</p>
+      </div>
+      <span class="architecture-connector" aria-hidden="true"></span>
+      <div class="architecture-node architecture-node--output">
+        <strong>오너 승인 → 운영 배포</strong>
+        <p>Docker Compose · AWS Lightsail · Cloudflare</p>
+      </div>
+      <figcaption>요청은 요구사항이 되고, 하네스를 통과한 변경만 승인을 거쳐 운영에 반영됩니다.</figcaption>
+    </figure>
+
+    <ol class="architecture-notes">
+      <li>
+        <span class="architecture-number" aria-hidden="true">01</span>
+        <div>
+          <h3>요청을 요구사항으로</h3>
+          <p>요청을 그대로 구현하지 않습니다. 확인 질문으로 범위를 정하고, 번호가 붙은 요구사항과 결정 기록으로 남깁니다.</p>
+        </div>
+      </li>
+      <li>
+        <span class="architecture-number" aria-hidden="true">02</span>
+        <div>
+          <h3>테스트가 완료 기준</h3>
+          <p>요구사항마다 테스트를 연결합니다. 테스트, 화면 회귀, 운영 구성 점검을 하나의 명령으로 실행합니다.</p>
+        </div>
+      </li>
+      <li>
+        <span class="architecture-number" aria-hidden="true">03</span>
+        <div>
+          <h3>운영이 다음 요청으로</h3>
+          <p>배포한 뒤 실제 사용에서 나온 피드백이 다시 요구사항이 됩니다. 이 순환을 계속 반복합니다.</p>
         </div>
       </li>
     </ol>

@@ -1,0 +1,6 @@
+{{- /* 본문 속 실행 화면: 원본 크기를 알려 레이아웃 이동 없이 불러오고, 누르면 원본을 엽니다. */ -}}
+{{- $src := printf "%s/%s" .Page.Section (.Get "src") | relURL -}}
+<figure class="fde-shot{{ with .Get "class" }} fde-shot--{{ . }}{{ end }}">
+  <a href="{{ $src }}" target="_blank" rel="noopener noreferrer" aria-label="{{ .Get "alt" }} 원본 이미지 새 탭에서 보기"><img src="{{ $src }}" alt="{{ .Get "alt" }}" width="{{ .Get "width" }}" height="{{ .Get "height" }}" loading="lazy"></a>
+  {{ with .Get "caption" }}<figcaption>{{ . }}</figcaption>{{ end }}
+</figure>

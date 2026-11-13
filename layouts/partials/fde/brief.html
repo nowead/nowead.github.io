@@ -1,0 +1,19 @@
+{{- /* 케이스 스터디 요약: 본문을 읽기 전에 문제 정의 · 해결 · 검증을 한눈에 보여 줍니다. */ -}}
+{{ with .Params.brief }}
+<section class="fde-brief" aria-labelledby="brief-title">
+  <header class="fde-brief__heading">
+    <p class="fde-eyebrow">AT A GLANCE</p>
+    <h2 id="brief-title">문제 정의 · 해결 · 검증</h2>
+  </header>
+  <ol class="fde-psv fde-psv--case">
+    <li><p class="fde-psv__label"><span>01</span>문제 정의</p><h3>{{ .problem.title }}</h3><p>{{ .problem.text }}</p></li>
+    <li><p class="fde-psv__label"><span>02</span>해결</p><h3>{{ .solution.title }}</h3><p>{{ .solution.text }}</p></li>
+    <li><p class="fde-psv__label"><span>03</span>검증</p><h3>{{ .verification.title }}</h3><p>{{ .verification.text }}</p></li>
+  </ol>
+  {{ with $.Params.metrics }}
+  <dl class="fde-metrics">
+    {{ range . }}<div><dt>{{ .label }}</dt><dd>{{ .value }}</dd></div>{{ end }}
+  </dl>
+  {{ end }}
+</section>
+{{ end }}

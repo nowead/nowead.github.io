@@ -1,0 +1,44 @@
+{{- /* 프로젝트 사이의 흐름: 결과물은 기반 프로젝트를, 기반 프로젝트는 이어진 결과물을 보여 줍니다. */ -}}
+{{ if .Params.built_on }}
+<section class="fde-lineage" aria-labelledby="lineage-title">
+  <header class="fde-lineage__heading">
+    <p class="fde-eyebrow">BUILT ON</p>
+    <h2 id="lineage-title">이 프로젝트의 기반</h2>
+  </header>
+  <div class="fde-lineage__grid{{ if eq (len .Params.built_on) 1 }} fde-lineage__grid--single{{ end }}">
+    {{ range .Params.built_on }}
+    {{ with site.GetPage (printf "/fde/%s" .) }}
+    <a class="fde-lineage__card" href="{{ .RelPermalink }}">
+      <span class="fde-lineage__meta">{{ .Params.category_label }} · {{ .Params.period }}</span>
+      <strong>{{ .Title }} <span aria-hidden="true">↗</span></strong>
+      <ul>
+        {{ range .Params.handoff }}{{ $parts := split . " → " }}<li><span>{{ index $parts 0 }}</span>{{ if gt (len $parts) 1 }}<b>{{ index $parts 1 }}</b>{{ end }}</li>{{ end }}
+      </ul>
+    </a>
+    {{ end }}
+    {{ end }}
+  </div>
+</section>
+{{ else if .Params.leads_to }}
+{{ $handoff := .Params.handoff }}
+{{ with site.GetPage (printf "/fde/%s" .Params.leads_to) }}
+<section class="fde-lineage" aria-labelledby="lineage-title">
+  <header class="fde-lineage__heading">
+    <p class="fde-eyebrow">LEADS TO</p>
+    <h2 id="lineage-title">이 경험이 이어진 곳</h2>
+  </header>
+  <div class="fde-lineage__grid fde-lineage__grid--single">
+    <a class="fde-lineage__card fde-lineage__card--outcome" href="{{ .RelPermalink }}">
+      <span class="fde-lineage__thumb"><img src="{{ printf "%s/%s" .Section .Params.cover_image | relURL }}" alt="" width="{{ .Params.cover_width | default 1280 }}" height="{{ .Params.cover_height | default 720 }}" loading="lazy"></span>
+      <span class="fde-lineage__body">
+        <span class="fde-lineage__meta">{{ .Params.category_label }} · {{ .Params.status }}</span>
+        <strong>{{ .Title }} <span aria-hidden="true">↗</span></strong>
+        <ul>
+          {{ range $handoff }}{{ $parts := split . " → " }}<li><span>{{ index $parts 0 }}</span>{{ if gt (len $parts) 1 }}<b>{{ index $parts 1 }}</b>{{ end }}</li>{{ end }}
+        </ul>
+      </span>
+    </a>
+  </div>
+</section>
+{{ end }}
+{{ end }}

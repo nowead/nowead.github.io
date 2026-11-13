@@ -1,7 +1,8 @@
 {{ $root := .FirstSection.RelPermalink }}
+{{ if eq .Section "fde" }}{{ $root = "/" | relURL }}{{ end }}
 <header class="site-header wrap">
-  <a class="brand" href="{{ $root }}" aria-label="민대원 홈">민대원</a>
-  {{ if not .FirstSection.IsHome }}
+  <a class="brand" href="{{ $root }}" aria-label="nowead 홈">nowead</a>
+  {{ if or .IsHome (not .FirstSection.IsHome) }}
   <nav class="site-nav" aria-label="주 메뉴">
     <a href="{{ $root }}#projects">Projects</a>
     <a href="{{ $root }}#about">About</a>

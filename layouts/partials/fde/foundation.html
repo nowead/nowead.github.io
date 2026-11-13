@@ -1,0 +1,24 @@
+{{- /* 기반 프로젝트: 무엇을 만들었는지와, 결과물로 무엇이 이어졌는지를 함께 보여 줍니다. */ -}}
+{{- $outcome := .outcome -}}
+{{- with .page -}}
+<article class="fde-foundation" id="project-{{ .File.ContentBaseName }}" data-project>
+  <a class="project-image{{ if eq .Params.cover_fit "contain" }} project-image--contain{{ end }}" href="{{ .RelPermalink }}" tabindex="-1" aria-hidden="true">
+    <img src="{{ printf "%s/%s" .Section .Params.cover_image | relURL }}" alt="" width="{{ .Params.cover_width | default 1280 }}" height="{{ .Params.cover_height | default 720 }}" loading="lazy">
+    <span class="image-arrow" aria-hidden="true">↗</span>
+  </a>
+  <div class="fde-foundation__copy">
+    <div class="project-meta"><span>{{ .Params.category_label }}</span><span>{{ .Params.period }}</span></div>
+    <h4><a href="{{ .RelPermalink }}">{{ .Title }}</a></h4>
+    <p>{{ .Params.summary }}</p>
+    {{ with .Params.handoff }}
+    <div class="fde-handoff">
+      <p class="fde-handoff__label">{{ $outcome.Title }}로 이어진 것</p>
+      <ul>
+        {{ range . }}{{ $parts := split . " → " }}<li><span>{{ index $parts 0 }}</span>{{ if gt (len $parts) 1 }}<strong>{{ index $parts 1 }}</strong>{{ end }}</li>{{ end }}
+      </ul>
+    </div>
+    {{ end }}
+    <a class="text-link" href="{{ .RelPermalink }}">개발 과정 보기 <span aria-hidden="true">↗</span></a>
+  </div>
+</article>
+{{- end -}}
