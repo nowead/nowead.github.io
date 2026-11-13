@@ -1,4 +1,5 @@
 ---
+aliases: ["/portfolio/minirt/"]
 title: "miniRT"
 date: 2024-08-30
 weight: 3
@@ -35,11 +36,11 @@ C로 벡터 연산, 광선과 표면의 교차 검사, 조명 모델을 구현�
 
 **개발 목적**: 그래픽스 수식을 직접 코드로 옮기며 벡터 연산과 좌표계, 빛과 표면의 관계를 이해하고자 했습니다.
 
-![miniRT Rendering 1](/portfolio/minirt-image/minRT1.png)
+![miniRT Rendering 1](/graphics/minirt-image/minRT1.png)
 
 *Phong Reflection Model: Ambient + Diffuse + Specular 조명 계산 결과*
 
-![miniRT Rendering 2](/portfolio/minirt-image/miniRT2.png)
+![miniRT Rendering 2](/graphics/minirt-image/miniRT2.png)
 
 *멀티 라이트 소스: 각 광원의 그림자 및 반사광 독립 계산 후 합산*
 

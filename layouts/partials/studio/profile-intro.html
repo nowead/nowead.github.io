@@ -9,7 +9,7 @@
     <p class="profile-hero__role">{{ .Params.role }}</p>
   </div>
   <div class="profile-hero__portrait">
-    <img src="{{ printf "portfolio/%s" .Params.profile_image | relURL }}" alt="{{ .Params.name }} 프로필 사진" width="354" height="472" loading="eager" fetchpriority="high">
+    <img src="{{ printf "%s/%s" .Section .Params.profile_image | relURL }}" alt="{{ .Params.name }} 프로필 사진" width="354" height="472" loading="eager" fetchpriority="high">
   </div>
   <p class="profile-hero__description">{{ if $compact }}{{ .Params.portfolio_intro }}{{ else }}{{ .Params.hero_intro }}{{ end }}</p>
   <div class="profile-hero__actions actions">

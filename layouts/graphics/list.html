@@ -1,5 +1,5 @@
 {{ define "main" }}
-{{ with .Site.GetPage "/portfolio" }}
+{{ with . }}
 <div class="wrap portfolio-page">
   {{ partial "studio/profile-intro.html" (dict "profile" . "compact" false) }}
 

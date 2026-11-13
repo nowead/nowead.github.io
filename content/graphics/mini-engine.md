@@ -1,4 +1,5 @@
 ---
+aliases: ["/portfolio/mini-engine/"]
 title: "Mini-Engine"
 date: 2025-09-01
 lastmod: 2026-09-28
@@ -62,7 +63,7 @@ Vulkan의 bindless textures와 병렬 shadow command recording은 백엔드 내�
 
 GPU frustum culling은 오브젝트 버퍼를 읽어 가시 인덱스와 indirect draw 데이터를 구성합니다. glTF는 cgltf로 파싱하고, `AssetImporter`에서 메시·머티리얼·텍스처를 엔진의 표현으로 변환합니다.
 
-![Mini-Engine의 다중 오브젝트 렌더링 장면](/portfolio/mini-engin-image/mini-engine.png)
+![Mini-Engine의 다중 오브젝트 렌더링 장면](/graphics/mini-engin-image/mini-engine.png)
 
 *다중 오브젝트와 PBR 재질을 표현한 렌더링 장면.*
 

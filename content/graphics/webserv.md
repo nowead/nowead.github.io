@@ -1,4 +1,5 @@
 ---
+aliases: ["/portfolio/webserv/"]
 title: "WebServ"
 date: 2025-01-01
 weight: 4
@@ -34,7 +35,7 @@ C++98로 HTTP/1.1 프로토콜을 지원하는 이벤트 기반 웹 서버를 �
 
 웹 서버가 여러 연결을 처리하는 원리를 이해하기 위해, 소켓 통신부터 이벤트 루프와 CGI 실행까지 직접 구현했습니다.
 
-![WebServ Architecture](/portfolio/webserv-image/webserv-architecture.png)
+![WebServ Architecture](/graphics/webserv-image/webserv-architecture.png)
 
 *4-Layer Architecture: Network -> Reactor -> Handler -> Application*
 
@@ -111,7 +112,7 @@ public:
 };
 ```
 
-![WebServ Flowchart](/portfolio/webserv-image/webserv-flowchart.png)
+![WebServ Flowchart](/graphics/webserv-image/webserv-flowchart.png)
 
 *Reactor Pattern 이벤트 흐름: kqueue -> Event Dispatch -> Handler Execution*
 

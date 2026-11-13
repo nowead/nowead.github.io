@@ -1,4 +1,5 @@
 ---
+aliases: ["/portfolio/omnimed3d/"]
 title: "OmniMed3D"
 date: 2026-10-08
 lastmod: 2026-10-08
@@ -81,7 +82,7 @@ Shell은 볼륨마다 `volumeId`를 부여하고 이전 볼륨의 늦게 도착�
 
 셰이더는 Slang으로 작성해 WGSL로 컴파일합니다. 엔진 코어는 C++20으로 작성하고 Emscripten을 통해 브라우저에서 실행합니다.
 
-![OmniMed3D의 WebGPU 기반 흉부 CT 볼륨 렌더링과 window/level 조절 화면](/portfolio/omnimed3d-image/rendering.jpg)
+![OmniMed3D의 WebGPU 기반 흉부 CT 볼륨 렌더링과 window/level 조절 화면](/graphics/omnimed3d-image/rendering.jpg)
 
 *볼륨 렌더링과 window/level 컨트롤의 실제 실행 화면.*
 

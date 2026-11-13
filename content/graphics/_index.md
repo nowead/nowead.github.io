@@ -1,5 +1,6 @@
 +++
-title = "Portfolio"
+title = "Graphics Portfolio"
+aliases = ["/portfolio/"]
 description = "민대원의 프로젝트 포트폴리오. OmniMed3D, Mini-Engine과 그래픽스·시스템·웹 개발 과정."
 name = "민대원"
 role = "Graphics & Game Engine Developer"
@@ -19,10 +20,6 @@ working_knowledge = [
   "TypeScript · Python · OpenGL · HLSL",
   "WASM / Emscripten · Docker"
 ]
-
-# 프로젝트 목록은 홈(/)에서 보여 주고, /portfolio/는 홈으로 리다이렉트합니다.
-[build]
-  render = "never"
 
 [[education]]
 degree = "강원대학교"

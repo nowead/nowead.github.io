@@ -1,0 +1,12 @@
+{{- /* 새 직무 포트폴리오가 준비될 때까지 홈은 그래픽스 포트폴리오로 안내합니다. */ -}}
+{{- $target := (site.GetPage "/graphics").RelPermalink -}}
+<!DOCTYPE html>
+<html lang="{{ site.LanguageCode }}">
+<head>
+  <meta charset="utf-8">
+  <title>{{ .Title }}</title>
+  <link rel="canonical" href="{{ $target | absURL }}">
+  <meta http-equiv="refresh" content="0; url={{ $target }}">
+</head>
+<body><main><h1><a href="{{ $target }}">그래픽스 포트폴리오로 이동</a></h1></main></body>
+</html>

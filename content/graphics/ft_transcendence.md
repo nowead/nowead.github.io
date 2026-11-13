@@ -1,4 +1,5 @@
 ---
+aliases: ["/portfolio/ft_transcendence/"]
 title: "ft_transcendence"
 date: 2024-12-01
 weight: 5
@@ -35,11 +36,11 @@ TypeScript 기반 SPA와 WebSocket 통신으로 실시간 멀티플레이어 Pon
 
 공통 API 클라이언트를 설계하면서 웹 애플리케이션의 통신 흐름을 익히고, 프런트엔드와 백엔드가 함께 사용할 인터페이스를 정리했습니다.
 
-![ft_transcendence Game](/portfolio/transendence-image/트센_게임.png)
+![ft_transcendence Game](/graphics/transendence-image/트센_게임.png)
 
 *WebSocket으로 게임 상태를 동기화하는 실시간 멀티플레이어 Pong 게임.*
 
-![ft_transcendence Login](/portfolio/transendence-image/트센-로그인.png)
+![ft_transcendence Login](/graphics/transendence-image/트센-로그인.png)
 
 *인증 시스템: JWT + Google OAuth + 2FA (TOTP) 지원*
 

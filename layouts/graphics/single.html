@@ -1,7 +1,7 @@
 {{ define "main" }}
 <article class="case-study wrap">
   <header class="case-header">
-    <a class="back-link" href="{{ "/#projects" | relURL }}">← 프로젝트 목록</a>
+    <a class="back-link" href="{{ .CurrentSection.RelPermalink }}#projects">← 프로젝트 목록</a>
     <p class="eyebrow">{{ .Params.category_label | default "PROJECT CASE STUDY" }}</p>
     <h1>{{ .Title }}</h1>
     <p class="case-summary">{{ .Params.summary }}</p>
@@ -13,20 +13,20 @@
     <section class="case-gallery" aria-label="프로젝트 실행 화면">
       {{ range $i, $item := .Params.gallery }}
       <figure>
-        <a href="{{ printf "portfolio/%s" $item.image | relURL }}" target="_blank" rel="noopener noreferrer" aria-label="{{ $item.label }} 원본 이미지 새 탭에서 보기"><img src="{{ printf "portfolio/%s" $item.image | relURL }}" alt="{{ $item.alt }}" width="{{ $item.width }}" height="{{ $item.height }}" {{ if eq $i 0 }}fetchpriority="high"{{ else }}loading="lazy"{{ end }}></a>
+        <a href="{{ printf "%s/%s" $.Section $item.image | relURL }}" target="_blank" rel="noopener noreferrer" aria-label="{{ $item.label }} 원본 이미지 새 탭에서 보기"><img src="{{ printf "%s/%s" $.Section $item.image | relURL }}" alt="{{ $item.alt }}" width="{{ $item.width }}" height="{{ $item.height }}" {{ if eq $i 0 }}fetchpriority="high"{{ else }}loading="lazy"{{ end }}></a>
         <figcaption>{{ $item.label }}</figcaption>
         {{ if eq $i 0 }}<div class="project-role gallery-role"><span>MY ROLE</span><strong>{{ $.Params.role }}</strong><p>영상 데이터를 볼륨으로 구성하고, 팀의 AI 마스크를 화면에 합성합니다.</p></div>{{ end }}
       </figure>
       {{ end }}
     </section>
   {{ else }}
-    {{ with .Params.cover_image }}<figure class="case-cover"><img src="{{ printf "portfolio/%s" . | relURL }}" alt="{{ $.Params.image_alt | default (printf "%s 프로젝트 실행 화면" $.Title) }}" width="1280" height="720" fetchpriority="high">{{ with $.Params.image_caption }}<figcaption>{{ . }}</figcaption>{{ end }}</figure>{{ end }}
+    {{ with .Params.cover_image }}<figure class="case-cover"><img src="{{ printf "%s/%s" $.Section . | relURL }}" alt="{{ $.Params.image_alt | default (printf "%s 프로젝트 실행 화면" $.Title) }}" width="1280" height="720" fetchpriority="high">{{ with $.Params.image_caption }}<figcaption>{{ . }}</figcaption>{{ end }}</figure>{{ end }}
   {{ end }}
   {{ partial "studio/architecture.html" . }}
   <div class="case-layout">
-    <aside class="case-toc" aria-label="페이지 목차"><details open><summary>ON THIS PAGE</summary>{{ with .Params.architecture }}<a class="toc-overview" href="#architecture-title">구조 한눈에 보기 ↑</a>{{ end }}{{ .TableOfContents }}</details><a class="text-link" href="{{ "/#projects" | relURL }}">모든 프로젝트 ↗</a></aside>
+    <aside class="case-toc" aria-label="페이지 목차"><details open><summary>ON THIS PAGE</summary>{{ with .Params.architecture }}<a class="toc-overview" href="#architecture-title">구조 한눈에 보기 ↑</a>{{ end }}{{ .TableOfContents }}</details><a class="text-link" href="{{ .CurrentSection.RelPermalink }}#projects">모든 프로젝트 ↗</a></aside>
     <div class="prose">{{ .Content }}</div>
   </div>
-  <nav class="case-navigation" aria-label="다른 프로젝트"><a class="text-link" href="{{ "/#projects" | relURL }}">← 전체 프로젝트</a>{{ $others := where (where .Site.RegularPages "Section" "portfolio") "RelPermalink" "ne" .RelPermalink }}{{ with index $others.ByWeight 0 }}<a href="{{ .RelPermalink }}"><span>EXPLORE NEXT</span><strong>{{ .Title }} ↗</strong></a>{{ end }}</nav>
+  <nav class="case-navigation" aria-label="다른 프로젝트"><a class="text-link" href="{{ .CurrentSection.RelPermalink }}#projects">← 전체 프로젝트</a>{{ $others := where (where .Site.RegularPages "Section" .Section) "RelPermalink" "ne" .RelPermalink }}{{ with index $others.ByWeight 0 }}<a href="{{ .RelPermalink }}"><span>EXPLORE NEXT</span><strong>{{ .Title }} ↗</strong></a>{{ end }}</nav>
 </article>
 {{ end }}
