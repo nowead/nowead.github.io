@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Check blog, study, and portfolio navigation after the Hugo build."""
+"""Check the portfolio home and project pages after the Hugo build."""
 import sys
 from html.parser import HTMLParser
 from pathlib import Path
@@ -24,15 +24,14 @@ class Page(HTMLParser):
 
 
 root = Path(sys.argv[1] if len(sys.argv) > 1 else "public").resolve()
-paths = [root / "index.html", root / "portfolio/index.html"]
+paths = [root / "index.html", root / "404.html"]
 paths.extend(sorted((root / "portfolio").glob("*/index.html")))
-paths.append(root / "vulkan-study-log/index.html")
-paths.extend(sorted((root / "vulkan-study-log").glob("*/index.html")))
-paths.append(root / "archives/index.html")
-for section in ("tags", "series", "categories"):
-    paths.append(root / section / "index.html")
-    paths.extend(sorted((root / section).glob("*/index.html")))
 errors = []
+for retired in ("vulkan-study-log", "archives", "series", "tags", "categories", "search"):
+    if (root / retired).exists():
+        errors.append(f"{retired}/: retired section is still published (see /legacy/ snapshot)")
+if 'url=https://nowead.github.io/"' not in (root / "portfolio/index.html").read_text(encoding="utf-8"):
+    errors.append("portfolio/index.html: expected a redirect to the home page")
 cache = {}
 
 
@@ -52,15 +51,7 @@ for path in paths:
         if page.count(tag) != 1:
             errors.append(f"{label}: expected one {tag}, found {page.count(tag)}")
     if path == root / "index.html":
-        for anchor in ("landing-title", "landing-portfolio-title", "landing-study-title"):
-            if anchor not in page.ids:
-                errors.append(f"{label}: homepage section #{anchor} did not render")
-        if any("profile-hero" in attrs.get("class", "").split() for _, attrs in page.tags):
-            errors.append(f"{label}: portfolio introduction must live on /portfolio/")
-        if any("blog-post" in attrs.get("class", "").split() for _, attrs in page.tags):
-            errors.append(f"{label}: recent posts belong in Study Log, not the landing page")
-    if path == root / "portfolio/index.html":
-        for anchor in ("projects", "about", "profile", "notes-title"):
+        for anchor in ("intro-title", "projects", "about", "profile", "contact"):
             if anchor not in page.ids:
                 errors.append(f"{label}: missing portfolio section #{anchor}")
         groups = [attrs for _, attrs in page.tags if "competency-group" in attrs.get("class", "").split()]
@@ -88,9 +79,9 @@ for path in paths:
         elif url.fragment and target.suffix == ".html" and unquote(url.fragment) not in read(target).ids:
             errors.append(f"{label}: missing anchor {link}")
 
-portfolio = root / "portfolio/index.html"
-if portfolio.is_file():
-    projects = [attrs for _, attrs in read(portfolio).tags if "data-project" in attrs]
+home = root / "index.html"
+if home.is_file():
+    projects = [attrs for _, attrs in read(home).tags if "data-project" in attrs]
     if len(projects) < 5:
         errors.append("portfolio: expected all five existing projects to render")
     for slug in ("omnimed3d", "mini-engine"):
@@ -100,4 +91,4 @@ if portfolio.is_file():
 if errors:
     print("Site validation failed:\n" + "\n".join(f"- {error}" for error in errors))
     sys.exit(1)
-print(f"Validated {len(paths)} pages: page structure, home sections, projects, local links, anchors, and assets.")
+print(f"Validated {len(paths)} pages: page structure, portfolio sections, projects, local links, anchors, and assets.")

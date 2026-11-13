@@ -1,0 +1,284 @@
+<!doctype html><html lang=ko><head><meta name=robots content="noindex,nofollow"><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>[Vulkan] Ep05. 개발 환경 구축 · 민대원의 개발 노트</title><meta name=description content="Vulkan 개발 환경을 구축합니다. Vulkan SDK, GLFW, GLM 등 필수 라이브러리 설치와 프로젝트 설정 방법을 다룹니다."><meta name=theme-color content="#f7f9fc"><meta property="og:title" content="[Vulkan] Ep05. 개발 환경 구축 · 민대원의 개발 노트"><meta property="og:description" content="Vulkan 개발 환경을 구축합니다. Vulkan SDK, GLFW, GLM 등 필수 라이브러리 설치와 프로젝트 설정 방법을 다룹니다."><meta property="og:type" content="article"><meta property="og:url" content="https://nowead.github.io/legacy/2026-11/vulkan-study-log/ep05_setup/"><meta property="og:locale" content="ko_KR"><meta name=twitter:card content="summary"><link rel=canonical href=https://nowead.github.io/legacy/2026-11/vulkan-study-log/ep05_setup/><link rel=icon href=/legacy/2026-11/favicon.png><script>(function(){var e,t="light";try{e=localStorage.getItem("theme"),(e==="light"||e==="dark")&&(t=e)}catch{}document.documentElement.dataset.theme=t})()</script><link rel=stylesheet href=/legacy/2026-11/css/studio/main.min.4a404aa28269038ba2a4c43f22b8139a8b68a333fc31873f46e483ef30a6772d.css><link rel=stylesheet href=/legacy/2026-11/css/studio/blog.min.a556248a048cf93db8e2f14c4e59765a87403e347294774e435361e7324da6f9.css><link rel=stylesheet href=/legacy/2026-11/css/studio/study.min.352951fc4c1669aa7de4b1720f37bec7e2a427bd64e048ab214ccd5c06f4f1aa.css></head><body class="studio site-blog"><div style="position:sticky;top:0;z-index:999;background:#1b2a4a;color:#fff;font:13px/1.5 system-ui,sans-serif;padding:8px 16px;text-align:center">2026년 11월 보관본입니다 · <a href="/" style="color:#9cc3ff">현재 사이트로 이동 →</a></div><a class=skip-link href=#main>본문으로 건너뛰기</a><header class="site-header wrap"><a class=brand href=/legacy/2026-11/ aria-label="민대원 홈">민대원</a><nav class=site-nav aria-label="주 메뉴"><a href=/legacy/2026-11/>블로그</a>
+<a href=/legacy/2026-11/vulkan-study-log/ aria-current=true>Study Log</a>
+<a href=/legacy/2026-11/portfolio/>Portfolio</a></nav><button class=theme-control type=button aria-label="어두운 테마로 전환" title="테마 전환" hidden>
+<svg class="sun" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg>
+<svg class="moon" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M20.8 13A9 9 0 0111 3.2 9 9 0 1020.8 13z"/></svg></button></header><main id=main tabindex=-1><article class="wrap study-article"><header class=study-article-header><a class=study-back-link href=/legacy/2026-11/vulkan-study-log/>← Vulkan Study Log</a><div class=study-article-meta><span class=study-article-episode>EP. 05</span>
+<time datetime=2025-09-09>2025.09.09</time>
+<span>약 6분</span></div><h1>개발 환경 구축</h1><p class=study-article-summary>Vulkan 개발 환경을 구축합니다. Vulkan SDK, GLFW, GLM 등 필수 라이브러리 설치와 프로젝트 설정 방법을 다룹니다.</p><ul class=study-article-tags aria-label="관련 주제"><li><a href=/legacy/2026-11/tags/vulkan/>Vulkan</a></li><li><a href=/legacy/2026-11/tags/setup/>Setup</a></li><li><a href=/legacy/2026-11/tags/cmake/>CMake</a></li><li><a href=/legacy/2026-11/tags/vcpkg/>Vcpkg</a></li><li><a href=/legacy/2026-11/tags/mac/>Mac</a></li><li><a href=/legacy/2026-11/tags/linux/>Linux</a></li><li><a href=/legacy/2026-11/tags/makefile/>Makefile</a></li></ul></header><div class=study-reading-layout><div class=study-reading-main><details class=study-mobile-toc><summary>이 글의 목차</summary><div class=study-toc-links><nav aria-label="이 글의 목차"><ul><li><a href=#시작하며>시작하며</a></li><li><a href=#1-vulkan-sdk-설치>1. Vulkan SDK 설치</a><ul><li><a href=#11-sdk-다운로드-및-설치>1.1. SDK 다운로드 및 설치</a></li><li><a href=#12-설치-확인>1.2. 설치 확인</a></li></ul></li><li><a href=#2-환경변수-설정>2. 환경변수 설정</a><ul><li><a href=#21-linux-환경변수-설정>2.1. Linux 환경변수 설정</a></li><li><a href=#22-macos-환경변수-설정>2.2. macOS 환경변수 설정</a></li><li><a href=#23-환경변수-설명>2.3. 환경변수 설명</a></li></ul></li><li><a href=#3-빌드-도구-설치>3. 빌드 도구 설치</a><ul><li><a href=#31-cmake-설치>3.1. CMake 설치</a></li><li><a href=#32-컴파일러-설정>3.2. 컴파일러 설정</a></li><li><a href=#33-vcpkg-설치>3.3. vcpkg 설치</a></li></ul></li><li><a href=#4-cmake-presets>4. CMake Presets</a><ul><li><a href=#41-cmakepresetsjson-생성>4.1. CMakePresets.json 생성</a></li><li><a href=#42-사용법>4.2. 사용법</a></li></ul></li><li><a href=#5-makefile>5. Makefile</a><ul><li><a href=#51-makefile이-해결하는-문제>5.1. Makefile이 해결하는 문제</a></li><li><a href=#52-makefile의-역할>5.2. Makefile의 역할</a></li><li><a href=#53-사용법>5.3. 사용법</a></li></ul></li><li><a href=#6-프로젝트-구조와-cmakeliststxt>6. 프로젝트 구조와 CMakeLists.txt</a><ul><li><a href=#61-디렉터리-구조>6.1. 디렉터리 구조</a></li><li><a href=#62-vcpkgjson-생성>6.2. vcpkg.json 생성</a></li><li><a href=#63-cmakeliststxt-작성>6.3. CMakeLists.txt 작성</a></li><li><a href=#64-주요-cmake-개념>6.4. 주요 CMake 개념</a></li></ul></li><li><a href=#7-테스트-코드-작성-및-빌드>7. 테스트 코드 작성 및 빌드</a><ul><li><a href=#71-maincpp-작성>7.1. main.cpp 작성</a></li><li><a href=#72-빌드-및-실행>7.2. 빌드 및 실행</a></li></ul></li><li><a href=#8-문제-해결>8. 문제 해결</a><ul><li><a href=#81-vulkaninfo-command-not-found>8.1. &ldquo;vulkaninfo: command not found&rdquo;</a></li><li><a href=#82-error-while-loading-shared-libraries-libvulkanso1>8.2. &ldquo;error while loading shared libraries: libvulkan.so.1&rdquo;</a></li><li><a href=#83-mac-dyld-library-not-loaded>8.3. Mac &ldquo;dyld: Library not loaded&rdquo;</a></li><li><a href=#84-cmake가-vulkan을-못-찾음>8.4. CMake가 Vulkan을 못 찾음</a></li><li><a href=#85-vcpkg가-라이브러리를-못-찾음>8.5. vcpkg가 라이브러리를 못 찾음</a></li><li><a href=#86-no-cmake_cxx_compiler-could-be-found>8.6. &ldquo;No CMAKE_CXX_COMPILER could be found&rdquo;</a></li></ul></li><li><a href=#9-플랫폼별-체크리스트>9. 플랫폼별 체크리스트</a><ul><li><a href=#linux-2>Linux</a></li><li><a href=#macos-3>macOS</a></li></ul></li><li><a href=#10-환경-검증>10. 환경 검증</a><ul><li><a href=#기본-확인>기본 확인</a></li><li><a href=#환경변수-확인>환경변수 확인</a></li><li><a href=#빌드-확인>빌드 확인</a></li></ul></li><li><a href=#마치며>마치며</a></li></ul></nav></div></details><div class="prose study-prose"><h2 id=시작하며>시작하며</h2><p>[Ep04]까지 이론을 다뤘다면, 이제 실제로 Vulkan 코드를 작성할 환경을 구축한다.</p><p>Mac과 Linux에서 Vulkan 개발 환경을 구축하려면 다음이 필요하다:</p><ul><li>Vulkan SDK 설치 및 환경변수 설정</li><li>CMake, 컴파일러, vcpkg 설치</li><li>CMakePresets.json과 Makefile 설정</li></ul><p>이 글에서는 vcpkg + CMakePresets + Makefile 조합을 사용한다.</p><blockquote><p><strong>참고</strong>: Windows 환경은 현재 준비 중이다.</p></blockquote><hr><h2 id=1-vulkan-sdk-설치>1. Vulkan SDK 설치</h2><h3 id=11-sdk-다운로드-및-설치>1.1. SDK 다운로드 및 설치</h3><p><a href=https://vulkan.lunarg.com/ target=_blank rel="noopener noreferrer">LunarG Vulkan SDK</a>에서 각 OS에 맞는 SDK를 다운로드한다.</p><h4 id=linux-ubuntudebian>Linux (Ubuntu/Debian)</h4><p>방법 1: <strong>패키지 설치</strong> (권장)</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1># 공식 저장소 추가</span>
+</span></span><span class=line><span class=cl>wget -qO - https://packages.lunarg.com/lunarg-signing-key-pub.asc <span class=p>|</span> sudo apt-key add -
+</span></span><span class=line><span class=cl>sudo wget -qO /etc/apt/sources.list.d/lunarg-vulkan-1.3.296-jammy.list <span class=se>\
+</span></span></span><span class=line><span class=cl>  https://packages.lunarg.com/vulkan/1.3.296/lunarg-vulkan-1.3.296-jammy.list
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 설치</span>
+</span></span><span class=line><span class=cl>sudo apt update
+</span></span><span class=line><span class=cl>sudo apt install vulkan-sdk
+</span></span></code></pre></div><p>방법 2: <strong>tarball 설치</strong></p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1># 홈 디렉터리에 압축 해제</span>
+</span></span><span class=line><span class=cl><span class=nb>cd</span> ~
+</span></span><span class=line><span class=cl>tar -xf vulkansdk-linux-x86_64-1.3.296.0.tar.gz
+</span></span></code></pre></div><h4 id=macos>macOS</h4><ol><li><code>.dmg</code> 파일 다운로드 및 실행</li><li>기본 경로에 설치: <code>/Users/사용자명/VulkanSDK/1.3.296.0/</code></li><li>Mac은 Vulkan을 직접 지원하지 않아 MoltenVK(Vulkan → Metal 변환 레이어)가 함께 설치된다</li></ol><h3 id=12-설치-확인>1.2. 설치 확인</h3><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>vulkaninfo
+</span></span><span class=line><span class=cl>vkcube  <span class=c1># 3D 큐브 데모</span>
+</span></span></code></pre></div><p>&ldquo;command not found&rdquo; 오류 발생 시 환경변수 설정이 필요하다.</p><hr><h2 id=2-환경변수-설정>2. 환경변수 설정</h2><p>Mac과 Linux는 환경변수 수동 설정이 필요하다. 동적 라이브러리 경로, SDK 위치, Validation Layer 경로를 직접 지정한다.</p><h3 id=21-linux-환경변수-설정>2.1. Linux 환경변수 설정</h3><p><code>~/.bashrc</code> 또는 <code>~/.zshrc</code> 파일에 추가:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=nb>export</span> <span class=nv>VULKAN_SDK</span><span class=o>=</span><span class=s2>&#34;</span><span class=nv>$HOME</span><span class=s2>/1.3.296.0/x86_64&#34;</span>
+</span></span><span class=line><span class=cl><span class=nb>export</span> <span class=nv>PATH</span><span class=o>=</span><span class=s2>&#34;</span><span class=nv>$VULKAN_SDK</span><span class=s2>/bin:</span><span class=nv>$PATH</span><span class=s2>&#34;</span>
+</span></span><span class=line><span class=cl><span class=nb>export</span> <span class=nv>LD_LIBRARY_PATH</span><span class=o>=</span><span class=s2>&#34;</span><span class=nv>$VULKAN_SDK</span><span class=s2>/lib:</span><span class=nv>$LD_LIBRARY_PATH</span><span class=s2>&#34;</span>
+</span></span><span class=line><span class=cl><span class=nb>export</span> <span class=nv>VK_LAYER_PATH</span><span class=o>=</span><span class=s2>&#34;</span><span class=nv>$VULKAN_SDK</span><span class=s2>/share/vulkan/explicit_layer.d&#34;</span>
+</span></span></code></pre></div><p>설정 후 적용:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=nb>source</span> ~/.bashrc
+</span></span></code></pre></div><p>검증:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=nb>echo</span> <span class=nv>$VULKAN_SDK</span>
+</span></span><span class=line><span class=cl>vulkaninfo <span class=p>|</span> head -20
+</span></span></code></pre></div><h3 id=22-macos-환경변수-설정>2.2. macOS 환경변수 설정</h3><p><code>~/.zshrc</code> 파일에 추가:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=nb>export</span> <span class=nv>VULKAN_SDK</span><span class=o>=</span><span class=s2>&#34;</span><span class=nv>$HOME</span><span class=s2>/VulkanSDK/1.3.296.0/macOS&#34;</span>
+</span></span><span class=line><span class=cl><span class=nb>export</span> <span class=nv>PATH</span><span class=o>=</span><span class=s2>&#34;</span><span class=nv>$VULKAN_SDK</span><span class=s2>/bin:</span><span class=nv>$PATH</span><span class=s2>&#34;</span>
+</span></span><span class=line><span class=cl><span class=nb>export</span> <span class=nv>DYLD_LIBRARY_PATH</span><span class=o>=</span><span class=s2>&#34;</span><span class=nv>$VULKAN_SDK</span><span class=s2>/lib:</span><span class=nv>$DYLD_LIBRARY_PATH</span><span class=s2>&#34;</span>
+</span></span><span class=line><span class=cl><span class=nb>export</span> <span class=nv>VK_ICD_FILENAMES</span><span class=o>=</span><span class=s2>&#34;</span><span class=nv>$VULKAN_SDK</span><span class=s2>/share/vulkan/icd.d/MoltenVK_icd.json&#34;</span>
+</span></span><span class=line><span class=cl><span class=nb>export</span> <span class=nv>VK_LAYER_PATH</span><span class=o>=</span><span class=s2>&#34;</span><span class=nv>$VULKAN_SDK</span><span class=s2>/share/vulkan/explicit_layer.d&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Homebrew LLVM</span>
+</span></span><span class=line><span class=cl><span class=nb>export</span> <span class=nv>PATH</span><span class=o>=</span><span class=s2>&#34;/opt/homebrew/opt/llvm/bin:</span><span class=nv>$PATH</span><span class=s2>&#34;</span>
+</span></span><span class=line><span class=cl><span class=nb>export</span> <span class=nv>LDFLAGS</span><span class=o>=</span><span class=s2>&#34;-L/opt/homebrew/opt/llvm/lib/c++&#34;</span>
+</span></span><span class=line><span class=cl><span class=nb>export</span> <span class=nv>CPPFLAGS</span><span class=o>=</span><span class=s2>&#34;-I/opt/homebrew/opt/llvm/include&#34;</span>
+</span></span></code></pre></div><p>설정 후 적용:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=nb>source</span> ~/.zshrc
+</span></span></code></pre></div><h3 id=23-환경변수-설명>2.3. 환경변수 설명</h3><p><strong><code>LD_LIBRARY_PATH</code> (Linux)</strong>:</p><ul><li>동적 라이브러리(<code>.so</code>) 검색 경로</li><li>미설정 시 <code>libvulkan.so</code>를 찾지 못해 실행 실패</li></ul><p><strong><code>DYLD_LIBRARY_PATH</code> (Mac)</strong>:</p><ul><li>Linux의 <code>LD_LIBRARY_PATH</code>와 동일한 역할</li><li>Mac은 보안상 이 변수가 무시되는 경우가 있어 CMake에서 <code>rpath</code> 설정 필요</li><li>MoltenVK 사용을 위해 <code>VK_ICD_FILENAMES</code> 필수</li></ul><hr><h2 id=3-빌드-도구-설치>3. 빌드 도구 설치</h2><h3 id=31-cmake-설치>3.1. CMake 설치</h3><h4 id=linux>Linux</h4><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>sudo apt install cmake ninja-build
+</span></span></code></pre></div><h4 id=macos-1>macOS</h4><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>brew install cmake ninja
+</span></span></code></pre></div><p>검증 (3.15 이상 필요):</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>cmake --version
+</span></span></code></pre></div><h3 id=32-컴파일러-설정>3.2. 컴파일러 설정</h3><h4 id=linux-1>Linux</h4><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>sudo apt install clang-18 clang++-18
+</span></span></code></pre></div><h4 id=macos-2>macOS</h4><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>xcode-select --install
+</span></span><span class=line><span class=cl>brew install llvm
+</span></span></code></pre></div><h3 id=33-vcpkg-설치>3.3. vcpkg 설치</h3><p>vcpkg는 C++ 라이브러리 패키지 매니저다. GLFW, GLM 등 외부 라이브러리를 자동으로 다운로드하고 빌드한다.</p><h4 id=linuxmacos>Linux/macOS</h4><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=nb>cd</span> ~
+</span></span><span class=line><span class=cl>git clone https://github.com/microsoft/vcpkg.git
+</span></span><span class=line><span class=cl><span class=nb>cd</span> vcpkg
+</span></span><span class=line><span class=cl>./bootstrap-vcpkg.sh
+</span></span></code></pre></div><p>검증:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>~/vcpkg/vcpkg version
+</span></span></code></pre></div><hr><h2 id=4-cmake-presets>4. CMake Presets</h2><p>CMake Presets는 플랫폼별 빌드 설정을 파일로 저장해 간단한 이름으로 호출할 수 있게 한다.</p><h3 id=41-cmakepresetsjson-생성>4.1. CMakePresets.json 생성</h3><p>프로젝트 루트에 <code>CMakePresets.json</code> 생성:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-json data-lang=json><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;version&#34;</span><span class=p>:</span> <span class=mi>3</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;configurePresets&#34;</span><span class=p>:</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>        <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=nt>&#34;name&#34;</span><span class=p>:</span> <span class=s2>&#34;mac-default&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=nt>&#34;displayName&#34;</span><span class=p>:</span> <span class=s2>&#34;Mac Default Config&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=nt>&#34;description&#34;</span><span class=p>:</span> <span class=s2>&#34;Default build using vcpkg&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=nt>&#34;generator&#34;</span><span class=p>:</span> <span class=s2>&#34;Ninja&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=nt>&#34;binaryDir&#34;</span><span class=p>:</span> <span class=s2>&#34;${sourceDir}/build&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=nt>&#34;cacheVariables&#34;</span><span class=p>:</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=nt>&#34;CMAKE_BUILD_TYPE&#34;</span><span class=p>:</span> <span class=s2>&#34;Debug&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                <span class=nt>&#34;CMAKE_TOOLCHAIN_FILE&#34;</span><span class=p>:</span> <span class=s2>&#34;/Users/사용자명/vcpkg/scripts/buildsystems/vcpkg.cmake&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                <span class=nt>&#34;CMAKE_EXPORT_COMPILE_COMMANDS&#34;</span><span class=p>:</span> <span class=s2>&#34;TRUE&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                <span class=nt>&#34;CMAKE_C_COMPILER&#34;</span><span class=p>:</span> <span class=s2>&#34;/opt/homebrew/opt/llvm/bin/clang&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                <span class=nt>&#34;CMAKE_CXX_COMPILER&#34;</span><span class=p>:</span> <span class=s2>&#34;/opt/homebrew/opt/llvm/bin/clang++&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                <span class=nt>&#34;CMAKE_CXX_FLAGS&#34;</span><span class=p>:</span> <span class=s2>&#34;-stdlib=libc++ -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                <span class=nt>&#34;CMAKE_EXE_LINKER_FLAGS&#34;</span><span class=p>:</span> <span class=s2>&#34;-L/opt/homebrew/opt/llvm/lib/c++ -Wl,-rpath,/opt/homebrew/opt/llvm/lib/c++&#34;</span>
+</span></span><span class=line><span class=cl>            <span class=p>},</span>
+</span></span><span class=line><span class=cl>            <span class=nt>&#34;environment&#34;</span><span class=p>:</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=nt>&#34;VCPKG_TARGET_TRIPLET&#34;</span><span class=p>:</span> <span class=s2>&#34;x64-osx&#34;</span>
+</span></span><span class=line><span class=cl>            <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=p>},</span>
+</span></span><span class=line><span class=cl>        <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=nt>&#34;name&#34;</span><span class=p>:</span> <span class=s2>&#34;linux-default&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=nt>&#34;displayName&#34;</span><span class=p>:</span> <span class=s2>&#34;Linux Default Config&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=nt>&#34;description&#34;</span><span class=p>:</span> <span class=s2>&#34;Default build for Linux using vcpkg with Clang 18&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=nt>&#34;generator&#34;</span><span class=p>:</span> <span class=s2>&#34;Ninja&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=nt>&#34;binaryDir&#34;</span><span class=p>:</span> <span class=s2>&#34;${sourceDir}/build&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=nt>&#34;cacheVariables&#34;</span><span class=p>:</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=nt>&#34;CMAKE_BUILD_TYPE&#34;</span><span class=p>:</span> <span class=s2>&#34;Debug&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                <span class=nt>&#34;CMAKE_TOOLCHAIN_FILE&#34;</span><span class=p>:</span> <span class=s2>&#34;$env{HOME}/vcpkg/scripts/buildsystems/vcpkg.cmake&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                <span class=nt>&#34;CMAKE_EXPORT_COMPILE_COMMANDS&#34;</span><span class=p>:</span> <span class=s2>&#34;TRUE&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                <span class=nt>&#34;CMAKE_C_COMPILER&#34;</span><span class=p>:</span> <span class=s2>&#34;/usr/bin/clang-18&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                <span class=nt>&#34;CMAKE_CXX_COMPILER&#34;</span><span class=p>:</span> <span class=s2>&#34;/usr/bin/clang++-18&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                <span class=nt>&#34;CMAKE_CXX_FLAGS&#34;</span><span class=p>:</span> <span class=s2>&#34;-pthread&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                <span class=nt>&#34;CMAKE_EXE_LINKER_FLAGS&#34;</span><span class=p>:</span> <span class=s2>&#34;-lpthread&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                <span class=nt>&#34;VULKAN_SDK&#34;</span><span class=p>:</span> <span class=s2>&#34;$env{HOME}/1.3.296.0/x86_64&#34;</span>
+</span></span><span class=line><span class=cl>            <span class=p>},</span>
+</span></span><span class=line><span class=cl>            <span class=nt>&#34;environment&#34;</span><span class=p>:</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=nt>&#34;VCPKG_TARGET_TRIPLET&#34;</span><span class=p>:</span> <span class=s2>&#34;x64-linux&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                <span class=nt>&#34;VULKAN_SDK&#34;</span><span class=p>:</span> <span class=s2>&#34;$env{HOME}/1.3.296.0/x86_64&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                <span class=nt>&#34;PATH&#34;</span><span class=p>:</span> <span class=s2>&#34;/home/사용자명/vcpkg/downloads/tools/ninja/1.13.1-linux:$penv{PATH}&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                <span class=nt>&#34;LD_LIBRARY_PATH&#34;</span><span class=p>:</span> <span class=s2>&#34;/usr/lib/x86_64-linux-gnu:$penv{LD_LIBRARY_PATH}&#34;</span>
+</span></span><span class=line><span class=cl>            <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>],</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;buildPresets&#34;</span><span class=p>:</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>        <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=nt>&#34;name&#34;</span><span class=p>:</span> <span class=s2>&#34;mac-default&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=nt>&#34;configurePreset&#34;</span><span class=p>:</span> <span class=s2>&#34;mac-default&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=p>},</span>
+</span></span><span class=line><span class=cl>        <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=nt>&#34;name&#34;</span><span class=p>:</span> <span class=s2>&#34;linux-default&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=nt>&#34;configurePreset&#34;</span><span class=p>:</span> <span class=s2>&#34;linux-default&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>]</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><p>주의사항:</p><ul><li><code>CMAKE_TOOLCHAIN_FILE</code>의 vcpkg 경로를 실제 설치 경로로 수정</li><li><code>VULKAN_SDK</code> 환경변수 경로도 실제 설치 경로로 수정</li></ul><h3 id=42-사용법>4.2. 사용법</h3><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1># Preset 사용</span>
+</span></span><span class=line><span class=cl>cmake --preset linux-default  <span class=c1># 또는 mac-default</span>
+</span></span><span class=line><span class=cl>cmake --build build
+</span></span></code></pre></div><hr><h2 id=5-makefile>5. Makefile</h2><p>Makefile은 환경변수 설정과 빌드 과정을 자동화한다.</p><h3 id=51-makefile이-해결하는-문제>5.1. Makefile이 해결하는 문제</h3><p>CMake Presets를 사용해도 여전히 불편한 점:</p><ul><li>Linux/Mac에서 <code>LD_LIBRARY_PATH</code>, <code>VULKAN_SDK</code>, <code>DYLD_LIBRARY_PATH</code> 등 환경변수를 매번 설정해야 함</li><li>vcpkg 경로가 다른 환경에서 작업할 때마다 수정 필요</li><li><code>cmake --preset</code> → <code>cmake --build</code> → 실행 과정을 매번 반복</li></ul><h3 id=52-makefile의-역할>5.2. Makefile의 역할</h3><ul><li>OS 자동 감지 (Linux vs macOS)</li><li>플랫폼별 환경변수 자동 설정</li><li>CMake Preset 자동 선택</li><li>빌드 디렉터리 관리</li></ul><h3 id=53-사용법>5.3. 사용법</h3><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>make         <span class=c1># 설정 + 빌드</span>
+</span></span><span class=line><span class=cl>make run     <span class=c1># 빌드 + 실행</span>
+</span></span><span class=line><span class=cl>make clean   <span class=c1># 빌드 결과물 정리</span>
+</span></span><span class=line><span class=cl>make re      <span class=c1># 처음부터 다시 빌드</span>
+</span></span><span class=line><span class=cl>make info    <span class=c1># 현재 빌드 설정 출력</span>
+</span></span></code></pre></div><hr><h2 id=6-프로젝트-구조와-cmakeliststxt>6. 프로젝트 구조와 CMakeLists.txt</h2><h3 id=61-디렉터리-구조>6.1. 디렉터리 구조</h3><div class=highlight><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>VulkanProject/
+</span></span><span class=line><span class=cl>├── CMakeLists.txt          # CMake 빌드 설정
+</span></span><span class=line><span class=cl>├── CMakePresets.json       # 플랫폼별 프리셋
+</span></span><span class=line><span class=cl>├── Makefile                # 빌드 자동화
+</span></span><span class=line><span class=cl>├── vcpkg.json              # vcpkg 의존성 정의
+</span></span><span class=line><span class=cl>├── main.cpp                # 메인 소스 코드
+</span></span><span class=line><span class=cl>├── build/                  # 빌드 결과물 (자동 생성)
+</span></span><span class=line><span class=cl>└── vcpkg_installed/        # vcpkg 라이브러리 (자동 생성)
+</span></span></code></pre></div><h3 id=62-vcpkgjson-생성>6.2. vcpkg.json 생성</h3><p>프로젝트 루트에 <code>vcpkg.json</code> 생성:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-json data-lang=json><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;name&#34;</span><span class=p>:</span> <span class=s2>&#34;vulkan-project&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;version&#34;</span><span class=p>:</span> <span class=s2>&#34;1.0.0&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;dependencies&#34;</span><span class=p>:</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;glfw3&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;glm&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;stb&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=p>]</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><p><strong>의미</strong>:</p><ul><li><code>glfw3</code>: 윈도우 생성 및 입력 처리</li><li><code>glm</code>: 벡터/행렬 수학 라이브러리</li><li><code>stb</code>: 이미지 로딩 (나중에 텍스처 사용 시)</li></ul><p>vcpkg는 CMake 실행 시 이 파일을 읽고 자동으로 라이브러리를 다운로드/빌드한다.</p><h3 id=63-cmakeliststxt-작성>6.3. CMakeLists.txt 작성</h3><div class=highlight><pre tabindex=0 class=chroma><code class=language-cmake data-lang=cmake><span class=line><span class=cl><span class=nb>cmake_minimum_required</span><span class=p>(</span><span class=s>VERSION</span> <span class=s>3.15</span><span class=p>)</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=nb>project</span><span class=p>(</span><span class=s>VulkanApp</span> <span class=s>VERSION</span> <span class=s>1.0</span><span class=p>)</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err>
+</span></span></span><span class=line><span class=cl><span class=c># C++17 표준 사용
+</span></span></span><span class=line><span class=cl><span class=nb>set</span><span class=p>(</span><span class=s>CMAKE_CXX_STANDARD</span> <span class=s>17</span><span class=p>)</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=nb>set</span><span class=p>(</span><span class=s>CMAKE_CXX_STANDARD_REQUIRED</span> <span class=s>True</span><span class=p>)</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err>
+</span></span></span><span class=line><span class=cl><span class=c># Vulkan 패키지 찾기
+</span></span></span><span class=line><span class=cl><span class=nb>find_package</span><span class=p>(</span><span class=s>Vulkan</span> <span class=s>REQUIRED</span><span class=p>)</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err>
+</span></span></span><span class=line><span class=cl><span class=c># vcpkg를 통해 설치된 라이브러리 찾기
+</span></span></span><span class=line><span class=cl><span class=nb>find_package</span><span class=p>(</span><span class=s>glfw3</span> <span class=s>CONFIG</span> <span class=s>REQUIRED</span><span class=p>)</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=nb>find_package</span><span class=p>(</span><span class=s>glm</span> <span class=s>CONFIG</span> <span class=s>REQUIRED</span><span class=p>)</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err>
+</span></span></span><span class=line><span class=cl><span class=c># 실행 파일 생성
+</span></span></span><span class=line><span class=cl><span class=nb>add_executable</span><span class=p>(</span><span class=s>vulkanGLFW</span> <span class=s>main.cpp</span><span class=p>)</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err>
+</span></span></span><span class=line><span class=cl><span class=c># 라이브러리 링크
+</span></span></span><span class=line><span class=cl><span class=nb>target_link_libraries</span><span class=p>(</span><span class=s>vulkanGLFW</span>
+</span></span><span class=line><span class=cl>    <span class=s>PRIVATE</span>
+</span></span><span class=line><span class=cl>    <span class=s>Vulkan::Vulkan</span>
+</span></span><span class=line><span class=cl>    <span class=s>glfw</span>
+</span></span><span class=line><span class=cl>    <span class=s>glm::glm</span>
+</span></span><span class=line><span class=cl><span class=p>)</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err>
+</span></span></span><span class=line><span class=cl><span class=c># 헤더 파일 경로
+</span></span></span><span class=line><span class=cl><span class=nb>target_include_directories</span><span class=p>(</span><span class=s>vulkanGLFW</span>
+</span></span><span class=line><span class=cl>    <span class=s>PRIVATE</span>
+</span></span><span class=line><span class=cl>    <span class=o>${</span><span class=nv>Vulkan_INCLUDE_DIRS</span><span class=o>}</span>
+</span></span><span class=line><span class=cl><span class=p>)</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err>
+</span></span></span><span class=line><span class=cl><span class=c># Mac 전용 설정
+</span></span></span><span class=line><span class=cl><span class=nb>if</span><span class=p>(</span><span class=s>APPLE</span><span class=p>)</span><span class=err>
+</span></span></span><span class=line><span class=cl>    <span class=c># MoltenVK를 위한 rpath 설정
+</span></span></span><span class=line><span class=cl>    <span class=nb>set_target_properties</span><span class=p>(</span><span class=s>vulkanGLFW</span> <span class=s>PROPERTIES</span>
+</span></span><span class=line><span class=cl>        <span class=s>BUILD_RPATH</span> <span class=s2>&#34;${VULKAN_SDK}/lib&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=s>INSTALL_RPATH</span> <span class=s2>&#34;${VULKAN_SDK}/lib&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=p>)</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err>
+</span></span></span><span class=line><span class=cl>    <span class=c># MoltenVK 관련 링크 플래그
+</span></span></span><span class=line><span class=cl>    <span class=nb>target_link_options</span><span class=p>(</span><span class=s>vulkanGLFW</span> <span class=s>PRIVATE</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;-Wl,-rpath,${VULKAN_SDK}/lib&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=p>)</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=nb>endif</span><span class=p>()</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err>
+</span></span></span><span class=line><span class=cl><span class=c># Linux 전용 설정
+</span></span></span><span class=line><span class=cl><span class=nb>if</span><span class=p>(</span><span class=s>UNIX</span> <span class=s>AND</span> <span class=s>NOT</span> <span class=s>APPLE</span><span class=p>)</span><span class=err>
+</span></span></span><span class=line><span class=cl>    <span class=c># pthread 및 dl 라이브러리 링크
+</span></span></span><span class=line><span class=cl>    <span class=nb>target_link_libraries</span><span class=p>(</span><span class=s>vulkanGLFW</span> <span class=s>PRIVATE</span> <span class=s>dl</span> <span class=s>pthread</span><span class=p>)</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err>
+</span></span></span><span class=line><span class=cl>    <span class=c># rpath 설정
+</span></span></span><span class=line><span class=cl>    <span class=nb>set_target_properties</span><span class=p>(</span><span class=s>vulkanGLFW</span> <span class=s>PROPERTIES</span>
+</span></span><span class=line><span class=cl>        <span class=s>BUILD_RPATH</span> <span class=s2>&#34;${VULKAN_SDK}/lib&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=s>INSTALL_RPATH</span> <span class=s2>&#34;${VULKAN_SDK}/lib&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=p>)</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=nb>endif</span><span class=p>()</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err>
+</span></span></span><span class=line><span class=cl><span class=c># 컴파일 정의 (디버그 정보)
+</span></span></span><span class=line><span class=cl><span class=nb>target_compile_definitions</span><span class=p>(</span><span class=s>vulkanGLFW</span> <span class=s>PRIVATE</span>
+</span></span><span class=line><span class=cl>    <span class=o>$&lt;</span><span class=nv>$&lt;CONFIG:Debug</span><span class=o>&gt;</span><span class=s>:DEBUG&gt;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err>
+</span></span></span><span class=line><span class=cl><span class=c># 컴파일 옵션
+</span></span></span><span class=line><span class=cl><span class=nb>target_compile_options</span><span class=p>(</span><span class=s>vulkanGLFW</span> <span class=s>PRIVATE</span> <span class=s>-Wall</span> <span class=s>-Wextra</span> <span class=s>-pedantic</span><span class=p>)</span><span class=err>
+</span></span></span></code></pre></div><h3 id=64-주요-cmake-개념>6.4. 주요 CMake 개념</h3><ul><li><code>find_package</code>: 필요한 라이브러리를 시스템에서 찾음</li><li><code>target_link_libraries</code>: 실행 파일에 라이브러리 연결</li><li><code>rpath</code>: 실행 파일이 동적 라이브러리를 찾을 경로 (Mac/Linux 필수)</li></ul><hr><h2 id=7-테스트-코드-작성-및-빌드>7. 테스트 코드 작성 및 빌드</h2><h3 id=71-maincpp-작성>7.1. main.cpp 작성</h3><p>간단한 테스트 코드:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cp>#define GLFW_INCLUDE_VULKAN
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;GLFW/glfw3.h&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;iostream&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;stdexcept&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;cstdlib&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>HelloTriangleApplication</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=n>run</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>initWindow</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>        <span class=n>initVulkan</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>        <span class=n>mainLoop</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>        <span class=n>cleanup</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>private</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>GLFWwindow</span><span class=o>*</span> <span class=n>window</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>const</span> <span class=kt>uint32_t</span> <span class=n>WIDTH</span> <span class=o>=</span> <span class=mi>800</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>const</span> <span class=kt>uint32_t</span> <span class=n>HEIGHT</span> <span class=o>=</span> <span class=mi>600</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=nf>initWindow</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>glfwInit</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>        <span class=n>glfwWindowHint</span><span class=p>(</span><span class=n>GLFW_CLIENT_API</span><span class=p>,</span> <span class=n>GLFW_NO_API</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=n>glfwWindowHint</span><span class=p>(</span><span class=n>GLFW_RESIZABLE</span><span class=p>,</span> <span class=n>GLFW_FALSE</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=n>window</span> <span class=o>=</span> <span class=n>glfwCreateWindow</span><span class=p>(</span><span class=n>WIDTH</span><span class=p>,</span> <span class=n>HEIGHT</span><span class=p>,</span> <span class=s>&#34;Vulkan&#34;</span><span class=p>,</span> <span class=k>nullptr</span><span class=p>,</span> <span class=k>nullptr</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=nf>initVulkan</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// Vulkan 초기화 (나중에 구현)
+</span></span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=nf>mainLoop</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>while</span> <span class=p>(</span><span class=o>!</span><span class=n>glfwWindowShouldClose</span><span class=p>(</span><span class=n>window</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>glfwPollEvents</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=nf>cleanup</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>glfwDestroyWindow</span><span class=p>(</span><span class=n>window</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=n>glfwTerminate</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>HelloTriangleApplication</span> <span class=n>app</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>try</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>app</span><span class=p>.</span><span class=n>run</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span> <span class=k>catch</span> <span class=p>(</span><span class=k>const</span> <span class=n>std</span><span class=o>::</span><span class=n>exception</span><span class=o>&amp;</span> <span class=n>e</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>cerr</span> <span class=o>&lt;&lt;</span> <span class=n>e</span><span class=p>.</span><span class=n>what</span><span class=p>()</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>EXIT_FAILURE</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>EXIT_SUCCESS</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><h3 id=72-빌드-및-실행>7.2. 빌드 및 실행</h3><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>make
+</span></span><span class=line><span class=cl>make run
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 또는 수동으로</span>
+</span></span><span class=line><span class=cl>cmake --preset linux-default  <span class=c1># 또는 mac-default</span>
+</span></span><span class=line><span class=cl>cmake --build build
+</span></span><span class=line><span class=cl>./build/vulkanGLFW
+</span></span></code></pre></div><p>성공 시 800x600 빈 윈도우가 나타난다.</p><hr><h2 id=8-문제-해결>8. 문제 해결</h2><h3 id=81-vulkaninfo-command-not-found>8.1. &ldquo;vulkaninfo: command not found&rdquo;</h3><p>원인: PATH에 Vulkan SDK bin 경로 누락</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=nb>export</span> <span class=nv>PATH</span><span class=o>=</span><span class=s2>&#34;</span><span class=nv>$VULKAN_SDK</span><span class=s2>/bin:</span><span class=nv>$PATH</span><span class=s2>&#34;</span>
+</span></span><span class=line><span class=cl><span class=nb>source</span> ~/.bashrc
+</span></span></code></pre></div><h3 id=82-error-while-loading-shared-libraries-libvulkanso1>8.2. &ldquo;error while loading shared libraries: libvulkan.so.1&rdquo;</h3><p>원인: 동적 라이브러리 경로 미설정</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1># Linux</span>
+</span></span><span class=line><span class=cl><span class=nb>export</span> <span class=nv>LD_LIBRARY_PATH</span><span class=o>=</span><span class=s2>&#34;</span><span class=nv>$VULKAN_SDK</span><span class=s2>/lib:</span><span class=nv>$LD_LIBRARY_PATH</span><span class=s2>&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Mac</span>
+</span></span><span class=line><span class=cl><span class=nb>export</span> <span class=nv>DYLD_LIBRARY_PATH</span><span class=o>=</span><span class=s2>&#34;</span><span class=nv>$VULKAN_SDK</span><span class=s2>/lib:</span><span class=nv>$DYLD_LIBRARY_PATH</span><span class=s2>&#34;</span>
+</span></span></code></pre></div><p>또는 CMakeLists.txt의 <code>rpath</code> 설정 확인</p><h3 id=83-mac-dyld-library-not-loaded>8.3. Mac &ldquo;dyld: Library not loaded&rdquo;</h3><p>원인: rpath 미설정 또는 MoltenVK 미발견</p><p>해결:</p><ol><li>CMakeLists.txt rpath 설정 확인</li><li>환경변수 확인: <code>echo $VK_ICD_FILENAMES</code></li></ol><h3 id=84-cmake가-vulkan을-못-찾음>8.4. CMake가 Vulkan을 못 찾음</h3><p>원인: <code>VULKAN_SDK</code> 환경변수 미설정 또는 잘못된 경로</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=nb>echo</span> <span class=nv>$VULKAN_SDK</span>
+</span></span></code></pre></div><h3 id=85-vcpkg가-라이브러리를-못-찾음>8.5. vcpkg가 라이브러리를 못 찾음</h3><p>원인: <code>CMAKE_TOOLCHAIN_FILE</code> 잘못 설정</p><p>해결:</p><ol><li>CMakePresets.json에서 vcpkg 경로 확인</li><li>vcpkg 설치 확인: <code>~/vcpkg/vcpkg version</code></li></ol><h3 id=86-no-cmake_cxx_compiler-could-be-found>8.6. &ldquo;No CMAKE_CXX_COMPILER could be found&rdquo;</h3><p>원인: C++ 컴파일러 미설치 또는 경로 오류</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1># Linux</span>
+</span></span><span class=line><span class=cl>sudo apt install clang-18
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Mac</span>
+</span></span><span class=line><span class=cl>brew install llvm
+</span></span></code></pre></div><hr><h2 id=9-플랫폼별-체크리스트>9. 플랫폼별 체크리스트</h2><h3 id=linux-2>Linux</h3><p>필수 설정:</p><ul><li><code>LD_LIBRARY_PATH</code> 설정</li><li><code>VULKAN_SDK</code> 환경변수 설정</li><li><code>VK_LAYER_PATH</code> 설정</li><li>clang-18 설치</li></ul><h3 id=macos-3>macOS</h3><p>필수 설정:</p><ul><li><code>VK_ICD_FILENAMES</code> 설정 (MoltenVK)</li><li><code>VK_LAYER_PATH</code> 설정</li><li>CMake rpath 설정</li><li>Homebrew LLVM 설치</li></ul><hr><h2 id=10-환경-검증>10. 환경 검증</h2><h3 id=기본-확인>기본 확인</h3><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>vulkaninfo <span class=p>|</span> head -20
+</span></span><span class=line><span class=cl>vkcube
+</span></span><span class=line><span class=cl>cmake --version  <span class=c1># 3.15 이상</span>
+</span></span><span class=line><span class=cl>clang++ --version
+</span></span><span class=line><span class=cl>~/vcpkg/vcpkg version
+</span></span></code></pre></div><h3 id=환경변수-확인>환경변수 확인</h3><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=nb>echo</span> <span class=nv>$VULKAN_SDK</span>
+</span></span><span class=line><span class=cl><span class=nb>echo</span> <span class=nv>$LD_LIBRARY_PATH</span>  <span class=c1># 또는 $DYLD_LIBRARY_PATH (Mac)</span>
+</span></span><span class=line><span class=cl><span class=nb>echo</span> <span class=nv>$VK_LAYER_PATH</span>
+</span></span></code></pre></div><h3 id=빌드-확인>빌드 확인</h3><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>make info
+</span></span><span class=line><span class=cl>make
+</span></span><span class=line><span class=cl>make run
+</span></span></code></pre></div><p>성공 조건:</p><ul><li>빌드 에러 없음</li><li>800x600 윈도우 출력</li><li>정상 종료</li></ul><hr><h2 id=마치며>마치며</h2><p>Mac과 Linux에서 Vulkan 개발 환경을 구축했다:</p><ol><li>vcpkg: 외부 라이브러리 자동 관리</li><li>CMakePresets.json: 플랫폼별 설정 저장</li><li>Makefile: 환경변수 및 빌드 자동화</li></ol><p>다음 편에서는 VkInstance와 VkDevice를 생성한다.</p><hr><p><strong>다음 편</strong>: [Vulkan] Ep06. Instance와 Device</p></div><nav class=study-article-navigation aria-label="이전 글과 다음 글"><a class="study-page-link study-page-previous" href=/legacy/2026-11/vulkan-study-log/ep04_repetition/ rel=prev><span>← 이전 글</span><strong>Ep04. Vulkan 흐름과 용어</strong></a>
+<a class="study-page-link study-page-next" href=/legacy/2026-11/vulkan-study-log/ep06_instance/ rel=next><span>다음 글 →</span><strong>Ep06. Instance와 Physical Device</strong></a></nav><a class=study-return-link href=/legacy/2026-11/vulkan-study-log/>전체 학습 기록 보기 <span aria-hidden=true>↗</span></a></div><aside class=study-desktop-toc aria-label="본문 탐색"><div class=study-toc-sticky><p class=study-toc-heading>이 글의 목차</p><div class=study-toc-links><nav aria-label="이 글의 목차"><ul><li><a href=#시작하며>시작하며</a></li><li><a href=#1-vulkan-sdk-설치>1. Vulkan SDK 설치</a><ul><li><a href=#11-sdk-다운로드-및-설치>1.1. SDK 다운로드 및 설치</a></li><li><a href=#12-설치-확인>1.2. 설치 확인</a></li></ul></li><li><a href=#2-환경변수-설정>2. 환경변수 설정</a><ul><li><a href=#21-linux-환경변수-설정>2.1. Linux 환경변수 설정</a></li><li><a href=#22-macos-환경변수-설정>2.2. macOS 환경변수 설정</a></li><li><a href=#23-환경변수-설명>2.3. 환경변수 설명</a></li></ul></li><li><a href=#3-빌드-도구-설치>3. 빌드 도구 설치</a><ul><li><a href=#31-cmake-설치>3.1. CMake 설치</a></li><li><a href=#32-컴파일러-설정>3.2. 컴파일러 설정</a></li><li><a href=#33-vcpkg-설치>3.3. vcpkg 설치</a></li></ul></li><li><a href=#4-cmake-presets>4. CMake Presets</a><ul><li><a href=#41-cmakepresetsjson-생성>4.1. CMakePresets.json 생성</a></li><li><a href=#42-사용법>4.2. 사용법</a></li></ul></li><li><a href=#5-makefile>5. Makefile</a><ul><li><a href=#51-makefile이-해결하는-문제>5.1. Makefile이 해결하는 문제</a></li><li><a href=#52-makefile의-역할>5.2. Makefile의 역할</a></li><li><a href=#53-사용법>5.3. 사용법</a></li></ul></li><li><a href=#6-프로젝트-구조와-cmakeliststxt>6. 프로젝트 구조와 CMakeLists.txt</a><ul><li><a href=#61-디렉터리-구조>6.1. 디렉터리 구조</a></li><li><a href=#62-vcpkgjson-생성>6.2. vcpkg.json 생성</a></li><li><a href=#63-cmakeliststxt-작성>6.3. CMakeLists.txt 작성</a></li><li><a href=#64-주요-cmake-개념>6.4. 주요 CMake 개념</a></li></ul></li><li><a href=#7-테스트-코드-작성-및-빌드>7. 테스트 코드 작성 및 빌드</a><ul><li><a href=#71-maincpp-작성>7.1. main.cpp 작성</a></li><li><a href=#72-빌드-및-실행>7.2. 빌드 및 실행</a></li></ul></li><li><a href=#8-문제-해결>8. 문제 해결</a><ul><li><a href=#81-vulkaninfo-command-not-found>8.1. &ldquo;vulkaninfo: command not found&rdquo;</a></li><li><a href=#82-error-while-loading-shared-libraries-libvulkanso1>8.2. &ldquo;error while loading shared libraries: libvulkan.so.1&rdquo;</a></li><li><a href=#83-mac-dyld-library-not-loaded>8.3. Mac &ldquo;dyld: Library not loaded&rdquo;</a></li><li><a href=#84-cmake가-vulkan을-못-찾음>8.4. CMake가 Vulkan을 못 찾음</a></li><li><a href=#85-vcpkg가-라이브러리를-못-찾음>8.5. vcpkg가 라이브러리를 못 찾음</a></li><li><a href=#86-no-cmake_cxx_compiler-could-be-found>8.6. &ldquo;No CMAKE_CXX_COMPILER could be found&rdquo;</a></li></ul></li><li><a href=#9-플랫폼별-체크리스트>9. 플랫폼별 체크리스트</a><ul><li><a href=#linux-2>Linux</a></li><li><a href=#macos-3>macOS</a></li></ul></li><li><a href=#10-환경-검증>10. 환경 검증</a><ul><li><a href=#기본-확인>기본 확인</a></li><li><a href=#환경변수-확인>환경변수 확인</a></li><li><a href=#빌드-확인>빌드 확인</a></li></ul></li><li><a href=#마치며>마치며</a></li></ul></nav></div><a class=study-toc-top href=#main>맨 위로 ↑</a></div></aside></div></article></main><footer class="site-footer wrap"><div><a class=footer-name href=/legacy/2026-11/>민대원 <span>MIN DAEWON</span></a><p>원리를 이해하고, 직접 만듭니다.</p></div><div class=footer-links><a href=mailto:dwm951017@gmail.com>Email ↗</a><a href=https://github.com/nowead target=_blank rel="noopener noreferrer">GitHub ↗</a><a href=/legacy/2026-11/portfolio/>Portfolio ↗</a></div><small>© 2026 Daewon Min</small></footer><script src=/legacy/2026-11/js/studio.min.1058b03354b37667fa980845c3bdd2021223733381448297d6985aa0894a5e14.js defer></script><script src=/legacy/2026-11/js/study.min.5e255c0ad42f84778bc25a85702f1aedc30de085ca30fe17f5104a7e11592fab.js defer></script></body></html>

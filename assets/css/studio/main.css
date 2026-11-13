@@ -1,4 +1,4 @@
-/* Shared site foundations for the blog, study notes, and portfolio. */
+/* Shared site foundations for the portfolio home and project pages. */
 :root, :root[data-theme=light] {
   color-scheme:light;
   --bg:#f7f9fc;
@@ -343,67 +343,6 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
   overflow-wrap:anywhere
 }
 
-.notes-section {
-  display:grid;
-  grid-template-columns:1fr 1.7fr;
-  gap:70px
-}
-.notes-section>* {
-  min-width:0
-}
-.notes-intro h2 {
-  font-size:2.125rem;
-  font-weight:550;
-  line-height:1.45;
-  letter-spacing:-1px;
-  margin-top:17px
-}
-.notes-intro>p:not(.eyebrow) {
-  font-size:var(--body-size);
-  line-height:1.9;
-  color:var(--muted);
-  margin-top:16px
-}
-.notes-intro .text-link {
-  margin-top:26px
-}
-.notes-list>a {
-  position:relative;
-  display:block;
-  border-bottom:1px solid var(--line);
-  padding:23px 0
-}
-.notes-list>a:first-child {
-  padding-top:0
-}
-.notes-list>a:last-child {
-  border:0
-}
-.note-type {
-  font:var(--label-size)/1.5 var(--mono);
-  color:var(--accent);
-  letter-spacing:1px
-}
-.notes-list h3 {
-  font-size:1.25rem;
-  font-weight:500;
-  line-height:1.6;
-  letter-spacing:-.3px;
-  margin:6px 0
-}
-.notes-list>a:hover h3 {
-  color:var(--accent)
-}
-.note-date {
-  display:flex;
-  justify-content:space-between;
-  color:var(--muted);
-  font:var(--meta-size)/1.5 var(--mono)
-}
-.note-date span {
-  font-size:19px;
-  color:var(--text)
-}
 .contact-band {
   display:flex;
   justify-content:space-between;
@@ -1240,13 +1179,6 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
     flex-wrap:wrap
   }
 
-  .notes-section {
-    grid-template-columns:1fr 1.4fr;
-    gap:35px
-  }
-  .notes-intro h2 {
-    font-size:1.875rem
-  }
   .contact-band {
     align-items:start;
     flex-direction:column;
@@ -1469,25 +1401,6 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
   }
   .tags li {
     font-size:var(--label-size)
-  }
-  .notes-section {
-    grid-template-columns:1fr;
-    gap:30px
-  }
-  .notes-intro h2 br {
-    display:none
-  }
-  .notes-intro h2 {
-    font-size:1.625rem
-  }
-  .notes-intro>p:not(.eyebrow) br {
-    display:none
-  }
-  .notes-intro .text-link {
-    margin-top:17px
-  }
-  .notes-list h3 {
-    font-size:1.25rem
   }
   .contact-band h2 {
     font-size:1.5rem

@@ -1,108 +1,13 @@
 baseURL = "https://nowead.github.io/"
 languageCode = "ko-kr"
 defaultContentLanguage = "ko"
-title = "Damin's Blog"
+title = "민대원 | Graphics & Game Engine Developer"
 theme = "terminal"
 
-[pagination]
-  pagerSize = 10
+# 포트폴리오 전용 사이트: 태그·카테고리·RSS 페이지는 만들지 않습니다.
+disableKinds = ["taxonomy", "term", "rss"]
 
-# Taxonomy 설정 (태그, 카테고리, 시리즈)
 [taxonomies]
-  tag = "tags"
-  category = "categories"
-  series = "series"
-
-[params]
-  contentTypeName = "posts"
-  showMenuItems = 5
-  fullWidthTheme = true
-  centerTheme = false
-  themeColor = "blue"
-
-[params.twitter]
-  # set Twitter handles for Twitter cards
-  # see https://developer.twitter.com/en/docs/tweets/optimize-with-cards/guides/getting-started#card-and-content-attribution
-  # do not include @
-  creator = ""
-  site = ""
-
-[languages]
-  [languages.ko]
-    languageName = "Korean"
-    title = "민대원 | Graphics & Game Engine Developer"
-    subtitle = "Vulkan, Game Engine Architecture, Real-time Rendering"
-    keywords = "vulkan, game engine, graphics, rendering"
-    copyright = ""
-    menuMore = "더보기"
-    readMore = "읽기"
-    readOtherPosts = "다른 글 보기"
-
-    [languages.ko.params.logo]
-      logoText = "Damin's Blog"
-      logoHomeLink = "/"
-
-    [[languages.ko.menu.main]]
-      identifier = "portfolio"
-      name = "Portfolio"
-      url = "/portfolio"
-      weight = 1
-
-    [[languages.ko.menu.main]]
-      identifier = "series"
-      name = "Series"
-      url = "/series"
-      weight = 2
-
-    [[languages.ko.menu.main]]
-      identifier = "vulkan-study"
-      name = "Vulkan Study"
-      url = "/vulkan-study-log"
-      weight = 3
-
-    [[languages.ko.menu.main]]
-      identifier = "tags"
-      name = "Tags"
-      url = "/tags"
-      weight = 4
-
-  [languages.en]
-    languageName = "English"
-    title = "Daewon Min | Graphics & Game Engine Developer"
-    subtitle = "Vulkan, Game Engine Architecture, Real-time Rendering"
-    keywords = "vulkan, game engine, graphics, rendering"
-    copyright = ""
-    menuMore = "Show more"
-    readMore = "Read more"
-    readOtherPosts = "Read other posts"
-
-    [languages.en.params.logo]
-      logoText = "Damin's Blog"
-      logoHomeLink = "/en/"
-
-    [[languages.en.menu.main]]
-      identifier = "portfolio"
-      name = "Portfolio"
-      url = "/en/portfolio"
-      weight = 1
-
-    [[languages.en.menu.main]]
-      identifier = "series"
-      name = "Series"
-      url = "/en/series"
-      weight = 2
-
-    [[languages.en.menu.main]]
-      identifier = "vulkan-study"
-      name = "Vulkan Study"
-      url = "/en/vulkan-study-log"
-      weight = 3
-
-    [[languages.en.menu.main]]
-      identifier = "tags"
-      name = "Tags"
-      url = "/en/tags"
-      weight = 4
 
 # 마크다운 설정
 [markup]
@@ -115,6 +20,3 @@ theme = "terminal"
     style = "github"
   [markup.goldmark.renderer]
     unsafe = true
-
-# 요약 설정
-summaryLength = 70

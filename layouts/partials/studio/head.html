@@ -1,8 +1,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-{{ $title := printf "%s · 민대원의 개발 노트" .Title }}
-{{ if .IsHome }}{{ $title = "민대원 · Graphics & Game Engine Developer" }}{{ else if eq .Section "portfolio" }}{{ $title = printf "%s · 민대원" .Title }}{{ end }}
-{{ $description := .Description | default .Params.summary | default "Vulkan과 C++, 렌더링과 엔진 구조를 직접 구현하며 남긴 민대원의 개발 기록." }}
+{{ $title := printf "%s · 민대원" .Title }}
+{{ if .IsHome }}{{ $title = "민대원 · Graphics & Game Engine Developer" }}{{ end }}
+{{ $description := .Description | default .Params.summary | default "C++과 Vulkan·WebGPU로 게임 엔진과 의료 영상 뷰어를 만드는 개발자 민대원의 포트폴리오." }}
 <title>{{ $title }}</title>
 <meta name="description" content="{{ $description }}">
 <meta name="theme-color" content="#f7f9fc">
@@ -12,7 +12,7 @@
 <meta property="og:url" content="{{ .Permalink }}">
 <meta property="og:locale" content="ko_KR">
 {{ $cover := "" }}
-{{ if eq .Section "portfolio" }}{{ $cover = "portfolio/omnimed3d-image/segmentation.jpg" }}{{ end }}
+{{ $cover = "portfolio/omnimed3d-image/segmentation.jpg" }}
 {{ with .Params.cover_image }}{{ $cover = printf "portfolio/%s" . }}{{ end }}
 {{ with .Params.Cover.image }}{{ $cover = . }}{{ end }}
 {{ if $cover }}
@@ -32,20 +32,8 @@
 </script>
 {{ $style := resources.Get "css/studio/main.css" | minify | fingerprint }}
 <link rel="stylesheet" href="{{ $style.RelPermalink }}">
-{{ if .IsHome }}
-{{ $landing := resources.Get "css/studio/landing.css" | minify | fingerprint }}
-<link rel="stylesheet" href="{{ $landing.RelPermalink }}">
-{{ else if eq .Section "portfolio" }}
 {{ $portfolio := resources.Get "css/studio/portfolio.css" | minify | fingerprint }}
 <link rel="stylesheet" href="{{ $portfolio.RelPermalink }}">
-{{ else }}
-{{ $blog := resources.Get "css/studio/blog.css" | minify | fingerprint }}
-<link rel="stylesheet" href="{{ $blog.RelPermalink }}">
-{{ end }}
-{{ if eq .Section "vulkan-study-log" }}
-{{ $study := resources.Get "css/studio/study.css" | minify | fingerprint }}
-<link rel="stylesheet" href="{{ $study.RelPermalink }}">
-{{ end }}
 {{ with .Params.architecture }}
 {{ $architecture := resources.Get "css/studio/architecture.css" | minify | fingerprint }}
 <link rel="stylesheet" href="{{ $architecture.RelPermalink }}">

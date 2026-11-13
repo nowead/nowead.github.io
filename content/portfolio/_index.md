@@ -6,7 +6,6 @@ role = "Graphics & Game Engine Developer"
 profile_image = "민대원_증명사진.jpg"
 email = "dwm951017@gmail.com"
 github = "nowead"
-blog = "https://nowead.github.io/"
 hero_intro = "게임 엔진과 의료 영상 뷰어를 개발합니다. C++과 Vulkan·WebGPU를 바탕으로 렌더링 구조를 설계하고, DICOM 데이터를 화면에 구현합니다."
 portfolio_intro = "게임 엔진과 의료 영상 뷰어를 개발합니다. 각 프로젝트에서 직접 맡은 역할과 구현 과정, 기술적 선택을 소개합니다."
 profile_intro = "C++과 Vulkan·WebGPU로 렌더링 엔진과 실시간 시각화 시스템을 만듭니다. 확장 가능한 아키텍처와 효율적인 메모리 구조를 설계하며, 기술적 선택이 성능에 미치는 영향을 고민합니다."
@@ -20,6 +19,10 @@ working_knowledge = [
   "TypeScript · Python · OpenGL · HLSL",
   "WASM / Emscripten · Docker"
 ]
+
+# 프로젝트 목록은 홈(/)에서 보여 주고, /portfolio/는 홈으로 리다이렉트합니다.
+[build]
+  render = "never"
 
 [[education]]
 degree = "강원대학교"

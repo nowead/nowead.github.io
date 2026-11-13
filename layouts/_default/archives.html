@@ -1,7 +1,0 @@
-{{ define "main" }}
-{{ $pages := where .Site.RegularPages "Section" "in" (slice "vulkan-study-log" "posts") }}
-<div class="wrap blog-directory">
-  <header class="blog-intro"><a class="back-link" href="{{ "/" | relURL }}">← 블로그</a><p class="blog-kicker">ARCHIVE</p><h1>전체 기록</h1><p class="blog-description">개발하며 남긴 {{ len $pages }}개의 글을 최신순으로 모았습니다.</p></header>
-  {{ range $pages.GroupByDate "2006" }}<section class="blog-archive-year" aria-labelledby="year-{{ .Key }}"><h2 id="year-{{ .Key }}">{{ .Key }}</h2><div class="blog-posts">{{ range .Pages.ByDate.Reverse }}{{ partial "blog/post-row.html" . }}{{ end }}</div></section>{{ end }}
-</div>
-{{ end }}

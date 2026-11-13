@@ -1,7 +1,7 @@
 {{ define "main" }}
 <article class="case-study wrap">
   <header class="case-header">
-    <a class="back-link" href="{{ "/portfolio/" | relURL }}">← 프로젝트 목록</a>
+    <a class="back-link" href="{{ "/#projects" | relURL }}">← 프로젝트 목록</a>
     <p class="eyebrow">{{ .Params.category_label | default "PROJECT CASE STUDY" }}</p>
     <h1>{{ .Title }}</h1>
     <p class="case-summary">{{ .Params.summary }}</p>
@@ -24,9 +24,9 @@
   {{ end }}
   {{ partial "studio/architecture.html" . }}
   <div class="case-layout">
-    <aside class="case-toc" aria-label="페이지 목차"><details open><summary>ON THIS PAGE</summary>{{ with .Params.architecture }}<a class="toc-overview" href="#architecture-title">구조 한눈에 보기 ↑</a>{{ end }}{{ .TableOfContents }}</details><a class="text-link" href="{{ "/portfolio/" | relURL }}">모든 프로젝트 ↗</a></aside>
+    <aside class="case-toc" aria-label="페이지 목차"><details open><summary>ON THIS PAGE</summary>{{ with .Params.architecture }}<a class="toc-overview" href="#architecture-title">구조 한눈에 보기 ↑</a>{{ end }}{{ .TableOfContents }}</details><a class="text-link" href="{{ "/#projects" | relURL }}">모든 프로젝트 ↗</a></aside>
     <div class="prose">{{ .Content }}</div>
   </div>
-  <nav class="case-navigation" aria-label="다른 프로젝트"><a class="text-link" href="{{ "/portfolio/" | relURL }}">← 전체 프로젝트</a>{{ $others := where (where .Site.RegularPages "Section" "portfolio") "RelPermalink" "ne" .RelPermalink }}{{ with index $others.ByWeight 0 }}<a href="{{ .RelPermalink }}"><span>EXPLORE NEXT</span><strong>{{ .Title }} ↗</strong></a>{{ end }}</nav>
+  <nav class="case-navigation" aria-label="다른 프로젝트"><a class="text-link" href="{{ "/#projects" | relURL }}">← 전체 프로젝트</a>{{ $others := where (where .Site.RegularPages "Section" "portfolio") "RelPermalink" "ne" .RelPermalink }}{{ with index $others.ByWeight 0 }}<a href="{{ .RelPermalink }}"><span>EXPLORE NEXT</span><strong>{{ .Title }} ↗</strong></a>{{ end }}</nav>
 </article>
 {{ end }}
