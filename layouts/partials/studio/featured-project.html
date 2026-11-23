@@ -1,15 +1,38 @@
-<article class="featured-project" data-project data-category="{{ .Params.category | default "graphics" }}">
-  <a class="project-image" href="{{ .RelPermalink }}" tabindex="-1" aria-hidden="true">
-    <img src="{{ printf "%s/%s" .Section .Params.cover_image | relURL }}" alt="" width="1280" height="720" loading="lazy">
-    <span class="image-label">{{ .Params.category_label }}</span><span class="image-arrow" aria-hidden="true">↗</span>
-  </a>
-  <div class="featured-copy">
-    <div class="project-meta"><span>0{{ .Weight }} / FEATURED</span><span>{{ .Params.period }}</span></div>
-    <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
-    <p>{{ .Params.summary }}</p>
-    {{ with .Params.role }}<div class="project-role"><span>MY ROLE</span><strong>{{ . }}</strong></div>{{ end }}
-    {{ with .Params.highlights }}<ul class="project-highlights">{{ range . }}<li>{{ . }}</li>{{ end }}</ul>{{ end }}
-    <ul class="tags" aria-label="사용 기술">{{ range first 4 .Params.tags }}<li>{{ . }}</li>{{ end }}</ul>
-    <a class="text-link" href="{{ .RelPermalink }}">개발 과정 보기 <span aria-hidden="true">↗</span></a>
+{{- /* 대표 프로젝트 카드: 실행 화면, 요약, 역할(core_design이 있으면 핵심 설계), 핵심 구현·수치를 함께 보여 줍니다.
+       label을 주면 메타 줄에 분야 대신 그 문구를 쓰고, 분야는 이미지 위로 옮깁니다. */ -}}
+{{- $page := .page -}}
+{{- $label := .label -}}
+<article class="fde-outcome" id="project-{{ $page.File.ContentBaseName }}" data-project>
+  <div class="fde-outcome__main">
+    <a class="project-image" href="{{ $page.RelPermalink }}" tabindex="-1" aria-hidden="true">
+      <img src="{{ printf "%s/%s" $page.Section $page.Params.cover_image | relURL }}" alt="" width="{{ $page.Params.cover_width | default 1280 }}" height="{{ $page.Params.cover_height | default 720 }}" loading="lazy">
+      {{ with $page.Params.status }}<span class="image-label"><span class="status-dot"></span>{{ . }}</span>{{ else }}{{ if $label }}<span class="image-label">{{ $page.Params.category_label }}</span>{{ end }}{{ end }}<span class="image-arrow" aria-hidden="true">↗</span>
+    </a>
+    <div class="featured-copy">
+      <div class="project-meta"><span>{{ $label | default $page.Params.category_label }}</span><span>{{ $page.Params.period }}</span></div>
+      <h4><a href="{{ $page.RelPermalink }}">{{ $page.Title }}</a></h4>
+      <p>{{ $page.Params.summary }}</p>
+      {{ with $page.Params.core_design }}
+      <div class="project-role"><span>CORE DESIGN</span><strong>{{ .title }}</strong>{{ with .text }}<p>{{ . }}</p>{{ end }}</div>
+      {{ else }}
+      {{ with $page.Params.role }}<div class="project-role"><span>MY ROLE</span><strong>{{ . }}</strong>{{ with $page.Params.role_note }}<p>{{ . }}</p>{{ end }}</div>{{ end }}
+      {{ end }}
+      <ul class="tags" aria-label="사용 기술">{{ range first (.tags | default 6) $page.Params.tags }}<li>{{ . }}</li>{{ end }}</ul>
+      <div class="fde-links">
+        <a class="text-link" href="{{ $page.RelPermalink }}">개발 과정 보기 <span aria-hidden="true">↗</span></a>
+        {{ with $page.Params.live }}<a class="text-link" href="{{ . }}" target="_blank" rel="noopener noreferrer">{{ $page.Params.live_label | default "서비스 바로가기" }} <span aria-hidden="true">↗</span></a>{{ end }}
+        {{ with $page.Params.demo }}<a class="text-link" href="{{ . }}" target="_blank" rel="noopener noreferrer">데모 실행 <span aria-hidden="true">↗</span></a>{{ end }}
+      </div>
+    </div>
   </div>
+  {{ with $page.Params.highlights }}
+  <ul class="fde-points" aria-label="핵심 구현">
+    {{ range . }}<li>{{ . }}</li>{{ end }}
+  </ul>
+  {{ end }}
+  {{ with $page.Params.metrics }}
+  <dl class="fde-metrics">
+    {{ range . }}<div><dt>{{ .label }}</dt><dd>{{ .value }}</dd></div>{{ end }}
+  </dl>
+  {{ end }}
 </article>

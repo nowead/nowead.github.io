@@ -4,7 +4,7 @@
   {{ if or .IsHome (not .FirstSection.IsHome) }}
   <nav class="site-nav" aria-label="주 메뉴">
     <a href="{{ $root }}#projects">Projects</a>
-    <a href="{{ $root }}#about">About</a>
+    {{ if not .IsHome }}<a href="{{ $root }}#about">About</a>{{ end }}
     <a href="{{ $root }}#contact">Contact</a>
   </nav>
   {{ end }}

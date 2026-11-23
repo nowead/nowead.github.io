@@ -15,7 +15,7 @@
       <figure>
         <a href="{{ printf "%s/%s" $.Section $item.image | relURL }}" target="_blank" rel="noopener noreferrer" aria-label="{{ $item.label }} 원본 이미지 새 탭에서 보기"><img src="{{ printf "%s/%s" $.Section $item.image | relURL }}" alt="{{ $item.alt }}" width="{{ $item.width }}" height="{{ $item.height }}" {{ if eq $i 0 }}fetchpriority="high"{{ else }}loading="lazy"{{ end }}></a>
         <figcaption>{{ $item.label }}</figcaption>
-        {{ if eq $i 0 }}<div class="project-role gallery-role"><span>MY ROLE</span><strong>{{ $.Params.role }}</strong><p>영상 데이터를 볼륨으로 구성하고, 팀의 AI 마스크를 화면에 합성합니다.</p></div>{{ end }}
+        {{ if eq $i 0 }}<div class="project-role gallery-role"><span>MY ROLE</span><strong>{{ $.Params.role }}</strong>{{ with $.Params.role_note }}<p>{{ . }}</p>{{ end }}</div>{{ end }}
       </figure>
       {{ end }}
     </section>

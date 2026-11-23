@@ -36,7 +36,7 @@
 <link rel="stylesheet" href="{{ $style.RelPermalink }}">
 {{ $portfolio := resources.Get "css/studio/portfolio.css" | minify | fingerprint }}
 <link rel="stylesheet" href="{{ $portfolio.RelPermalink }}">
-{{ if $fde }}
+{{ if or $fde .IsHome .IsSection }}
 {{ $fdeStyle := resources.Get "css/studio/fde.css" | minify | fingerprint }}
 <link rel="stylesheet" href="{{ $fdeStyle.RelPermalink }}">
 {{ end }}

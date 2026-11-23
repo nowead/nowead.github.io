@@ -9,7 +9,10 @@ category: "graphics"
 category_label: "Rendering engine"
 architecture: "multi-backend"
 period: "2025.09 — 진행 중"
-role: "엔진 설계 · 구현 · 통합"
+role: "1인 개발"
+core_design:
+  title: "공통 RHI 설계"
+  text: "GPU 자원과 명령을 추상화하고, API별 동기화와 자원 관리 차이를 분리했습니다."
 tags: ["C++20", "Vulkan", "WebGPU", "Render Graph", "Volume Rendering"]
 github: "https://github.com/nowead/Mini-Engine"
 summary: "Vulkan 튜토리얼에서 시작해 PBR·GPU 기반 렌더링과 CT/MRI 볼륨 시각화까지 확장한 C++20 렌더링 엔진. 공통 RHI를 설계하고 대용량 볼륨의 메모리 사용을 최적화했습니다."
@@ -17,8 +20,8 @@ cover_image: "mini-engin-image/PBR+IBL.png"
 image_alt: "Mini-Engine의 HDR 환경광 아래에서 렌더링한 PBR 재질 구체들"
 image_caption: "PBR·IBL 재질 표현 실험. 엔진 개발 과정의 실제 렌더링 화면입니다."
 highlights:
-  - "Vulkan / WebGPU 공통 RHI"
   - "PBR · Render Graph · TAA"
+  - "GPU 컬링 · indirect draw"
   - "CT/MRI 볼륨 · Progressive DICOM"
 ---
 

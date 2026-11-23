@@ -1,36 +1,28 @@
 {{ define "main" }}
 {{ with . }}
-<div class="wrap portfolio-page">
+<div class="wrap portfolio-page fde-home">
   {{ partial "studio/profile-intro.html" (dict "profile" . "compact" false) }}
 
   <section class="portfolio-work" id="projects" aria-labelledby="work-title">
     <div class="section-heading">
       <div>
         <h2 class="section-label" id="work-title">01 / SELECTED WORK</h2>
-        <p class="section-description">직접 만들며 답을 찾습니다.</p>
       </div>
     </div>
-    <div class="project-toolbar">
-      <div class="project-filters" role="group" aria-label="프로젝트 분야 필터" hidden>
-        <button type="button" data-filter="all" aria-pressed="true">전체 <span>{{ len .RegularPages }}</span></button>
-        <button type="button" data-filter="graphics" aria-pressed="false">Graphics <span>{{ len (where .RegularPages "Params.category" "graphics") }}</span></button>
-        <button type="button" data-filter="systems" aria-pressed="false">Systems <span>{{ len (where .RegularPages "Params.category" "systems") }}</span></button>
-        <button type="button" data-filter="web" aria-pressed="false">Web <span>{{ len (where .RegularPages "Params.category" "web") }}</span></button>
-      </div>
-      <p class="project-count" role="status" aria-live="polite">{{ len .RegularPages }} projects</p>
-    </div>
-    <div class="featured-projects">
-      {{ range (where .RegularPages "Params.featured" true).ByWeight }}{{ partial "studio/featured-project.html" . }}{{ end }}
-    </div>
-    <section class="other-projects" id="more-projects" aria-labelledby="more-title">
-      <div class="section-heading">
+    <section class="fde-track" aria-label="주요 프로젝트">
+      {{ range (where .RegularPages "Params.featured" true).ByWeight }}
+      {{ partial "studio/featured-project.html" (dict "page" . "label" (printf "0%d / FEATURED" .Weight) "tags" 4) }}
+      {{ end }}
+    </section>
+    <section class="fde-track" id="more-projects" aria-labelledby="more-title">
+      <header class="fde-track__header">
         <div>
-          <h2 class="section-label" id="more-title">MORE EXPLORATIONS</h2>
-          <p class="section-description">경험의 기반이 된 프로젝트</p>
+          <p class="fde-track__label">MORE EXPLORATIONS</p>
+          <h3 id="more-title">경험의 기반이 된 프로젝트</h3>
         </div>
-      </div>
-      <div class="other-grid">
-        {{ range (where .RegularPages "Params.featured" "ne" true).ByWeight }}{{ partial "studio/project-card.html" . }}{{ end }}
+      </header>
+      <div class="fde-foundation-grid fde-foundation-grid--three">
+        {{ range (where .RegularPages "Params.featured" "ne" true).ByWeight }}{{ partial "studio/project-card.html" (dict "page" .) }}{{ end }}
       </div>
     </section>
   </section>
@@ -57,7 +49,6 @@
       <div class="education-list">{{ range .Params.education }}<div><h3>{{ .degree }}</h3><p>{{ .school }}</p><small>{{ .period }}{{ with .gpa }} · {{ . }}{{ end }}</small></div>{{ end }}</div>
     </div>
   </section>
-
 
   <section class="contact-band" id="contact" aria-labelledby="contact-title">
     <div><h2 class="section-label" id="contact-title">LET’S CONNECT</h2><p class="section-description">함께 만들 이야기가 있나요?</p></div>

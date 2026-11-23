@@ -6,7 +6,7 @@
   <div class="profile-hero__identity">
     <p class="eyebrow"><span class="status-dot"></span> {{ .Params.eyebrow | default "ENGINEERING PORTFOLIO" }}</p>
     <h1 id="{{ $titleID }}">{{ .Params.name }}</h1>
-    <p class="profile-hero__role">{{ .Params.role }}</p>
+    {{ with .Params.role }}<p class="profile-hero__role">{{ . }}</p>{{ end }}
   </div>
   <div class="profile-hero__portrait">
     <img src="{{ printf "%s/%s" .Section .Params.profile_image | relURL }}" alt="{{ .Params.name }} 프로필 사진" width="354" height="472" loading="eager" fetchpriority="high">

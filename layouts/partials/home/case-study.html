@@ -1,0 +1,6 @@
+{{- /* 프로젝트의 케이스 스터디 페이지: sections에 적힌 순서대로 찾아 처음 나오는 것을 돌려줍니다. */ -}}
+{{- $page := false -}}
+{{- range .sections -}}
+{{- if not $page -}}{{- with site.GetPage (printf "/%s/%s" . $.slug) -}}{{- $page = . -}}{{- end -}}{{- end -}}
+{{- end -}}
+{{- return $page -}}

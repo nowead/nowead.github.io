@@ -10,6 +10,7 @@ category_label: "Browser medical imaging"
 architecture: "medical-volume"
 tags: ["C++20", "WebGPU", "WebAssembly", "Slang", "TypeScript", "DICOM"]
 role: "3D 렌더링 · DICOM 처리"
+role_note: "영상 데이터를 볼륨으로 구성하고, 팀의 AI 마스크를 화면에 합성합니다."
 period: "2026.08 시작 · 팀 프로젝트"
 github: "https://github.com/OmniMed3D/omnimed3d"
 demo: "https://omnimed3d.pages.dev/app/?demo=LIDC-IDRI-0001"

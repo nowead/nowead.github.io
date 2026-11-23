@@ -15,21 +15,6 @@
       syncTheme();
     });
   }
-  const filters = document.querySelector('.project-filters');
-  if (filters) {
-    const projects = [...document.querySelectorAll('[data-project]')];
-    const more = document.querySelector('.other-projects');
-    filters.hidden = false;
-    filters.addEventListener('click', event => {
-      const button = event.target.closest('[data-filter]');
-      if (!button) return;
-      filters.querySelectorAll('button').forEach(item => item.setAttribute('aria-pressed', String(item === button)));
-      projects.forEach(project => { project.hidden = button.dataset.filter !== 'all' && project.dataset.category !== button.dataset.filter; });
-      const visible = projects.filter(project => !project.hidden).length;
-      document.querySelector('.project-count').textContent = `${visible} project${visible === 1 ? '' : 's'}`;
-      if (more) more.hidden = !more.querySelector('[data-project]:not([hidden])');
-    });
-  }
   document.querySelectorAll('.prose table').forEach(table => {
     const wrapper = document.createElement('div');
     wrapper.className = 'table-scroll';

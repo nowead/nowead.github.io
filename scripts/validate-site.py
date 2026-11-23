@@ -71,20 +71,26 @@ for path in paths:
         groups = [attrs for _, attrs in page.tags if "competency-group" in attrs.get("class", "").split()]
         if len(groups) != 2:
             errors.append(f"{label}: core expertise and working knowledge must both render")
+        # One portfolio must not reveal the other.
+        if any(tag == "a" and attrs.get("href", "").startswith("/fde/") for tag, attrs in page.tags):
+            errors.append(f"{label}: must not link to the FDE portfolio")
     if path == root / "index.html":
-        for anchor in ("intro-title", "projects", "portfolios", "about", "profile", "contact"):
+        for anchor in ("intro-title", "projects", "contact"):
             if anchor not in page.ids:
                 errors.append(f"{label}: missing home section #{anchor}")
         for slug in home_slugs:
             if f"project-{slug}" not in page.ids:
                 errors.append(f"{label}: missing project #{f'project-{slug}'}")
+        # The home page only lists projects: no job title, and no links to the role-specific portfolios.
+        if any("profile-hero__role" in attrs.get("class", "").split() for _, attrs in page.tags):
+            errors.append(f"{label}: must not show a job title")
         for portfolio in ("/fde/", "/graphics/"):
-            if not any(tag == "a" and attrs.get("href") == portfolio for tag, attrs in page.tags):
-                errors.append(f"{label}: missing link to the {portfolio} portfolio")
-        groups = [attrs for _, attrs in page.tags if "competency-group" in attrs.get("class", "").split()]
-        if len(groups) != 2:
-            errors.append(f"{label}: both technology groups must render")
+            if any(tag == "a" and attrs.get("href", "").split("#")[0] == portfolio for tag, attrs in page.tags):
+                errors.append(f"{label}: must not link to the {portfolio} portfolio")
     if path == root / "fde/index.html":
+        # One portfolio must not reveal the other.
+        if any(tag == "a" and attrs.get("href", "").startswith("/graphics/") for tag, attrs in page.tags):
+            errors.append(f"{label}: must not link to the graphics portfolio")
         for anchor in ("intro-title", "projects", "about", "profile", "contact"):
             if anchor not in page.ids:
                 errors.append(f"{label}: missing portfolio section #{anchor}")

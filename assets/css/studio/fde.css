@@ -1,4 +1,5 @@
-/* FDE portfolio: delivery loop, project tracks, and case-study summaries. */
+/* Banded portfolio layout shared by the home, FDE, and graphics pages:
+   delivery loop, project tracks, and case-study summaries. */
 .fde-eyebrow,
 .fde-loop__title {
   display:flex;
@@ -146,6 +147,10 @@
   border-radius:8px;
   scroll-margin-top:24px
 }
+/* A card that opens a track without a header sits right under the section heading */
+.fde-track > .fde-outcome:first-child {
+  margin-top:0
+}
 .fde-outcome__main {
   display:grid;
   grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);
@@ -275,6 +280,24 @@
   line-height:1.6
 }
 
+/* Key points: the same strip as the evidence numbers, for short phrases */
+.fde-points {
+  list-style:none;
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px 0;
+  margin:26px 0 0;
+  padding:0
+}
+.fde-points li {
+  min-width:0;
+  padding:2px 22px;
+  border-left:2px solid var(--accent);
+  font-size:1rem;
+  font-weight:600;
+  line-height:1.6
+}
+
 /* Foundation projects */
 .fde-foundations {
   margin-top:40px
@@ -393,6 +416,19 @@
   gap:10px;
   margin-top:18px
 }
+.fde-foundation .tags {
+  margin-top:0
+}
+.fde-foundation .tags + .text-link {
+  margin-top:auto;
+  padding-top:18px
+}
+.fde-track__header + .fde-foundation-grid {
+  margin-top:28px
+}
+.fde-foundation-grid--three {
+  grid-template-columns:repeat(3,minmax(0,1fr))
+}
 .fde-foundation-grid--single .fde-foundation {
   grid-column:1/-1;
   display:grid;
@@ -405,17 +441,6 @@
 }
 .fde-foundation-grid--single .fde-handoff {
   margin-top:0
-}
-.fde-more {
-  color:var(--muted);
-  font-size:var(--small-size);
-  line-height:1.8
-}
-.fde-more a {
-  color:var(--accent);
-  font-weight:600;
-  text-decoration:underline;
-  text-underline-offset:3px
 }
 
 /* Home sections: alternating bands that stay within the content column */
@@ -452,11 +477,12 @@
 .fde-home .portfolio-work {
   padding-top:var(--band-gap)
 }
+/* Without a loop band the hero's own bottom padding already opens the gap */
+.fde-home .profile-hero + .portfolio-work {
+  padding-top:calc(var(--band-gap) - var(--band-pad))
+}
 .fde-home .fde-track:first-of-type {
   padding:6px 0 var(--band-pad)
-}
-.fde-home .fde-more {
-  padding-top:20px
 }
 .fde-home .about-section {
   padding:var(--band-gap) 0;
@@ -662,7 +688,8 @@
   .fde-psv li {
     padding:20px 20px 22px
   }
-  .fde-metrics > div {
+  .fde-metrics > div,
+  .fde-points li {
     padding-inline:16px
   }
   .fde-foundation-grid {
@@ -693,6 +720,7 @@
     font-size:1.3125rem
   }
   .fde-outcome__main,
+  .fde-points,
   .fde-foundation-grid,
   .fde-foundation-grid--single .fde-foundation,
   .fde-practices,
@@ -757,7 +785,8 @@
   .fde-psv li {
     padding:18px 16px 20px
   }
-  .fde-metrics > div {
+  .fde-metrics > div,
+  .fde-points li {
     padding-inline:12px
   }
   .fde-foundation {

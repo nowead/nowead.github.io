@@ -1,70 +1,48 @@
 {{ define "main" }}
-{{ $portfolios := .Params.portfolios }}
-<div class="wrap portfolio-page home-page">
+{{ $sections := .Params.case_studies }}
+<div class="wrap portfolio-page fde-home home-page">
   {{ partial "studio/profile-intro.html" (dict "profile" . "compact" false) }}
+
+  <section class="fde-loop" aria-labelledby="areas-title">
+    <h2 class="fde-loop__title" id="areas-title">WHAT I BUILD</h2>
+    <ol>
+      {{ range .Params.areas }}
+      <li>
+        <p class="fde-loop__step"><span>{{ .step }}</span>{{ .label }}</p>
+        <h3>{{ .title }}</h3>
+        <p>{{ .text }}</p>
+        <p class="fde-loop__evidence">{{ .evidence }}</p>
+      </li>
+      {{ end }}
+    </ol>
+  </section>
 
   <section class="portfolio-work" id="projects" aria-labelledby="work-title">
     <div class="section-heading">
       <div>
-        <h2 class="section-label" id="work-title">01 / PROJECTS</h2>
+        <h2 class="section-label" id="work-title">PROJECTS</h2>
         <p class="section-description">지금까지 진행한 프로젝트입니다.</p>
       </div>
-      <p class="project-count">{{ len .Params.projects }} projects</p>
     </div>
-    <div class="home-grid">
-      {{ range .Params.projects }}{{ partial "home/project-card.html" (dict "project" . "portfolios" $portfolios) }}{{ end }}
-    </div>
-  </section>
-
-  <section class="section" id="portfolios" aria-labelledby="portfolios-title">
-    <div class="section-heading">
-      <div>
-        <h2 class="section-label" id="portfolios-title">02 / PORTFOLIOS</h2>
-        <p class="section-description">같은 프로젝트를 분야에 맞춰 다시 정리했습니다.</p>
+    {{ range $i, $group := .Params.groups }}
+    <section class="fde-track" aria-labelledby="group-{{ add $i 1 }}-title">
+      <header class="fde-track__header">
+        <div>
+          <p class="fde-track__label">{{ $group.label }}</p>
+          <h3 id="group-{{ add $i 1 }}-title">{{ $group.title }}</h3>
+        </div>
+      </header>
+      {{ with partial "home/case-study.html" (dict "slug" $group.featured "sections" $sections) }}{{ partial "studio/featured-project.html" (dict "page" .) }}{{ end }}
+      <div class="fde-foundations">
+        <p class="fde-foundations__label"><span>MORE</span>같은 분야에서 진행한 프로젝트</p>
+        <div class="fde-foundation-grid{{ if eq (len $group.projects) 1 }} fde-foundation-grid--single{{ end }}">
+          {{ range $group.projects }}
+          {{ partial "studio/project-card.html" (dict "page" (partial "home/case-study.html" (dict "slug" .slug "sections" $sections)) "summary" .summary) }}
+          {{ end }}
+        </div>
       </div>
-    </div>
-    <div class="home-portfolio-grid">
-      {{ range $portfolio := $portfolios }}
-      {{ with site.GetPage (printf "/%s" $portfolio.section) }}
-      <a class="home-portfolio" href="{{ .RelPermalink }}">
-        <span class="home-portfolio__meta">{{ .Params.role }} · {{ len .RegularPages }} projects</span>
-        <strong>{{ .Title }} <span aria-hidden="true">↗</span></strong>
-        <span class="home-portfolio__text">{{ $portfolio.text }}</span>
-      </a>
-      {{ end }}
-      {{ end }}
-    </div>
-  </section>
-
-  <section class="section about-section" id="about" aria-labelledby="about-title">
-    <div class="section-heading">
-      <div>
-        <h2 class="section-label" id="about-title">03 / ABOUT</h2>
-        <p class="section-description">원리를 이해하고, 직접 만듭니다.</p>
-      </div>
-      <a class="text-link" href="#profile">학력·교육 보기 <span aria-hidden="true">↓</span></a>
-    </div>
-    <div class="profile-intro"><p>{{ .Params.profile_intro }}</p><p>{{ .Params.working_practice }}</p></div>
-    <div class="competencies">
-      {{ range .Params.stack }}
-      <section class="competency-group" aria-label="{{ .label }}">
-        <p class="eyebrow">{{ .eyebrow }}</p>
-        <h3>{{ .title }}</h3>
-        <ul>{{ range .items }}<li>{{ . }}</li>{{ end }}</ul>
-      </section>
-      {{ end }}
-    </div>
-  </section>
-
-  <section class="portfolio-profile" id="profile" aria-labelledby="profile-title">
-    <div class="profile-band">
-      <div class="profile-background">
-        <h2 class="section-label" id="profile-title">EDUCATION & BACKGROUND</h2>
-        <p class="section-description">학력·교육</p>
-        <p>컴퓨터공학의 기초에서 시작해,<br>직접 구현하며 배움을 이어 왔습니다.</p>
-      </div>
-      <div class="education-list">{{ range .Params.education }}<div><h3>{{ .degree }}</h3><p>{{ .school }}</p><small>{{ .period }}{{ with .gpa }} · {{ . }}{{ end }}</small></div>{{ end }}</div>
-    </div>
+    </section>
+    {{ end }}
   </section>
 
   <section class="contact-band" id="contact" aria-labelledby="contact-title">

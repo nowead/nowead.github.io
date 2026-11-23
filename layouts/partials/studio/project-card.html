@@ -1,11 +1,18 @@
-<article class="project-card" data-project data-category="{{ .Params.category | default "graphics" }}">
-  <a class="project-image" href="{{ .RelPermalink }}" tabindex="-1" aria-hidden="true">
-    <img src="{{ printf "%s/%s" .Section .Params.cover_image | relURL }}" alt="" width="1280" height="720" loading="lazy">
+{{- /* 프로젝트 카드: 실행 화면과 요약, 사용 기술을 보여 주고 케이스 스터디로 연결합니다.
+       summary를 주면 케이스 스터디의 요약 대신 씁니다. */ -}}
+{{- $summary := .summary -}}
+{{- with .page -}}
+<article class="fde-foundation" id="project-{{ .File.ContentBaseName }}" data-project>
+  <a class="project-image{{ if eq .Params.cover_fit "contain" }} project-image--contain{{ end }}" href="{{ .RelPermalink }}" tabindex="-1" aria-hidden="true">
+    <img src="{{ printf "%s/%s" .Section .Params.cover_image | relURL }}" alt="" width="{{ .Params.cover_width | default 1280 }}" height="{{ .Params.cover_height | default 720 }}" loading="lazy">
     <span class="image-arrow" aria-hidden="true">↗</span>
   </a>
-  <div class="project-meta"><span>{{ .Params.category_label | default "Project" }}</span><span>{{ .Params.period | default (.Date.Format "2006") }}</span></div>
-  <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
-  <p>{{ .Params.summary }}</p>
-  {{ if .Params.featured }}{{ with .Params.role }}<div class="project-role compact"><span>MY ROLE</span><strong>{{ . }}</strong></div>{{ end }}{{ end }}
-  <ul class="tags" aria-label="사용 기술">{{ range first 4 .Params.tags }}<li>{{ . }}</li>{{ end }}</ul>
+  <div class="fde-foundation__copy">
+    <div class="project-meta"><span>{{ .Params.category_label | default "Project" }}</span><span>{{ .Params.period | default (.Date.Format "2006") }}</span></div>
+    <h4><a href="{{ .RelPermalink }}">{{ .Title }}</a></h4>
+    <p>{{ $summary | default .Params.summary }}</p>
+    <ul class="tags" aria-label="사용 기술">{{ range first 4 .Params.tags }}<li>{{ . }}</li>{{ end }}</ul>
+    <a class="text-link" href="{{ .RelPermalink }}">개발 과정 보기 <span aria-hidden="true">↗</span></a>
+  </div>
 </article>
+{{- end -}}

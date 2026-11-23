@@ -9,7 +9,7 @@ category_label: "Rendering engine"
 status: "개인 프로젝트 · 진행 중"
 architecture: "multi-backend"
 period: "2025.09 — 진행 중"
-role: "엔진 설계 · 구현 · 통합"
+role: "1인 개발"
 tags: ["C++20", "Vulkan", "WebGPU", "Render Graph", "Volume Rendering"]
 github: "https://github.com/nowead/Mini-Engine"
 summary: "Vulkan과 WebGPU가 공유하는 C++20 렌더링 엔진입니다. CT/MRI 볼륨 렌더링까지 확장하면서, 대용량 데이터의 메모리 문제를 측정으로 찾아 해결했습니다."
