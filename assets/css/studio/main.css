@@ -285,6 +285,12 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visi
 .project-image:hover img {
   transform:scale(1.025)
 }
+.project-image--contain {
+  background:#fff
+}
+.project-image.project-image--contain img {
+  object-fit:contain
+}
 .image-arrow {
   position:absolute;
   right:17px;

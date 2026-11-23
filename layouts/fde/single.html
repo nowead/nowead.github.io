@@ -1,5 +1,5 @@
 {{ define "main" }}
-{{ $home := "/" | relURL }}
+{{ $home := .CurrentSection.RelPermalink }}
 <article class="case-study wrap fde-case">
   <header class="case-header">
     <a class="back-link" href="{{ $home }}#projects">← 프로젝트 목록</a>

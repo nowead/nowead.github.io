@@ -1,9 +1,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 {{ $title := printf "%s · 민대원" .Title }}
-{{ if and .IsSection .Params.role }}{{ $title = printf "%s · %s" .Params.name .Params.role }}{{ end }}
-{{ $fde := or .IsHome (eq .Section "fde") }}
-{{ if .IsHome }}{{ with site.GetPage "/fde" }}{{ $title = printf "%s · %s" .Params.name .Params.role }}{{ end }}{{ end }}
+{{ if and (or .IsHome .IsSection) .Params.role }}{{ $title = printf "%s · %s" .Params.name .Params.role }}{{ end }}
+{{ $fde := eq .Section "fde" }}
 {{ $description := .Description | default .Params.summary | default "C++과 Vulkan·WebGPU로 게임 엔진과 의료 영상 뷰어를 만드는 개발자 민대원의 포트폴리오." }}
 <title>{{ $title }}</title>
 <meta name="description" content="{{ $description }}">
@@ -15,7 +14,7 @@
 <meta property="og:locale" content="ko_KR">
 {{ $cover := "" }}
 {{ if eq .Section "graphics" }}{{ $cover = "graphics/omnimed3d-image/segmentation.jpg" }}{{ end }}
-{{ if .IsHome }}{{ $cover = "fde/onegoal-image/cover.png" }}{{ end }}
+{{ if or .IsHome $fde }}{{ $cover = "fde/onegoal-image/cover.png" }}{{ end }}
 {{ with .Params.cover_image }}{{ $cover = printf "%s/%s" $.Section . }}{{ end }}
 {{ with .Params.Cover.image }}{{ $cover = . }}{{ end }}
 {{ if $cover }}
@@ -40,6 +39,10 @@
 {{ if $fde }}
 {{ $fdeStyle := resources.Get "css/studio/fde.css" | minify | fingerprint }}
 <link rel="stylesheet" href="{{ $fdeStyle.RelPermalink }}">
+{{ end }}
+{{ if .IsHome }}
+{{ $homeStyle := resources.Get "css/studio/home.css" | minify | fingerprint }}
+<link rel="stylesheet" href="{{ $homeStyle.RelPermalink }}">
 {{ end }}
 {{ with .Params.architecture }}
 {{ $architecture := resources.Get "css/studio/architecture.css" | minify | fingerprint }}

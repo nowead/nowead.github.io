@@ -316,12 +316,6 @@
 .fde-foundation .project-image {
   aspect-ratio:16/9
 }
-.project-image--contain {
-  background:#fff
-}
-.project-image.project-image--contain img {
-  object-fit:contain
-}
 .fde-foundation__copy {
   display:flex;
   flex:1;

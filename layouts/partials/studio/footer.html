@@ -1,6 +1,6 @@
-{{ $fde := or .IsHome (eq .Section "fde") }}
+{{ $fde := eq .Section "fde" }}
 <footer class="site-footer wrap">
-  <div><a class="footer-name" href="{{ if $fde }}{{ "/" | relURL }}{{ else }}{{ .FirstSection.RelPermalink }}{{ end }}">민대원 <span>MIN DAEWON</span></a><p>{{ if $fde }}문제를 정의하고, 만들고, 검증합니다.{{ else }}원리를 이해하고, 직접 만듭니다.{{ end }}</p></div>
+  <div><a class="footer-name" href="{{ .FirstSection.RelPermalink }}">민대원 <span>MIN DAEWON</span></a><p>{{ if $fde }}문제를 정의하고, 만들고, 검증합니다.{{ else }}원리를 이해하고, 직접 만듭니다.{{ end }}</p></div>
   <div class="footer-links">{{ if $fde }}<a href="{{ "/graphics/" | relURL }}">Graphics Portfolio ↗</a>{{ end }}<a href="mailto:dwm951017@gmail.com">Email ↗</a><a href="https://github.com/nowead" target="_blank" rel="noopener noreferrer">GitHub ↗</a></div>
   <small>© {{ now.Year }} Daewon Min</small>
 </footer>

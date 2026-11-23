@@ -1,5 +1,6 @@
 +++
 title = "FDE Portfolio"
+aliases = ["/FDE/"]
 description = "현장의 요청을 요구사항으로 정의하고, 운영되는 서비스로 만들고, 테스트로 검증하는 개발자 민대원의 포트폴리오."
 name = "민대원"
 role = "Forward Deployed Engineer"
